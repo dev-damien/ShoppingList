@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        login()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -62,20 +64,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         Log.d(TAG, "onStart_Start")
         super.onStart()
-
-        //authentication providers
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build()
-        )
-        Log.d(TAG, "startActivityForResult_Pre")
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .build(),
-            RC_AUTH
-        )
-        Log.d(TAG, "startActivityForResult_Post")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -89,6 +77,7 @@ class MainActivity : AppCompatActivity() {
                 // Successfully signed in
                 val user = FirebaseAuth.getInstance().currentUser
                 println(user?.email);
+                Log.d(TAG, user?.email.toString())
                 // ...
             } else {
                 // Sign in failed. If response is null the user canceled the
@@ -98,5 +87,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
         Log.d(TAG, "onActivityResult_End")
+    }
+
+    private fun login(){
+        //authentication providers
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build()
+        )
+        Log.d(TAG, "startActivityForResult_Pre")
+        startActivityForResult(
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .build(),
+            RC_AUTH
+        )
+        Log.d(TAG, "startActivityForResult_Post")
     }
 }
