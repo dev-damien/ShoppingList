@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity() {
                 .signOut(this)
                 .addOnCompleteListener {
                     Log.d(TAG, "User has been deleted")
+                    login()
                 }
         }
     }
