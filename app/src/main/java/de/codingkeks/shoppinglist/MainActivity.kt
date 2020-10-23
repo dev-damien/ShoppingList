@@ -19,6 +19,7 @@ import androidx.appcompat.widget.Toolbar
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -55,6 +56,14 @@ class MainActivity : AppCompatActivity() {
             login()
         else {
             Log.d(TAG, fb.currentUser!!.email.toString())
+        }
+
+        buLogout.setOnClickListener {
+            AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener {
+                    Log.d(TAG, fb.currentUser!!.email.toString())
+                }
         }
     }
 
@@ -100,7 +109,8 @@ class MainActivity : AppCompatActivity() {
     private fun login() {
         //authentication providers
         val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build()
+            AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build()
         )
         Log.d(TAG, "startActivityForResult_Pre")
         startActivityForResult(
