@@ -23,7 +23,7 @@ import com.google.firebase.auth.FirebaseAuth
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private val RC_AUTH = 20;
+    private val RC_AUTH = 20
     private val TAG = "shoppinglist_1234abcd"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,19 +35,27 @@ class MainActivity : AppCompatActivity() {
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+                .setAction("Action", null).show()
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+            ), drawerLayout
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        login()
+        val fb = FirebaseAuth.getInstance()
+        if (fb.currentUser == null)
+            login()
+        else {
+            Log.d(TAG, fb.currentUser!!.email.toString())
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -76,7 +84,7 @@ class MainActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
                 val user = FirebaseAuth.getInstance().currentUser
-                println(user?.email);
+                println(user?.email)
                 Log.d(TAG, user?.email.toString())
                 // ...
             } else {
@@ -89,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onActivityResult_End")
     }
 
-    private fun login(){
+    private fun login() {
         //authentication providers
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build()
