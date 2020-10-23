@@ -22,7 +22,7 @@ class GalleryFragment : Fragment() {
         galleryViewModel =
                 ViewModelProviders.of(this).get(GalleryViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_gallery, container, false)
-        val textView: TextView = root.findViewById(R.id.text_gallery)
+        val textView: TextView = root.findViewById(R.id.tv_userName)
         galleryViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
