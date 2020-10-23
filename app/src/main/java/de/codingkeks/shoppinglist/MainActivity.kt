@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener {
-                    Log.d(TAG, fb.currentUser!!.email.toString())
+                    Log.d(TAG, "User has been deleted")
                 }
         }
     }
