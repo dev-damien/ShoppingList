@@ -2,9 +2,13 @@ package de.codingkeks.shoppinglist
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -19,7 +23,10 @@ import androidx.appcompat.widget.Toolbar
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.fragment_account.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,12 +58,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        val fb = FirebaseAuth.getInstance()
-        if (fb.currentUser == null)
-            login()
-        else {
-            Log.d(TAG, fb.currentUser!!.email.toString())
-        }
+        login()
 
         buLogout.setOnClickListener {
             AuthUI.getInstance()
@@ -66,6 +68,7 @@ class MainActivity : AppCompatActivity() {
                     login()
                 }
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -94,6 +97,7 @@ class MainActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
                 val user = FirebaseAuth.getInstance().currentUser
+                displayUserInformation()
                 Log.d(TAG, user?.email.toString())
                 // ...
             } else {
@@ -102,6 +106,8 @@ class MainActivity : AppCompatActivity() {
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
                 // ...
+                Toast.makeText(this, R.string.login_failed, Toast.LENGTH_SHORT).show()
+                login()
             }
         }
         Log.d(TAG, "onActivityResult_End")
@@ -109,18 +115,31 @@ class MainActivity : AppCompatActivity() {
 
     private fun login() {
         //authentication providers
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
-        Log.d(TAG, "startActivityForResult_Pre")
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .build(),
-            RC_AUTH
-        )
+        var fb = FirebaseAuth.getInstance()
+        if (fb.currentUser == null) {
+            val providers = arrayListOf(
+                AuthUI.IdpConfig.EmailBuilder().build(),
+                AuthUI.IdpConfig.GoogleBuilder().build()
+            )
+            Log.d(TAG, "startActivityForResult_Pre")
+            startActivityForResult(
+                AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .setAvailableProviders(providers)
+                    .build(),
+                RC_AUTH
+            )
+        }
+        displayUserInformation()
         Log.d(TAG, "startActivityForResult_Post")
+    }
+
+    private fun displayUserInformation() {
+        val fb = FirebaseAuth.getInstance()
+        val user = fb.currentUser
+        val tvName = nav_view.getHeaderView(0).findViewById<TextView>(R.id.tvName)
+        val tvEmail = nav_view.getHeaderView(0).findViewById<TextView>(R.id.tvEmail)
+        tvName.text = if (user?.displayName == null) "No Name" else user.displayName
+        tvEmail.text = if (user?.email == null) "No Email" else user.email
     }
 }

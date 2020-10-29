@@ -40,6 +40,7 @@ class AccountFragment : Fragment() {
         val user = fb.currentUser
         tvAccountEmail.text = if (user?.email == null) "value is null" else user.email
         tvAccountName.text = if (user?.displayName == null) "value is null" else user.displayName
-        tvAccountID.text = if (user?.tenantId == null) "value is null" else user.tenantId
+        tvAccountID.text = if (user?.uid == null) "value is null" else user.uid
+
     }
 }
