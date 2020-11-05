@@ -10,8 +10,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -61,7 +63,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        
         login()
 
         buLogout.setOnClickListener {
@@ -118,24 +119,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun login() {
-        //authentication providers
-        var fb = FirebaseAuth.getInstance()
-        if (fb.currentUser == null) {
-            val providers = arrayListOf(
-                AuthUI.IdpConfig.EmailBuilder().build(),
-                AuthUI.IdpConfig.GoogleBuilder().build()
-            )
-            Log.d(TAG, "startActivityForResult_Pre")
-            startActivityForResult(
-                AuthUI.getInstance()
-                    .createSignInIntentBuilder()
-                    .setAvailableProviders(providers)
-                    .build(),
-                RC_AUTH
-            )
+        //if: firebase user nicht existiert && nicht online -> Fehler
+        if (FirebaseAuth.getInstance().currentUser == null && !isOnline(this)) {
+            val message = AlertDialog.Builder(this)
+            message.setMessage("No Internet Connection!")
+            message.setNeutralButton("RELOAD") { _, _ -> login() }
+            message.setCancelable(false)
+            message.show()
         }
-        displayUserInformation()
-        Log.d(TAG, "startActivityForResult_Post")
+        else {
+            //authentication providers
+            var fb = FirebaseAuth.getInstance()
+            if (fb.currentUser == null) {
+                val providers = arrayListOf(
+                    AuthUI.IdpConfig.EmailBuilder().build(),
+                    AuthUI.IdpConfig.GoogleBuilder().build()
+                )
+                Log.d(TAG, "startActivityForResult_Pre")
+                startActivityForResult(
+                    AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(providers)
+                        .build(),
+                    RC_AUTH
+                )
+            }
+            displayUserInformation()
+            Log.d(TAG, "startActivityForResult_Post")
+        }
     }
 
     private fun displayUserInformation() {
