@@ -1,4 +1,4 @@
-package de.codingkeks.shoppinglist.ui.gallery
+package de.codingkeks.shoppinglist.ui.shoppinglists
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import de.codingkeks.shoppinglist.R
 
-class GalleryFragment : Fragment() {
+class ShoppingListsFragment : Fragment() {
 
-    private lateinit var galleryViewModel: GalleryViewModel
+    private lateinit var shoppingListsViewModel: ShoppingListsViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_gallery, container, false)
+        shoppingListsViewModel =
+                ViewModelProviders.of(this).get(ShoppingListsViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_shoppinglists, container, false)
         val textView: TextView = root.findViewById(R.id.tv_userName)
-        galleryViewModel.text.observe(viewLifecycleOwner, Observer {
+        shoppingListsViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

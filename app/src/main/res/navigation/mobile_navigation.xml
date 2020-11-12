@@ -12,20 +12,27 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="de.codingkeks.shoppinglist.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_shoppinglists"
+        android:name="de.codingkeks.shoppinglist.ui.shoppinglists.ShoppingListsFragment"
+        android:label="@string/menu_shoppinglists"
+        tools:layout="@layout/fragment_shoppinglists" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="de.codingkeks.shoppinglist.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_friends"
+        android:name="de.codingkeks.shoppinglist.ui.friends.FriendsFragment"
+        android:label="@string/menu_friends"
+        tools:layout="@layout/fragment_friends" />
+
     <fragment
         android:id="@+id/nav_account"
         android:name="de.codingkeks.shoppinglist.ui.account.AccountFragment"
         android:label="@string/menu_account"
         tools:layout="@layout/fragment_account" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="de.codingkeks.shoppinglist.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
 
 </navigation>
