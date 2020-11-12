@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.fragment_account.*
+import java.util.*
 
 class AccountFragment : Fragment() {
 
@@ -43,4 +44,13 @@ class AccountFragment : Fragment() {
         tvAccountID.text = if (user?.uid == null) "value is null" else user.uid
 
     }
+
 }
+/* TODO send eMail in right language
+val fb = FirebaseAuth.getInstance()
+buEnglish.setOnClickListener {
+    fb.setLanguageCode(Locale.getDefault().language)
+    fb.currentUser?.sendEmailVerification()
+}
+
+ */
