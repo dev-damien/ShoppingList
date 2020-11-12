@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun login() {
-        //if: firebase user nicht existiert && nicht online -> Fehler
+        //if: firebase user does not exist && not online -> Error
         if (FirebaseAuth.getInstance().currentUser == null && !isOnline(this)) {
             val message = AlertDialog.Builder(this)
             message.setMessage("No Internet Connection!")
