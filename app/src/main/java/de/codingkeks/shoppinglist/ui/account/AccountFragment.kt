@@ -31,6 +31,7 @@ class AccountFragment : Fragment() {
             textView.text = it
         })
          */
+
         return root
     }
 
@@ -43,6 +44,9 @@ class AccountFragment : Fragment() {
         tvAccountName.text = if (user?.displayName == null) "value is null" else user.displayName
         tvAccountID.text = if (user?.uid == null) "value is null" else user.uid
 
+        buVerify.setOnClickListener {
+            FirebaseAuth.getInstance().currentUser?.sendEmailVerification()
+        }
     }
 
 }
