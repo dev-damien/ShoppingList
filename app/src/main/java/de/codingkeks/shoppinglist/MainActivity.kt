@@ -2,20 +2,14 @@ package de.codingkeks.shoppinglist
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.graphics.Color
-import android.net.ConnectivityManager
+import android.content.Intent import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.View
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -36,11 +30,15 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        const val TAG = "shoppinglist_1234abcd"
+    }
+
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private val RC_AUTH = 20
-    private val TAG = "shoppinglist_1234abcd"
+    private val RC_AUTH = 69
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "MainActivity_onCreate()_Start")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -53,7 +51,11 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_shoppinglists, R.id.nav_friends, R.id.nav_account, R.id.nav_settings
+                R.id.nav_home,
+                R.id.nav_shoppinglists,
+                R.id.nav_friends,
+                R.id.nav_account,
+                R.id.nav_settings
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -65,31 +67,43 @@ class MainActivity : AppCompatActivity() {
             AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener {
-                    Log.d(TAG, "User has been logged out")
+                    Log.d(Companion.TAG, "User has been logged out")
                     login()
                 }
         }
-
+        Log.d(TAG, "MainActivity_onCreate()_End")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        Log.d(TAG, "MainActivity_onCreateOptionsMenu()_Start")
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
+        Log.d(TAG, "MainActivity_onCreateOptionsMenu()_End")
         return true
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        Log.d(TAG, "MainActivity_onSupportNavigateUp()_Start")
         val navController = findNavController(R.id.nav_host_fragment)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+        val res = navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+        Log.d(TAG, "MainActivity_onSupportNavigateUp()_End")
+        return res
     }
 
     override fun onStart() {
-        Log.d(TAG, "onStart_Start")
+        Log.d(TAG, "MainActivity_onStart()_Start")
         super.onStart()
+        Log.d(TAG, "MainActivity_onStart()_End")
+    }
+
+    override fun onStop() {
+        Log.d(TAG, "MainActivity_onStop()_Start")
+        super.onStop()
+        Log.d(TAG, "MainActivity_onStop()_End")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.d(TAG, "onActivityResult_Start")
+        Log.d(TAG, "MainActivity_onActivityResult()_Start")
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_AUTH) {
@@ -99,7 +113,7 @@ class MainActivity : AppCompatActivity() {
                 // Successfully signed in
                 val user = FirebaseAuth.getInstance().currentUser
                 displayUserInformation()
-                Log.d(TAG, user?.email.toString())
+                Log.d(Companion.TAG, user?.email.toString())
                 // ...
             } else {
                 //TODO
@@ -111,19 +125,19 @@ class MainActivity : AppCompatActivity() {
                 login()
             }
         }
-        Log.d(TAG, "onActivityResult_End")
+        Log.d(TAG, "MainActivity_onActivityResult()_End")
     }
 
     private fun login() {
         //if: firebase user does not exist && not online -> Error
+        Log.d(TAG, "MainActivity_login()_Start")
         if (FirebaseAuth.getInstance().currentUser == null && !isOnline(this)) {
             val message = AlertDialog.Builder(this)
             message.setMessage("No Internet Connection!")
             message.setNeutralButton("RELOAD") { _, _ -> login() }
             message.setCancelable(false)
             message.show()
-        }
-        else {
+        } else {
             //authentication providers
             var fb = FirebaseAuth.getInstance()
             if (fb.currentUser == null) {
@@ -131,7 +145,7 @@ class MainActivity : AppCompatActivity() {
                     AuthUI.IdpConfig.EmailBuilder().build(),
                     AuthUI.IdpConfig.GoogleBuilder().build()
                 )
-                Log.d(TAG, "startActivityForResult_Pre")
+                Log.d(Companion.TAG, "startActivityForResult_Pre")
                 startActivityForResult(
                     AuthUI.getInstance()
                         .createSignInIntentBuilder()
@@ -141,23 +155,26 @@ class MainActivity : AppCompatActivity() {
                 )
             }
             displayUserInformation()
-            Log.d(TAG, "startActivityForResult_Post")
+            Log.d(TAG, "MainActivity_login()_End")
         }
     }
 
     private fun displayUserInformation() {
+        Log.d(TAG, "MainActivity_displayUserInformation()_Start")
         val fb = FirebaseAuth.getInstance()
         val user = fb.currentUser
         val tvName = nav_view.getHeaderView(0).findViewById<TextView>(R.id.tvName)
         val tvEmail = nav_view.getHeaderView(0).findViewById<TextView>(R.id.tvEmail)
         tvName.text = if (user?.displayName == null) "No Name" else user.displayName
         tvEmail.text = if (user?.email == null) "No Email" else user.email
+        Log.d(TAG, "MainActivity_displayUserInformation()_End")
     }
 
     /**
      *@return returns true if the user has any internet connection
      */
     fun isOnline(context: Context): Boolean {
+        Log.d(TAG, "MainActivity_isOnline()_Start")
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (connectivityManager != null) {
@@ -180,6 +197,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        Log.d(TAG, "MainActivity_isOnline()_End")
         return false
     }
 }

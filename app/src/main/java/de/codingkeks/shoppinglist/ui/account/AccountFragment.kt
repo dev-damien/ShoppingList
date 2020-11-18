@@ -1,11 +1,13 @@
 package de.codingkeks.shoppinglist.ui.account
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.fragment_account.*
 import java.util.*
@@ -15,11 +17,11 @@ class AccountFragment : Fragment() {
     private lateinit var accountViewModel: AccountViewModel
 
     override fun onCreateView(
-        //TODO clean up... if you know how
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(MainActivity.TAG, "AccountFragment_onCreateView()_Start")
         /*
         accountViewModel =
             ViewModelProviders.of(this).get(AccountViewModel::class.java)
@@ -31,11 +33,12 @@ class AccountFragment : Fragment() {
             textView.text = it
         })
          */
-
+        Log.d(MainActivity.TAG, "AccountFragment_onCreateView()_End")
         return root
     }
 
     override fun onStart() {
+        Log.d(MainActivity.TAG, "AccountFragment_onStart()_Start")
         super.onStart()
         //show all account information of the current user
         val fb = FirebaseAuth.getInstance()
@@ -45,8 +48,15 @@ class AccountFragment : Fragment() {
         tvAccountID.text = if (user?.uid == null) "value is null" else user.uid
 
         buVerify.setOnClickListener {
-            FirebaseAuth.getInstance().currentUser?.sendEmailVerification()
+            fb.useAppLanguage()
+            user!!.sendEmailVerification()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(MainActivity.TAG, "Email sent.")
+                    }
+                }
         }
+        Log.d(MainActivity.TAG, "AccountFragment_onStart()_End")
     }
 
 }
