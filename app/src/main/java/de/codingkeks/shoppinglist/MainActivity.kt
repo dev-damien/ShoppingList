@@ -145,7 +145,6 @@ class MainActivity : AppCompatActivity() {
                     AuthUI.IdpConfig.EmailBuilder().build(),
                     AuthUI.IdpConfig.GoogleBuilder().build()
                 )
-                Log.d(Companion.TAG, "startActivityForResult_Pre")
                 startActivityForResult(
                     AuthUI.getInstance()
                         .createSignInIntentBuilder()

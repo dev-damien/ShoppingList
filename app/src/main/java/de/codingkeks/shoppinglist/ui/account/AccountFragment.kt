@@ -49,12 +49,11 @@ class AccountFragment : Fragment() {
 
         buVerify.setOnClickListener {
             fb.useAppLanguage()
-            user!!.sendEmailVerification()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d(MainActivity.TAG, "Email sent.")
-                    }
+            user!!.sendEmailVerification().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(MainActivity.TAG, "Email sent.")
                 }
+            }
         }
         Log.d(MainActivity.TAG, "AccountFragment_onStart()_End")
     }
