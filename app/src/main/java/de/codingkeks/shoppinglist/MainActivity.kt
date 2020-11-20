@@ -11,23 +11,20 @@ import android.view.Menu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_account.*
-import kotlinx.android.synthetic.main.nav_header_main.*
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -69,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 .signOut(this)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Log.d(Companion.TAG, "User has been logged out")
+                        Log.d(TAG, "User has been logged out")
                         login()
                     }
                 }
@@ -116,7 +113,7 @@ class MainActivity : AppCompatActivity() {
                 // Successfully signed in
                 val user = FirebaseAuth.getInstance().currentUser
                 displayUserInformation()
-                Log.d(Companion.TAG, user?.email.toString())
+                Log.d(TAG, user?.email.toString())
                 // ...
             } else {
                 //TODO
@@ -142,7 +139,7 @@ class MainActivity : AppCompatActivity() {
             message.show()
         } else {
             //authentication providers
-            var fb = FirebaseAuth.getInstance()
+            val fb = FirebaseAuth.getInstance()
             if (fb.currentUser == null) {
                 val providers = arrayListOf(
                     AuthUI.IdpConfig.EmailBuilder().build(),
@@ -175,7 +172,7 @@ class MainActivity : AppCompatActivity() {
     /**
      *@return returns true if the user has any internet connection
      */
-    fun isOnline(context: Context): Boolean {
+    private fun isOnline(context: Context): Boolean {
         Log.d(TAG, "MainActivity_isOnline()_Start")
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
