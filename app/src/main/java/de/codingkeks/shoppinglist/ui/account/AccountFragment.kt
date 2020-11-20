@@ -43,9 +43,9 @@ class AccountFragment : Fragment() {
         //show all account information of the current user
         val fb = FirebaseAuth.getInstance()
         val user = fb.currentUser
-        tvAccountEmail.text = if (user?.email == null) "value is null" else user.email
-        tvAccountName.text = if (user?.displayName == null) "value is null" else user.displayName
-        tvAccountID.text = if (user?.uid == null) "value is null" else user.uid
+        tv_userName.text = if (user?.displayName == null) "value is null" else user.displayName
+        tv_userEmail.text = if (user?.email == null) "value is null" else user.email
+        tv_userID.text = if (user?.uid == null) "value is null" else user.uid
 
         buVerify.setOnClickListener {
             fb.useAppLanguage()

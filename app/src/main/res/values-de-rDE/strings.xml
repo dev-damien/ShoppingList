@@ -8,4 +8,11 @@
     <string name="nav_header_desc">Navigation Kopf Bild</string>
     <string name="login_failed">Sie müssen sich einloggen oder registrieren!</string>
     <string name="app_name">Einkausliste</string>
+    <string name="nav_header_name">Name</string>
+    <string name="nav_header_email">E-Mail</string>
+    <string name="account_name">Name</string>
+    <string name="account_reset_password">Passwort zurücksetzen</string>
+    <string name="account_logout">Ausloggen</string>
+    <string name="account_delete_account">Account löschen</string>
+    <string name="account_image_description">Bild des Nutzers</string>
 </resources>

@@ -11,7 +11,12 @@
 
     <string name="login_failed">You have to login or sign up!</string>
 
-    <string name="nav_header_name" translatable="false">Name</string>
-    <string name="nav_header_email" translatable="false">E-Mail</string>
+    <string name="nav_header_name">Name</string>
+    <string name="nav_header_email">E-Mail</string>
+    <string name="account_name">Name</string>
+    <string name="account_reset_password">Reset Password</string>
+    <string name="account_logout">Logout</string>
+    <string name="account_delete_account">Delete Account</string>
+    <string name="account_image_description">Image of the user</string>
 
 </resources>
