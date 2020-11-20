@@ -2,7 +2,8 @@ package de.codingkeks.shoppinglist
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent import android.net.ConnectivityManager
+import android.content.Intent
+import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
@@ -66,9 +67,11 @@ class MainActivity : AppCompatActivity() {
         buLogout.setOnClickListener {
             AuthUI.getInstance()
                 .signOut(this)
-                .addOnCompleteListener {
-                    Log.d(Companion.TAG, "User has been logged out")
-                    login()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(Companion.TAG, "User has been logged out")
+                        login()
+                    }
                 }
         }
         Log.d(TAG, "MainActivity_onCreate()_End")

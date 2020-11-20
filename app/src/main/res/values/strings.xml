@@ -18,5 +18,7 @@
     <string name="account_logout">Logout</string>
     <string name="account_delete_account">Delete Account</string>
     <string name="account_image_description">Image of the user</string>
+    <string name="account_email">E-Mail</string>
+    <string name="account_id">ID</string>
 
 </resources>
