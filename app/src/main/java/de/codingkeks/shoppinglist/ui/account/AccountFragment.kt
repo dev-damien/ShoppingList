@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.fragment_account.*
@@ -18,11 +20,7 @@ class AccountFragment : Fragment() {
 
     private lateinit var accountViewModel: AccountViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d(MainActivity.TAG, "AccountFragment_onCreateView()_Start")
         /*
         accountViewModel =
@@ -42,16 +40,17 @@ class AccountFragment : Fragment() {
     override fun onStart() {
         Log.d(MainActivity.TAG, "AccountFragment_onStart()_Start")
         super.onStart()
-        //show all account information of the current user
         val fb = FirebaseAuth.getInstance()
-        val user = fb.currentUser
-        tv_userName.text = if (user?.displayName == null) "value is null" else user.displayName
-        tv_userEmail.text = if (user?.email == null) "value is null" else user.email
-        tv_userID.text = if (user?.uid == null) "value is null" else user.uid
+        val user = fb.currentUser!!
+        tv_userName.text = user.displayName
+        tv_userEmail.text = user.email
+        tv_userID.text = user.uid
 
+        //TODO remove after verification is included in sign up process
+        //just for testing
         buVerify.setOnClickListener {
             fb.useAppLanguage()
-            user!!.sendEmailVerification().addOnCompleteListener { task ->
+            user.sendEmailVerification().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(MainActivity.TAG, "Email sent.")
                 }
@@ -64,14 +63,15 @@ class AccountFragment : Fragment() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.d(MainActivity.TAG, "user has been logged out")
-                        //login() TODO send back to login screen
+                        //login() TODO send back to login screen and remove all information in the app (such as email, name, lists, friends, ...)
                     }
                 }
         }
 
+        //TODO reauthenticate the user to prevent a FirebaseAuthRecentLoginRequiredException
         buDeleteAccount.setOnClickListener {
-            user?.delete()
-                ?.addOnCompleteListener { task ->
+            user.delete()
+                .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.d(MainActivity.TAG, "user account deleted")
                     }
@@ -79,25 +79,14 @@ class AccountFragment : Fragment() {
         }
 
         buResetPassword.setOnClickListener {
-            val eMail = user?.email
-            if (eMail.isNullOrBlank()) {
-                Log.d(
-                    MainActivity.TAG,
-                    "user tried to reset password but no user was logged in: error"
-                )
-                Toast.makeText(
-                    requireContext(),
-                    "no user is logged in right now",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else {
-                fb.sendPasswordResetEmail(eMail)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Log.d(MainActivity.TAG, "user requested password reset: success")
-                        }
+            val eMail = user.email!!
+
+            fb.sendPasswordResetEmail(eMail)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(MainActivity.TAG, "password reset eMail sent")
                     }
-            }
+                }
         }
 
         Log.d(MainActivity.TAG, "AccountFragment_onStart()_End")
