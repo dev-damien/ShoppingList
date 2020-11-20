@@ -80,7 +80,7 @@ class AccountFragment : Fragment() {
 
         buResetPassword.setOnClickListener {
             val eMail = user.email!!
-
+            fb.useAppLanguage()
             fb.sendPasswordResetEmail(eMail)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
