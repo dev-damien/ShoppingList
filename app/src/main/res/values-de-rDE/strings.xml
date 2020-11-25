@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="menu_home">Startseite</string>
-    <string name="menu_shoppinglists">Einkauslisten</string>
+    <string name="menu_shoppinglists">Einkaufslisten</string>
     <string name="menu_account">Account</string>
     <string name="menu_friends">Freunde</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="nav_header_desc">Navigation Kopf Bild</string>
     <string name="login_failed">Sie müssen sich einloggen oder registrieren!</string>
-    <string name="app_name">Einkausliste</string>
+    <string name="app_name">Einkaufsliste</string>
     <string name="nav_header_name">Name</string>
     <string name="nav_header_email">E-Mail</string>
     <string name="account_name">Name</string>
@@ -17,4 +17,6 @@
     <string name="account_image_description">Bild des Nutzers</string>
     <string name="account_email">E-Mail</string>
     <string name="account_id">ID</string>
+    <string name="friends_image_description">Profilbild von deinem Freund.</string>
+    <string name="friends_image_fav_descrption">Stern!!!</string>
 </resources>
