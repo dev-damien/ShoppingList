@@ -26,6 +26,8 @@ class FriendAdapter(var friends: List<Friend>): RecyclerView.Adapter<FriendAdapt
 
             ivFriendFav.setOnClickListener() {
                 friends[position].isFavorite = !friends[position].isFavorite
+                if (friends[position].isFavorite) ivFriendFav.setImageResource(R.drawable.ic_friends_star)
+                else ivFriendFav.setImageResource(R.drawable.ic_friends_star_border)
             }
         }
     }

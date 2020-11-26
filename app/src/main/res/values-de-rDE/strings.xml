@@ -19,4 +19,5 @@
     <string name="account_id">ID</string>
     <string name="friends_image_description">Profilbild von deinem Freund.</string>
     <string name="friends_image_fav_descrption">Stern!!!</string>
+    <string name="friends_search_hint">Freund suchen</string>
 </resources>

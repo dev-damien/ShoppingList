@@ -34,8 +34,8 @@ class FriendsFragment : Fragment() {
         return root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onStart() {
+        super.onStart()
 
         var friendList = mutableListOf(
             Friend("Hans", R.drawable.ic_account_image, true),

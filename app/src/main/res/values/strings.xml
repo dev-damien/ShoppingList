@@ -22,5 +22,6 @@
     <string name="account_id">ID</string>
     <string name="friends_image_description">The profile image of your friend.</string>
     <string name="friends_image_fav_descrption">Star!!!</string>
+    <string name="friends_search_hint">Search friend</string>
 
 </resources>
