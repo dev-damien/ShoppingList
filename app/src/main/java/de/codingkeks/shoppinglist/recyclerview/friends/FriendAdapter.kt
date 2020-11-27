@@ -1,12 +1,10 @@
 package de.codingkeks.shoppinglist.recyclerview.friends
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import de.codingkeks.shoppinglist.R
-import kotlinx.android.synthetic.main.nav_header_main.view.*
 import kotlinx.android.synthetic.main.rv_friend.view.*
 
 class FriendAdapter(var friends: List<Friend>): RecyclerView.Adapter<FriendAdapter.FriendViewHolder>()  {

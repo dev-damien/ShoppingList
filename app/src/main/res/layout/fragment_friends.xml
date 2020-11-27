@@ -7,16 +7,16 @@
     tools:context=".ui.friends.FriendsFragment">
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spFriends"
         android:layout_width="0dp"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.524"
-        app:layout_constraintStart_toEndOf="@+id/searchView"
+        app:layout_constraintStart_toEndOf="@+id/svFriends"
         app:layout_constraintTop_toTopOf="parent" />
 
     <SearchView
-        android:id="@+id/searchView"
+        android:id="@+id/svFriends"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:iconifiedByDefault="false"
@@ -32,7 +32,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner">
+        app:layout_constraintTop_toBottomOf="@+id/spFriends">
 
     </androidx.recyclerview.widget.RecyclerView>
 </androidx.constraintlayout.widget.ConstraintLayout>
