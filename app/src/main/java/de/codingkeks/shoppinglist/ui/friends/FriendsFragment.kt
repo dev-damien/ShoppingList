@@ -34,6 +34,12 @@ class FriendsFragment : Fragment() {
         return root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(MainActivity.TAG, "FriendsFragment()_onCreate()_Start")
+        super.onCreate(savedInstanceState)
+        Log.d(MainActivity.TAG, "FriendsFragment()_onCreate()_Start")
+    }
+
     override fun onStart() {
         super.onStart()
 
@@ -54,5 +60,6 @@ class FriendsFragment : Fragment() {
         val adapter = FriendAdapter(friendList)
         rvFriends.adapter = adapter
         rvFriends.layoutManager = LinearLayoutManager(requireContext())
+        Log.d(MainActivity.TAG, "FriendsFragment()_onCreate()_End")
     }
 }

@@ -19,6 +19,7 @@
         android:id="@+id/svFriends"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:fadingEdge="vertical"
         android:iconifiedByDefault="false"
         android:queryHint="@string/friends_search_hint"
         app:layout_constraintStart_toStartOf="parent"
