@@ -16,4 +16,26 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- For the static text like "Name" over the actual name ("Max") -->
+    <style name="TextStatic" parent="TextAppearance.AppCompat" >
+        <item name="android:textSize">18sp</item>
+        <item name="color">@color/grey_staticText</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:textAlignment">viewStart</item>
+    </style>
+
+    <!-- For the dynamic text like "Max Mustermann" -->
+    <style name="TextDynamic" parent="TextAppearance.AppCompat" >
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAlignment">viewStart</item>
+    </style>
+
+    <!-- For the buttons in the account fragment -->
+    <style name="AccountButton" parent="TextAppearance.AppCompat.Button" >
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:paddingTop">5dp</item>
+    </style>
+
 </resources>
