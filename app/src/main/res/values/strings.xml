@@ -1,13 +1,30 @@
 <resources>
     <string name="app_name">ShoppingList</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_shoppinglists">Shopping Lists</string>
+    <string name="menu_account">Account</string>
+    <string name="menu_friends">Friends</string>
+    <string name="menu_settings">Settings</string>
+
+    <string name="nav_header_desc">Navigation header image</string>
+
+    <string name="login_failed">You have to login or sign up!</string>
+
+    <string name="nav_header_name">Name</string>
+    <string name="nav_header_email">E-Mail</string>
+    <string name="account_name">Name</string>
+    <string name="account_reset_password">Reset Password</string>
+    <string name="account_logout">Logout</string>
+    <string name="account_delete_account">Delete Account</string>
+    <string name="account_image_description">Image of the user</string>
+    <string name="account_email">E-Mail</string>
+    <string name="account_id">ID</string>
+    <string name="friends_image_description">The profile image of your friend.</string>
+    <string name="friends_image_fav_descrption">Star!!!</string>
+    <string name="friends_search_hint">Search friend</string>
+    <string name="lists_search_hint">Search list</string>
+    <string name="lists_image_fav_descrption">Star!!!</string>
+    <string name="lists_image_description">The image of the shopping list.</string>
+
 </resources>
