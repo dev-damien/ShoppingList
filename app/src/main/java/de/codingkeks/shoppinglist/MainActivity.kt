@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
 
         login()
 
+        //TODO remove after testing phase
         buLogout.setOnClickListener {
             /*AuthUI.getInstance()
                 .signOut(this)
