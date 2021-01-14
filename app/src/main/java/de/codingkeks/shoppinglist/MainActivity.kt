@@ -134,15 +134,10 @@ class MainActivity : AppCompatActivity() {
                 val uidUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
                 val docRef = FirebaseFirestore.getInstance().document("users/$uidUser")
                 docRef.get()
-                    .addOnSuccessListener { document ->
-                        Log.d(TAG, "DOKUMENT $document")
-                        if (document == null) {
-                            Log.d(TAG, "IM IF")
+                    .addOnSuccessListener {
+                        if (!it.exists()) {
                             createUserDoc()
                         }
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.d(TAG, "get failed with ", exception)
                     }
             } else {
                 //TODO
