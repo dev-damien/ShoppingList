@@ -51,5 +51,13 @@ class ShoppingListsFragment : Fragment() {
         val adapter = ListAdapter(shoppingList)
         rvLists.adapter = adapter
         rvLists.layoutManager = LinearLayoutManager(requireContext())
+
+        //add a new list by clicking on the fab
+        var counter = 0
+        fabAddNewList.setOnClickListener {
+            shoppingList.add(ShoppingList("NewList$counter", R.drawable.ic_menu_home, true))
+            counter++
+            adapter.notifyDataSetChanged()
+        }
     }
 }
