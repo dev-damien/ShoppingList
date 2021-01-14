@@ -22,11 +22,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlin.collections.HashMap
@@ -231,28 +230,34 @@ class MainActivity : AppCompatActivity() {
         val docRef = FirebaseFirestore.getInstance().document("users/$uidUser")
 
         docRef.set(mapOf(
-            "username" to findingUsername(),
+            "username" to "",
             "icon_id" to 1))
             .addOnSuccessListener(OnSuccessListener<Void>() {
                 Log.d(TAG, "User Document created")
         })
 
+        findingUsername()
+
         docRef.update("friends", FieldValue.arrayUnion())
     }
 
-    private fun findingUsername(): String {
+    private fun findingUsername() {
         Log.d(TAG, "Finding Username Start")
         var username = FirebaseAuth.getInstance().currentUser?.displayName.toString() + "#"
         val docRef = FirebaseFirestore.getInstance().collection("users")
-        Log.d(TAG, "Finding Username Start2")
-        var query = docRef.whereGreaterThan("username", username)
-            .whereLessThan("username", username + "999999999").get()//.result
 
-        Log.d(TAG, "Finding Username Start3")
-        var numberOfUsername = 0
-        numberOfUsername++
-        username += "$numberOfUsername"
-        return username
+        docRef
+            .whereGreaterThan("username", username)
+            .whereLessThan("username", username + "999999999")
+            .get()
+            .addOnSuccessListener {
+                var numberOfUsername = it.size()
+                numberOfUsername++
+                val uidUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
+                val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
+                username += "$numberOfUsername"
+                userRef.update("username", username)
+            }
     }
 
 }
