@@ -29,7 +29,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import java.util.*
 import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity() {
@@ -232,7 +231,7 @@ class MainActivity : AppCompatActivity() {
         val docRef = FirebaseFirestore.getInstance().document("users/$uidUser")
 
         docRef.set(mapOf(
-            "username" to "Jabadabadu",
+            "username" to findingUsername(),
             "icon_id" to 1))
             .addOnSuccessListener(OnSuccessListener<Void>() {
                 Log.d(TAG, "User Document created")
@@ -241,5 +240,19 @@ class MainActivity : AppCompatActivity() {
         docRef.update("friends", FieldValue.arrayUnion())
     }
 
+    private fun findingUsername(): String {
+        Log.d(TAG, "Finding Username Start")
+        var username = FirebaseAuth.getInstance().currentUser?.displayName.toString() + "#"
+        val docRef = FirebaseFirestore.getInstance().collection("users")
+        Log.d(TAG, "Finding Username Start2")
+        var query = docRef.whereGreaterThan("username", username)
+            .whereLessThan("username", username + "999999999").get()//.result
+
+        Log.d(TAG, "Finding Username Start3")
+        var numberOfUsername = 0
+        numberOfUsername++
+        username += "$numberOfUsername"
+        return username
+    }
 
 }
