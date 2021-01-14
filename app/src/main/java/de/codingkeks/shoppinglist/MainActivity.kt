@@ -24,10 +24,13 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import java.util.*
+import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity() {
 
@@ -126,10 +129,21 @@ class MainActivity : AppCompatActivity() {
 
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
-                val user = FirebaseAuth.getInstance().currentUser
                 displayUserInformation()
-                //Log.d(TAG, user?.email.toString())
-                // ...
+                //TODO Ist Datenbankeintrag da? Wenn nein: Benutzernamen setzen und setze Datenbankeintrag
+                val uidUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
+                val docRef = FirebaseFirestore.getInstance().document("users/$uidUser")
+                docRef.get()
+                    .addOnSuccessListener { document ->
+                        Log.d(TAG, "DOKUMENT $document")
+                        if (document == null) {
+                            Log.d(TAG, "IM IF")
+                            createUserDoc()
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d(TAG, "get failed with ", exception)
+                    }
             } else {
                 //TODO
                 // Sign in failed. If response is null the user canceled the
@@ -213,4 +227,24 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "MainActivity_isOnline()_End")
         return false
     }
+
+    /**
+     * Method creates the user document in the collection users
+     */
+    private fun createUserDoc() {
+        Log.d(TAG, "Create User Doc")
+        val uidUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        val docRef = FirebaseFirestore.getInstance().document("users/$uidUser")
+
+        docRef.set(mapOf(
+            "username" to "Jabadabadu",
+            "icon_id" to 1))
+            .addOnSuccessListener(OnSuccessListener<Void>() {
+                Log.d(TAG, "User Document created")
+        })
+
+        docRef.update("friends", FieldValue.arrayUnion())
+    }
+
+
 }
