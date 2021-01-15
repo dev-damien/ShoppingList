@@ -24,4 +24,9 @@
     <string name="lists_image_fav_descrption">Stern</string>
     <string name="lists_image_description">Bild von der Einkaufsliste.</string>
     <string name="fabAddNewListDescription">Knopf um neue Liste zu erstellen</string>
+    <string-array name="sorting">
+        <item>Favoriten</item>
+        <item>A-Z</item>
+        <item>Z-A</item>
+    </string-array>
 </resources>
