@@ -58,6 +58,7 @@ class ShoppingListsFragment : Fragment() {
             shoppingList.add(ShoppingList("NewList$counter", R.drawable.ic_menu_home, true))
             counter++
             adapter.notifyDataSetChanged()
+            //startActivityForResult()
         }
     }
 }
