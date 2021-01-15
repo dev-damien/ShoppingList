@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity() {
             })
         }
         Log.d(TAG, "MainActivity_onCreate()_End")
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

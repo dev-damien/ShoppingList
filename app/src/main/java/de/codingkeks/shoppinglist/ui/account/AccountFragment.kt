@@ -54,7 +54,7 @@ class AccountFragment : Fragment() {
         }
 
         buAccountLogout.setOnClickListener {
-            AuthUI.getInstance()
+                AuthUI.getInstance()
                 .signOut(requireContext())
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
