@@ -28,4 +28,10 @@
     <string name="lists_image_description">The image of the shopping list.</string>
     <string name="fabAddNewListDescription">Button to add a new List</string>
 
+    <string-array name="sorting">
+        <item>Favorites</item>
+        <item>A-Z</item>
+        <item>Z-A</item>
+    </string-array>
+
 </resources>

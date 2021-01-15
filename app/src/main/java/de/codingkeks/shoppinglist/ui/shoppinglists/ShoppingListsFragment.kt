@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,9 +49,37 @@ class ShoppingListsFragment : Fragment() {
             ShoppingList("Allah", R.drawable.ic_menu_shoppinglists, false)
         )
 
-        val adapter = ListAdapter(shoppingList)
+        var adapter = ListAdapter(shoppingList)
         rvLists.adapter = adapter
         rvLists.layoutManager = LinearLayoutManager(requireContext())
+
+        spLists.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                when { //position 0: Favorites; 1: A-Z; 2: Z-A
+                    position == 0 -> {
+                        shoppingList.sortBy { it.name }
+                        shoppingList.sortByDescending { it.isFavorite }
+                    }
+                    position == 1 -> {
+                        shoppingList.sortBy { it.name }
+                    }
+                    position == 2 -> {
+                        shoppingList.sortByDescending { it.name }
+                    }
+                }
+                adapter = ListAdapter(shoppingList)
+                rvLists.adapter = adapter
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
 
         //add a new list by clicking on the fab
         var counter = 0
