@@ -2,10 +2,10 @@ package de.codingkeks.shoppinglist.ui.shoppinglists
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +28,7 @@ class ShoppingListsFragment : Fragment() {
         shoppingListsViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })*/
+
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_onCreateView()_End")
         return root
     }
@@ -60,26 +61,36 @@ class ShoppingListsFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                when { //position 0: Favorites; 1: A-Z; 2: Z-A
-                    position == 0 -> {
+                when (position) { //position 0: Favorites; 1: A-Z; 2: Z-A
+                    0 -> {
                         shoppingList.sortBy { it.name }
                         shoppingList.sortByDescending { it.isFavorite }
                     }
-                    position == 1 -> {
+                    1 -> {
                         shoppingList.sortBy { it.name }
                     }
-                    position == 2 -> {
+                    2 -> {
                         shoppingList.sortByDescending { it.name }
                     }
                 }
-                adapter = ListAdapter(shoppingList)
-                rvLists.adapter = adapter
+                adapter.notifyDataSetChanged()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
         }
+        svLists.imeOptions = EditorInfo.IME_ACTION_DONE
+        svLists.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                return false
+            }
+        })
 
         //add a new list by clicking on the fab
         var counter = 0

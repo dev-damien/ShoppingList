@@ -4,13 +4,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.rv_list.view.*
 
-class ListAdapter(var lists: List<ShoppingList>): RecyclerView.Adapter<ListAdapter.ListViewHolder>()  {
+class ListAdapter(var lists: List<ShoppingList>, var listsFull: ArrayList<ShoppingList> = ArrayList<ShoppingList>(lists)): RecyclerView.Adapter<ListAdapter.ListViewHolder>(), Filterable {
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -39,5 +41,40 @@ class ListAdapter(var lists: List<ShoppingList>): RecyclerView.Adapter<ListAdapt
 
     override fun getItemCount(): Int {
         return lists.size
+    }
+
+    override fun getFilter(): Filter {
+        return filter
+    }
+
+    private var filter: Filter = object: Filter() {
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            var filteredList: ArrayList<ShoppingList> = ArrayList<ShoppingList>()
+
+            if (constraint == null || constraint.isEmpty()) {
+                filteredList.addAll(listsFull)
+            } else {
+                var filterPattern: String = constraint.toString().toLowerCase().trim()
+
+                listsFull.forEach {
+                    if (it.name.toLowerCase().contains(filterPattern)) {
+                        filteredList.add(it)
+                    }
+                }
+            }
+            var filterResults: FilterResults = FilterResults()
+            filterResults.values = filteredList
+            //TODO Liste sortieren
+            return filterResults
+        }
+
+        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            (lists as ArrayList<ShoppingList>).clear()
+            if (results != null) {
+                (lists as ArrayList<ShoppingList>).addAll(results.values as ArrayList<ShoppingList>)
+            }
+            notifyDataSetChanged()
+        }
+
     }
 }
