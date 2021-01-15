@@ -44,17 +44,17 @@ class FriendsFragment : Fragment() {
         super.onStart()
 
         var friendList = mutableListOf(
-            Friend("Hans", R.drawable.ic_account_image, true),
-            Friend("Flo", R.drawable.ic_account_image, false),
-            Friend("Jokl", R.drawable.ic_account_image, true),
-            Friend("Dieter", R.drawable.ic_account_image, false),
-            Friend("Lol", R.drawable.ic_account_image, true),
-            Friend("Rudolf", R.drawable.ic_account_image, false),
-            Friend("Santa", R.drawable.ic_account_image, true),
-            Friend("Teufel", R.drawable.ic_account_image, true),
-            Friend("Jesus", R.drawable.ic_account_image, true),
-            Friend("Gott", R.drawable.ic_account_image, true),
-            Friend("Allah", R.drawable.ic_account_image, false)
+            Friend("Hans", R.drawable.ic_account_image),
+            Friend("Flo", R.drawable.ic_account_image),
+            Friend("Jokl", R.drawable.ic_account_image),
+            Friend("Dieter", R.drawable.ic_account_image),
+            Friend("Lol", R.drawable.ic_account_image),
+            Friend("Rudolf", R.drawable.ic_account_image),
+            Friend("Santa", R.drawable.ic_account_image),
+            Friend("Teufel", R.drawable.ic_account_image),
+            Friend("Jesus", R.drawable.ic_account_image),
+            Friend("Gott", R.drawable.ic_account_image),
+            Friend("Allah", R.drawable.ic_account_image)
         )
 
         val adapter = FriendAdapter(friendList)
