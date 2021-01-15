@@ -19,14 +19,6 @@ class FriendAdapter(var friends: List<Friend>): RecyclerView.Adapter<FriendAdapt
         holder.itemView.apply {
             tvFriendName.text = friends[position].name
             ivFriendImage.setImageResource(friends[position].profilePicture)
-            if (friends[position].isFavorite) ivFriendFav.setImageResource(R.drawable.ic_friends_star)
-            else ivFriendFav.setImageResource(R.drawable.ic_friends_star_border)
-
-            ivFriendFav.setOnClickListener() {
-                friends[position].isFavorite = !friends[position].isFavorite
-                if (friends[position].isFavorite) ivFriendFav.setImageResource(R.drawable.ic_friends_star)
-                else ivFriendFav.setImageResource(R.drawable.ic_friends_star_border)
-            }
         }
     }
 
