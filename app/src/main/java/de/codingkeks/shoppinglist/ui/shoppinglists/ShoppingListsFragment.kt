@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.SearchView
@@ -65,18 +67,7 @@ class ShoppingListsFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                when (position) { //position 0: Favorites; 1: A-Z; 2: Z-A
-                    0 -> {
-                        shoppingList.sortBy { it.name }
-                        shoppingList.sortByDescending { it.isFavorite }
-                    }
-                    1 -> {
-                        shoppingList.sortBy { it.name }
-                    }
-                    2 -> {
-                        shoppingList.sortByDescending { it.name }
-                    }
-                }
+                sortingShoppingList(position)
                 adapter.notifyDataSetChanged()
             }
 
@@ -134,7 +125,23 @@ class ShoppingListsFragment : Fragment() {
      */
     private fun createNewGroup(listName:String, listIcon:Int){
         shoppingList.add(ShoppingList(listName, listIcon, false))
-        //TODO insert sort()
+        sortingShoppingList(spLists.selectedItemPosition)
         adapter.notifyDataSetChanged()
     }
+
+    fun sortingShoppingList(position: Int) {
+        when (position) { //position 0: Favorites; 1: A-Z; 2: Z-A
+            0 -> {
+                shoppingList.sortBy { it.name }
+                shoppingList.sortByDescending { it.isFavorite }
+            }
+            1 -> {
+                shoppingList.sortBy { it.name }
+            }
+            2 -> {
+                shoppingList.sortByDescending { it.name }
+            }
+        }
+    }
+
 }
