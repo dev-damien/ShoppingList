@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
@@ -62,10 +61,12 @@ class ListAdapter(var lists: List<ShoppingList>, var listsFull: ArrayList<Shoppi
                     }
                 }
             }
+            //TODO Liste sortieren
+            filteredList.sortBy { it.name }
+            filteredList.sortByDescending { it.isFavorite }
+
             var filterResults: FilterResults = FilterResults()
             filterResults.values = filteredList
-            //TODO Liste sortieren
-
             return filterResults
         }
 
