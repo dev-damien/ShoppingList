@@ -1,5 +1,7 @@
 package de.codingkeks.shoppinglist.ui.shoppinglists
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -9,6 +11,7 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import de.codingkeks.shoppinglist.AddNewListActivity
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ListAdapter
@@ -18,6 +21,8 @@ import kotlinx.android.synthetic.main.fragment_shoppinglists.*
 class ShoppingListsFragment : Fragment() {
 
     private lateinit var shoppingListsViewModel: ShoppingListsViewModel
+    private val RC_ADD_NEW_LIST = 70
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_onCreateView()_Start")
@@ -93,12 +98,38 @@ class ShoppingListsFragment : Fragment() {
         })
 
         //add a new list by clicking on the fab
-        var counter = 0
         fabAddNewList.setOnClickListener {
-            shoppingList.add(ShoppingList("NewList$counter", R.drawable.ic_menu_home, true))
-            counter++
-            adapter.notifyDataSetChanged()
-            //startActivityForResult()
+            Intent(context, AddNewListActivity::class.java).also {
+                startActivityForResult(it, RC_ADD_NEW_LIST)
+            }
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        //data to create a new list
+        if (requestCode == RC_ADD_NEW_LIST){
+            var listName: String = ""
+            var listIcon: Int = R.drawable.ic_menu_shoppinglists
+            if (resultCode == Activity.RESULT_OK && data != null){
+                if (data.hasExtra("name")){
+                    listName = data.getStringExtra("name") ?: "ErrorList: How tf did you do this"
+                }
+                if (data.hasExtra("icon")){
+                    listIcon = data.getIntExtra("icon", R.drawable.ic_menu_shoppinglists)
+                }
+            }
+            createNewGroup(listName, listIcon)
+        }
+    }
+
+    /**
+     * create a new list with selected name and icon
+     * @param listName the name of the new list
+     * @param listIcon the icon of the new list
+     */
+    private fun createNewGroup(listName:String, listIcon:Int){
+        //shoppingList.add(ShoppingList("NewList", R.drawable.ic_menu_home, true))
+        //adapter.notifyDataSetChanged()
     }
 }
