@@ -65,6 +65,7 @@ class ListAdapter(var lists: List<ShoppingList>, var listsFull: ArrayList<Shoppi
             var filterResults: FilterResults = FilterResults()
             filterResults.values = filteredList
             //TODO Liste sortieren
+
             return filterResults
         }
 

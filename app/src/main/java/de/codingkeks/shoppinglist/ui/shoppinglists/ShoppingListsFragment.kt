@@ -22,7 +22,20 @@ class ShoppingListsFragment : Fragment() {
 
     private lateinit var shoppingListsViewModel: ShoppingListsViewModel
     private val RC_ADD_NEW_LIST = 70
-
+    private var shoppingList: MutableList<ShoppingList> = mutableListOf(
+        ShoppingList("Montag", R.drawable.ic_menu_shoppinglists, true),
+        ShoppingList("WG", R.drawable.ic_menu_shoppinglists, false),
+        ShoppingList("Familie", R.drawable.ic_menu_shoppinglists, true),
+        ShoppingList("Deutschland", R.drawable.ic_menu_shoppinglists, false),
+        ShoppingList("Schweiz", R.drawable.ic_menu_shoppinglists, true),
+        ShoppingList("Polen", R.drawable.ic_menu_shoppinglists, false),
+        ShoppingList("Russland", R.drawable.ic_menu_shoppinglists, true),
+        ShoppingList("Dänemark", R.drawable.ic_menu_shoppinglists, true),
+        ShoppingList("Lol", R.drawable.ic_menu_shoppinglists, true),
+        ShoppingList("Gott", R.drawable.ic_menu_shoppinglists, true),
+        ShoppingList("Allah", R.drawable.ic_menu_shoppinglists, false)
+    )
+    private lateinit var adapter: ListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_onCreateView()_Start")
@@ -41,21 +54,7 @@ class ShoppingListsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        var shoppingList = mutableListOf(
-            ShoppingList("Montag", R.drawable.ic_menu_shoppinglists, true),
-            ShoppingList("WG", R.drawable.ic_menu_shoppinglists, false),
-            ShoppingList("Familie", R.drawable.ic_menu_shoppinglists, true),
-            ShoppingList("Deutschland", R.drawable.ic_menu_shoppinglists, false),
-            ShoppingList("Schweiz", R.drawable.ic_menu_shoppinglists, true),
-            ShoppingList("Polen", R.drawable.ic_menu_shoppinglists, false),
-            ShoppingList("Russland", R.drawable.ic_menu_shoppinglists, true),
-            ShoppingList("Dänemark", R.drawable.ic_menu_shoppinglists, true),
-            ShoppingList("Lol", R.drawable.ic_menu_shoppinglists, true),
-            ShoppingList("Gott", R.drawable.ic_menu_shoppinglists, true),
-            ShoppingList("Allah", R.drawable.ic_menu_shoppinglists, false)
-        )
-
-        var adapter = ListAdapter(shoppingList)
+        adapter = ListAdapter(shoppingList)
         rvLists.adapter = adapter
         rvLists.layoutManager = LinearLayoutManager(requireContext())
 
@@ -99,9 +98,14 @@ class ShoppingListsFragment : Fragment() {
 
         //add a new list by clicking on the fab
         fabAddNewList.setOnClickListener {
+            Log.d(MainActivity.TAG, shoppingList.toString())
+
             Intent(context, AddNewListActivity::class.java).also {
                 startActivityForResult(it, RC_ADD_NEW_LIST)
             }
+            //shoppingList.add(ShoppingList("newList", R.drawable.ic_menu_shoppinglists, false))
+            //createNewGroup("AAAAAAAAAAAA", R.drawable.ic_shopping_list_app_icon)
+            //adapter.notifyDataSetChanged()
         }
     }
 
@@ -109,8 +113,8 @@ class ShoppingListsFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         //data to create a new list
         if (requestCode == RC_ADD_NEW_LIST){
-            var listName: String = ""
-            var listIcon: Int = R.drawable.ic_menu_shoppinglists
+            var listName = ""
+            var listIcon = R.drawable.ic_menu_shoppinglists
             if (resultCode == Activity.RESULT_OK && data != null){
                 if (data.hasExtra("name")){
                     listName = data.getStringExtra("name") ?: "ErrorList: How tf did you do this"
@@ -129,7 +133,8 @@ class ShoppingListsFragment : Fragment() {
      * @param listIcon the icon of the new list
      */
     private fun createNewGroup(listName:String, listIcon:Int){
-        //shoppingList.add(ShoppingList("NewList", R.drawable.ic_menu_home, true))
-        //adapter.notifyDataSetChanged()
+        shoppingList.add(ShoppingList(listName, listIcon, false))
+        //TODO insert sort()
+        adapter.notifyDataSetChanged()
     }
 }
