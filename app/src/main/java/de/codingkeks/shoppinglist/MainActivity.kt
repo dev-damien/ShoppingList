@@ -22,13 +22,14 @@ import androidx.navigation.ui.setupWithNavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlin.collections.HashMap
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -186,11 +187,17 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "MainActivity_displayUserInformation()_Start")
         val fb = FirebaseAuth.getInstance()
         val user = fb.currentUser
-        val tvName = nav_view.getHeaderView(0).findViewById<TextView>(R.id.tvName)
         val tvEmail = nav_view.getHeaderView(0).findViewById<TextView>(R.id.tvEmail)
-        tvName.text = if (user?.displayName == null) "No Name" else user.displayName
         tvEmail.text = if (user?.email == null) "No Email" else user.email
-        //TODO user Icon, Datenbank Daten anzeigen
+
+        val uidUser = user?.uid.toString()
+        val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
+        userRef.get().addOnSuccessListener { documentSnapshot ->
+            val username = documentSnapshot.get("username") as String
+            tvName.text = if (user?.displayName == null) "No Name" else username
+        }
+
+        //TODO user Icon
         Log.d(TAG, "MainActivity_displayUserInformation()_End")
     }
 
