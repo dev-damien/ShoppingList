@@ -62,8 +62,8 @@ class ListAdapter(var lists: List<ShoppingList>, var listsFull: ArrayList<Shoppi
                 }
             }
             //TODO Liste sortieren
-            filteredList.sortBy { it.name }
-            filteredList.sortByDescending { it.isFavorite }
+            //filteredList.sortBy { it.name }
+            //filteredList.sortByDescending { it.isFavorite }
 
             var filterResults: FilterResults = FilterResults()
             filterResults.values = filteredList

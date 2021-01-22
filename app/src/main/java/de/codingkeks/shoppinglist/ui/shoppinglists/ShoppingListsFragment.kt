@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_shoppinglists.*
 class ShoppingListsFragment : Fragment() {
 
     private lateinit var shoppingListsViewModel: ShoppingListsViewModel
-    private val RC_ADD_NEW_LIST = 70
+    private val RC_ADD_NEW_LIST = 0
     private var shoppingList: MutableList<ShoppingList> = mutableListOf(
         ShoppingList("Montag", R.drawable.ic_menu_shoppinglists, true),
         ShoppingList("WG", R.drawable.ic_menu_shoppinglists, false),
@@ -89,14 +89,9 @@ class ShoppingListsFragment : Fragment() {
 
         //add a new list by clicking on the fab
         fabAddNewList.setOnClickListener {
-            Log.d(MainActivity.TAG, shoppingList.toString())
-
             Intent(context, AddNewListActivity::class.java).also {
                 startActivityForResult(it, RC_ADD_NEW_LIST)
             }
-            //shoppingList.add(ShoppingList("newList", R.drawable.ic_menu_shoppinglists, false))
-            //createNewGroup("AAAAAAAAAAAA", R.drawable.ic_shopping_list_app_icon)
-            //adapter.notifyDataSetChanged()
         }
     }
 
@@ -106,6 +101,7 @@ class ShoppingListsFragment : Fragment() {
         if (requestCode == RC_ADD_NEW_LIST){
             var listName = ""
             var listIcon = R.drawable.ic_menu_shoppinglists
+            var isFav = false
             if (resultCode == Activity.RESULT_OK && data != null){
                 if (data.hasExtra("name")){
                     listName = data.getStringExtra("name") ?: "ErrorList: How tf did you do this"
@@ -113,8 +109,11 @@ class ShoppingListsFragment : Fragment() {
                 if (data.hasExtra("icon")){
                     listIcon = data.getIntExtra("icon", R.drawable.ic_menu_shoppinglists)
                 }
+                if (data.hasExtra("isFav")){
+                    isFav = data.getBooleanExtra("isFav", false)
+                }
             }
-            createNewGroup(listName, listIcon)
+            createNewGroup(listName, listIcon, isFav)
         }
     }
 
@@ -123,8 +122,8 @@ class ShoppingListsFragment : Fragment() {
      * @param listName the name of the new list
      * @param listIcon the icon of the new list
      */
-    private fun createNewGroup(listName:String, listIcon:Int){
-        shoppingList.add(ShoppingList(listName, listIcon, false))
+    private fun createNewGroup(listName:String, listIcon:Int, isFav:Boolean){
+        shoppingList.add(ShoppingList(listName, listIcon, isFav))
         sortingShoppingList(spLists.selectedItemPosition)
         adapter.notifyDataSetChanged()
     }
