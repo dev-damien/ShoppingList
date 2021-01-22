@@ -29,5 +29,9 @@
         <item>A-Z</item>
         <item>Z-A</item>
     </string-array>
+    <string-array name="sortingFriend">
+        <item>A-Z</item>
+        <item>Z-A</item>
+    </string-array>
     <string name="etAddNewListEnterNameHintString">Listenname eingeben ...</string>
 </resources>

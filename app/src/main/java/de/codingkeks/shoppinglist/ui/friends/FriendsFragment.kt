@@ -5,9 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.view.inputmethod.EditorInfo
+import android.widget.AdapterView
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.codingkeks.shoppinglist.MainActivity
@@ -19,6 +20,20 @@ import kotlinx.android.synthetic.main.fragment_friends.*
 class FriendsFragment : Fragment() {
 
     private lateinit var friendsViewModel: FriendsViewModel
+    var friendList = mutableListOf(
+        Friend("Hans", R.drawable.ic_account_image),
+        Friend("Flo", R.drawable.ic_account_image),
+        Friend("Jokl", R.drawable.ic_account_image),
+        Friend("Dieter", R.drawable.ic_account_image),
+        Friend("Lol", R.drawable.ic_account_image),
+        Friend("Rudolf", R.drawable.ic_account_image),
+        Friend("Santa", R.drawable.ic_account_image),
+        Friend("Teufel", R.drawable.ic_account_image),
+        Friend("Jesus", R.drawable.ic_account_image),
+        Friend("Gott", R.drawable.ic_account_image),
+        Friend("Allah", R.drawable.ic_account_image)
+    )
+    private lateinit var adapter: FriendAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d(MainActivity.TAG, "FriendsFragment()_onCreateView()_Start")
@@ -43,23 +58,48 @@ class FriendsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        var friendList = mutableListOf(
-            Friend("Hans", R.drawable.ic_account_image),
-            Friend("Flo", R.drawable.ic_account_image),
-            Friend("Jokl", R.drawable.ic_account_image),
-            Friend("Dieter", R.drawable.ic_account_image),
-            Friend("Lol", R.drawable.ic_account_image),
-            Friend("Rudolf", R.drawable.ic_account_image),
-            Friend("Santa", R.drawable.ic_account_image),
-            Friend("Teufel", R.drawable.ic_account_image),
-            Friend("Jesus", R.drawable.ic_account_image),
-            Friend("Gott", R.drawable.ic_account_image),
-            Friend("Allah", R.drawable.ic_account_image)
-        )
-
-        val adapter = FriendAdapter(friendList)
+        adapter = FriendAdapter(friendList)
         rvFriends.adapter = adapter
         rvFriends.layoutManager = LinearLayoutManager(requireContext())
+
+        spFriends.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                sortingFriendsList(position)
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+        svFriends.imeOptions = EditorInfo.IME_ACTION_DONE
+        svFriends.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                return false
+            }
+        })
+
         Log.d(MainActivity.TAG, "FriendsFragment()_onCreate()_End")
+    }
+
+    fun sortingFriendsList(position: Int) {
+        when (position) { //0: A-Z; 1: Z-A
+            0 -> {
+                friendList.sortBy { it.name }
+            }
+            1 -> {
+                friendList.sortByDescending { it.name }
+            }
+        }
     }
 }
