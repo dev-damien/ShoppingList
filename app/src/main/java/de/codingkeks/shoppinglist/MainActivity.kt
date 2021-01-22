@@ -26,6 +26,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -130,7 +131,6 @@ class MainActivity : AppCompatActivity() {
 
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
-                displayUserInformation()
                 //TODO Ist Datenbankeintrag da? Wenn nein: Benutzernamen setzen und setze Datenbankeintrag
                 val uidUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
                 val docRef = FirebaseFirestore.getInstance().document("users/$uidUser")
@@ -139,7 +139,9 @@ class MainActivity : AppCompatActivity() {
                         if (!it.exists()) {
                             createUserDoc()
                         }
+                        displayUserInformation()
                     }
+                displayUserInformation()
             } else {
                 //TODO
                 // Sign in failed. If response is null the user canceled the
@@ -193,8 +195,7 @@ class MainActivity : AppCompatActivity() {
         val uidUser = user?.uid.toString()
         val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
         userRef.get().addOnSuccessListener { documentSnapshot ->
-            val username = documentSnapshot.get("username") as String
-            tvName.text = if (user?.displayName == null) "No Name" else username
+            tvName.text = documentSnapshot.get("username") as String? ?: "No Name"
         }
 
         //TODO user Icon
@@ -256,12 +257,23 @@ class MainActivity : AppCompatActivity() {
         val docRef = FirebaseFirestore.getInstance().collection("users")
 
         docRef
+            .addSnapshotListener{ _, _ ->
+                displayUserInformation()
+            }
+
+        docRef
             .whereGreaterThan("username", username)
             .whereLessThan("username", username + "999999999")
+            .orderBy("username", Query.Direction.DESCENDING)
+            .limit(1)
             .get()
             .addOnSuccessListener {
-                var numberOfUsername = it.size()
-                numberOfUsername++
+                val username2 = it.documents[0].get("username") as String?
+
+                Log.d(TAG, username2)
+                var numberOfUsername = username2?.substring(username2.lastIndexOf("#")+1)?.toInt()
+                Log.d(TAG, username2)
+                if (numberOfUsername != null) numberOfUsername++ ?: 1
                 val uidUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
                 val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
                 username += "$numberOfUsername"
