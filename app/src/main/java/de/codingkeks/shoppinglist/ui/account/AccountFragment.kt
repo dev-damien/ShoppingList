@@ -1,11 +1,14 @@
 package de.codingkeks.shoppinglist.ui.account
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
@@ -62,12 +65,16 @@ class AccountFragment : Fragment() {
         }
 
         buAccountLogout.setOnClickListener {
-                AuthUI.getInstance()
+            AuthUI.getInstance()
                 .signOut(requireContext())
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.d(MainActivity.TAG, "user has been logged out")
                         //login() TODO send back to login screen and remove all information in the app (such as email, name, lists, friends, ...)
+                        FirebaseAuth.getInstance().signOut()
+                        var intent: Intent = Intent(context, MainActivity::class.java)
+                        startActivity(intent)
+                        activity?.finishAffinity()
                     }
                 }
         }
