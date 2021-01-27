@@ -1,5 +1,6 @@
 package de.codingkeks.shoppinglist.ui.account
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,9 +9,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.fragment_account.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 class AccountFragment : Fragment() {
 
@@ -38,9 +41,14 @@ class AccountFragment : Fragment() {
         super.onStart()
         val fb = FirebaseAuth.getInstance()
         val user = fb.currentUser!!
-        tv_userName.text = user.displayName
         tv_userEmail.text = user.email
         tv_userID.text = user.uid
+
+        val uidUser = user?.uid.toString()
+        val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
+        userRef.get().addOnSuccessListener { documentSnapshot ->
+            tv_userName.text = documentSnapshot.get("username") as String? ?: "No Name"
+        }
 
         //TODO remove after verification is included in sign up process
         //just for testing
@@ -66,12 +74,18 @@ class AccountFragment : Fragment() {
 
         //TODO reauthenticate the user to prevent a FirebaseAuthRecentLoginRequiredException
         buDeleteAccount.setOnClickListener {
-            user.delete()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d(MainActivity.TAG, "user account deleted")
-                    }
+            AlertDialog.Builder(context, R.style.AlertDialogTheme)
+                .setMessage(R.string.deleteAccount)
+                .setPositiveButton(R.string.yes){_, _->
+                    user.delete()
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d(MainActivity.TAG, "user account deleted")
+                            }
+                        }
                 }
+                .setNegativeButton(R.string.no){_, _->}
+                .show()
         }
 
         buResetPassword.setOnClickListener {

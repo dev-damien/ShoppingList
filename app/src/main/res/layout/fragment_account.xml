@@ -102,7 +102,6 @@
 
     <Button
         android:id="@+id/buAccountLogout"
-        style="@style/AccountButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/account_logout"
@@ -115,7 +114,6 @@
 
     <Button
         android:id="@+id/buResetPassword"
-        style="@style/AccountButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/account_reset_password"
@@ -128,7 +126,6 @@
 
     <Button
         android:id="@+id/buDeleteAccount"
-        style="@style/AccountButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/account_delete_account"
@@ -141,7 +138,6 @@
 
     <Button
         android:id="@+id/buVerify"
-        style="@style/AccountButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="Verify"

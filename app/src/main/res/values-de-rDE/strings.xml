@@ -34,4 +34,7 @@
         <item>Z-A</item>
     </string-array>
     <string name="etAddNewListEnterNameHintString">Listenname eingeben ...</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="deleteAccount">Willst du wirklich deinen Account löschen?</string>
 </resources>

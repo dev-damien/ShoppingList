@@ -29,6 +29,10 @@
     <string name="fabAddNewListDescription">Button to add a new List</string>
     <string name="etAddNewListEnterNameHintString">Enter listname ...</string>
 
+    <string name="deleteAccount">Do you really want to delete your Account?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
     <string-array name="sorting">
         <item>Favorites</item>
         <item>A-Z</item>
