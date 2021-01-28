@@ -3,18 +3,23 @@ package de.codingkeks.shoppinglist.ui.account
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.net.wifi.hotspot2.pps.Credential
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import de.codingkeks.shoppinglist.MainActivity
+import de.codingkeks.shoppinglist.MainActivity.Companion.TAG
 import de.codingkeks.shoppinglist.R
+import de.codingkeks.shoppinglist.ReauthenticateActivity
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
@@ -72,7 +77,7 @@ class AccountFragment : Fragment() {
                         Log.d(MainActivity.TAG, "user has been logged out")
                         //login() TODO send back to login screen and remove all information in the app (such as email, name, lists, friends, ...)
                         FirebaseAuth.getInstance().signOut()
-                        var intent: Intent = Intent(context, MainActivity::class.java)
+                        val intent: Intent = Intent(context, MainActivity::class.java)
                         startActivity(intent)
                         activity?.finishAffinity()
                     }
@@ -82,14 +87,11 @@ class AccountFragment : Fragment() {
         //TODO reauthenticate the user to prevent a FirebaseAuthRecentLoginRequiredException
         buDeleteAccount.setOnClickListener {
             AlertDialog.Builder(context, R.style.AlertDialogTheme)
+                .setTitle(R.string.deleteTitle)
                 .setMessage(R.string.deleteAccount)
                 .setPositiveButton(R.string.yes){_, _->
-                    user.delete()
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Log.d(MainActivity.TAG, "user account deleted")
-                            }
-                        }
+                    val intent: Intent = Intent(requireContext(), ReauthenticateActivity::class.java)
+                    startActivityForResult(intent, 155)
                 }
                 .setNegativeButton(R.string.no){_, _->}
                 .show()
@@ -107,6 +109,36 @@ class AccountFragment : Fragment() {
         }
 
         Log.d(MainActivity.TAG, "AccountFragment_onStart()_End")
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 155 && resultCode == Activity.RESULT_OK) {
+            var password: String = data!!.getStringExtra("password")
+            val user = FirebaseAuth.getInstance().currentUser!!
+            //TODO delete Google Account
+            val credential = EmailAuthProvider.getCredential(user.email.toString(), password)
+
+            user.reauthenticate(credential)
+                .addOnSuccessListener {
+                    Log.d(TAG, "User re-authenticated.")
+                    user.delete()
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                password = ""
+                                Log.d(MainActivity.TAG, "user account deleted")
+                                val intent: Intent = Intent(context, MainActivity::class.java)
+                                startActivity(intent)
+                                activity?.finishAffinity()
+                            }
+                        }
+                }
+                //TODO Alert for wrong Password
+                .addOnFailureListener {
+                    Log.d(TAG, "PW wrong")
+                    Toast.makeText(context, "PAssword falsch", Toast.LENGTH_LONG)
+                }
+        }
     }
 
 }

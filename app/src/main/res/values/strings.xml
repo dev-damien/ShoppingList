@@ -28,8 +28,11 @@
     <string name="lists_image_description">The image of the shopping list.</string>
     <string name="fabAddNewListDescription">Button to add a new List</string>
     <string name="etAddNewListEnterNameHintString">Enter listname ...</string>
+    <string name="passwordInfo">You have to enter your password to delete your Account.</string>
+    <string name="wordPassword">Password</string>
 
     <string name="deleteAccount">Do you really want to delete your Account?</string>
+    <string name="deleteTitle">Delete Account!</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 

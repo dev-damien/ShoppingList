@@ -37,4 +37,7 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="deleteAccount">Willst du wirklich deinen Account löschen?</string>
+    <string name="deleteTitle">Account löschen!</string>
+    <string name="passwordInfo">Du musst dein Passwort eingeben um deinen Account zu löschen.</string>
+    <string name="wordPassword">Passwort</string>
 </resources>
