@@ -82,7 +82,7 @@ class AccountFragment : Fragment() {
                 }
         }
 
-        //TODO reauthenticate the user to prevent a FirebaseAuthRecentLoginRequiredException
+        //TODO delete database data
         buDeleteAccount.setOnClickListener {
             AlertDialog.Builder(context, R.style.AlertDialogTheme)
                 .setTitle(R.string.deleteTitle)
