@@ -15,7 +15,7 @@ class ReauthenticateActivity : AppCompatActivity()  {
             buOK.setOnClickListener {
                 var password: String = editTextPassword.text.toString()
 
-                if (password == "" || password == null) {
+                if (password == "") {
                     password = "*"
                 }
 

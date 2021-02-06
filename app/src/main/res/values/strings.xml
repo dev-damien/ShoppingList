@@ -30,6 +30,7 @@
     <string name="etAddNewListEnterNameHintString">Enter listname ...</string>
     <string name="passwordInfo">You have to enter your password to delete your Account.</string>
     <string name="wordPassword">Password</string>
+    <string name="wrongPassword">Wrong password!</string>
 
     <string name="deleteAccount">Do you really want to delete your Account?</string>
     <string name="deleteTitle">Delete Account!</string>

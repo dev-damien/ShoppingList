@@ -176,6 +176,7 @@ class MainActivity : AppCompatActivity() {
                     AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
+                        .setIsSmartLockEnabled(false, true)
                         .build(),
                     RC_AUTH
                 )
@@ -190,12 +191,12 @@ class MainActivity : AppCompatActivity() {
         val fb = FirebaseAuth.getInstance()
         val user = fb.currentUser
         val tvEmail = nav_view.getHeaderView(0).findViewById<TextView>(R.id.tvEmail)
-        tvEmail.text = if (user?.email == null) "No Email" else user.email
+        tvEmail.text = if (user?.email == null) "Loading Email..." else user.email
 
         val uidUser = user?.uid.toString()
         val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
         userRef.get().addOnSuccessListener { documentSnapshot ->
-            tvName.text = documentSnapshot.get("username") as String? ?: "No Name"
+            tvName.text = documentSnapshot.get("username") as String? ?: "Loading Username..."
         }
 
         //TODO user Icon
@@ -254,6 +255,7 @@ class MainActivity : AppCompatActivity() {
     private fun findingUsername() {
         Log.d(TAG, "Finding Username Start")
         var username = FirebaseAuth.getInstance().currentUser?.displayName.toString() + "#"
+        Log.d(TAG, "findingUsername username: $username")
         val docRef = FirebaseFirestore.getInstance().collection("users")
 
         docRef
@@ -268,12 +270,14 @@ class MainActivity : AppCompatActivity() {
             .limit(1)
             .get()
             .addOnSuccessListener {
-                val username2 = it.documents[0].get("username") as String?
+                var numberOfUsername: Int? = 1
 
-                Log.d(TAG, username2)
-                var numberOfUsername = username2?.substring(username2.lastIndexOf("#")+1)?.toInt()
-                Log.d(TAG, username2)
-                if (numberOfUsername != null) numberOfUsername++ ?: 1
+                if (it.documents.size >= 1) {
+                    val username2 = it.documents[0].get("username") as String?
+                    numberOfUsername = username2?.substring(username2.lastIndexOf("#") + 1)?.toInt()
+                    if (numberOfUsername != null) numberOfUsername++ ?: 1
+                }
+
                 val uidUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
                 val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
                 username += "$numberOfUsername"

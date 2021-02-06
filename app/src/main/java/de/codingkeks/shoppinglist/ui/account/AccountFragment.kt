@@ -3,25 +3,24 @@ package de.codingkeks.shoppinglist.ui.account
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
-import android.net.wifi.hotspot2.pps.Credential
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.*
+import com.firebase.ui.auth.IdpResponse
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.MainActivity.Companion.TAG
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.ReauthenticateActivity
 import kotlinx.android.synthetic.main.fragment_account.*
-import kotlinx.android.synthetic.main.nav_header_main.*
 
 class AccountFragment : Fragment() {
 
@@ -55,7 +54,7 @@ class AccountFragment : Fragment() {
         val uidUser = user?.uid.toString()
         val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
         userRef.get().addOnSuccessListener { documentSnapshot ->
-            tv_userName.text = documentSnapshot.get("username") as String? ?: "No Name"
+            tv_userName.text = documentSnapshot.get("username") as String? ?: "Loading Username..."
         }
 
         //TODO remove after verification is included in sign up process
@@ -75,7 +74,6 @@ class AccountFragment : Fragment() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.d(MainActivity.TAG, "user has been logged out")
-                        //login() TODO send back to login screen and remove all information in the app (such as email, name, lists, friends, ...)
                         FirebaseAuth.getInstance().signOut()
                         val intent: Intent = Intent(context, MainActivity::class.java)
                         startActivity(intent)
@@ -90,8 +88,23 @@ class AccountFragment : Fragment() {
                 .setTitle(R.string.deleteTitle)
                 .setMessage(R.string.deleteAccount)
                 .setPositiveButton(R.string.yes){_, _->
-                    val intent: Intent = Intent(requireContext(), ReauthenticateActivity::class.java)
-                    startActivityForResult(intent, 155)
+                    if (user.providerData[1].providerId == EmailAuthProvider.PROVIDER_ID) {
+                        val intent: Intent =
+                            Intent(requireContext(), ReauthenticateActivity::class.java)
+                        startActivityForResult(intent, 155)
+                    } else {
+                        val providers = arrayListOf(
+                            AuthUI.IdpConfig.GoogleBuilder().build()
+                        )
+                        startActivityForResult(
+                            AuthUI.getInstance()
+                                .createSignInIntentBuilder()
+                                .setAvailableProviders(providers)
+                                .setIsSmartLockEnabled(false, true)
+                                .build(),
+                            55
+                        )
+                    }
                 }
                 .setNegativeButton(R.string.no){_, _->}
                 .show()
@@ -114,18 +127,16 @@ class AccountFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 155 && resultCode == Activity.RESULT_OK) {
-            var password: String = data!!.getStringExtra("password")
             val user = FirebaseAuth.getInstance().currentUser!!
-            //TODO delete Google Account
+            var password: String = data!!.getStringExtra("password")
             val credential = EmailAuthProvider.getCredential(user.email.toString(), password)
-
+            password = ""
             user.reauthenticate(credential)
                 .addOnSuccessListener {
                     Log.d(TAG, "User re-authenticated.")
                     user.delete()
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                password = ""
                                 Log.d(MainActivity.TAG, "user account deleted")
                                 val intent: Intent = Intent(context, MainActivity::class.java)
                                 startActivity(intent)
@@ -133,11 +144,38 @@ class AccountFragment : Fragment() {
                             }
                         }
                 }
-                //TODO Alert for wrong Password
                 .addOnFailureListener {
                     Log.d(TAG, "PW wrong")
-                    Toast.makeText(context, "PAssword falsch", Toast.LENGTH_LONG)
+                    Toast.makeText(context, R.string.wrongPassword, Toast.LENGTH_LONG).show()
                 }
+        }
+        if (requestCode == 55 && resultCode == Activity.RESULT_OK) {
+            val user = FirebaseAuth.getInstance().currentUser!!
+            try {
+                val id = IdpResponse.fromResultIntent(data)!!.idpToken
+                val credential = GoogleAuthProvider.getCredential(id, null)
+
+                user.reauthenticate(credential)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "User re-authenticated.")
+                        user.delete()
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Log.d(MainActivity.TAG, "user account deleted")
+                                    val intent: Intent = Intent(context, MainActivity::class.java)
+                                    startActivity(intent)
+                                    activity?.finishAffinity()
+                                }
+                            }
+                    }
+                    .addOnFailureListener {
+                        Log.d(TAG, "PW wrong 1")
+                        Toast.makeText(context, R.string.wrongPassword, Toast.LENGTH_LONG).show()
+                    }
+            } catch (ex: Exception) {
+                Log.d(TAG, "PW wrong 2")
+                Toast.makeText(context, R.string.wrongPassword, Toast.LENGTH_LONG).show()
+            }
         }
     }
 
