@@ -1,14 +1,15 @@
 package de.codingkeks.shoppinglist.ui.account
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -82,9 +83,8 @@ class AccountFragment : Fragment() {
                 }
         }
 
-        //TODO delete database data
         buDeleteAccount.setOnClickListener {
-            AlertDialog.Builder(context, R.style.AlertDialogTheme)
+            AlertDialog.Builder(ContextThemeWrapper(context, R.style.AlertDialogTheme))
                 .setTitle(R.string.deleteTitle)
                 .setMessage(R.string.deleteAccount)
                 .setPositiveButton(R.string.yes){_, _->
@@ -131,6 +131,9 @@ class AccountFragment : Fragment() {
             var password: String = data!!.getStringExtra("password")
             val credential = EmailAuthProvider.getCredential(user.email.toString(), password)
             password = ""
+            val uid = user.uid
+            val docRef = FirebaseFirestore.getInstance().document("users/$uid")
+            docRef.delete().addOnSuccessListener { Log.d(TAG, "Database Data deleted") }
             user.reauthenticate(credential)
                 .addOnSuccessListener {
                     Log.d(TAG, "User re-authenticated.")
@@ -158,6 +161,9 @@ class AccountFragment : Fragment() {
                 user.reauthenticate(credential)
                     .addOnSuccessListener {
                         Log.d(TAG, "User re-authenticated.")
+                        val uid = user.uid
+                        val docRef = FirebaseFirestore.getInstance().document("users/$uid")
+                        docRef.delete().addOnSuccessListener { Log.d(TAG, "Database Data deleted") }
                         user.delete()
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {

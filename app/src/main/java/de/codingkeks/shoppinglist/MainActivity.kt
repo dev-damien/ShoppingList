@@ -7,6 +7,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.Menu
 import android.widget.TextView
 import android.widget.Toast
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private val RC_AUTH = 69
+    var firstLogin = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "MainActivity_onCreate()_Start")
@@ -131,7 +133,7 @@ class MainActivity : AppCompatActivity() {
 
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
-                //TODO Ist Datenbankeintrag da? Wenn nein: Benutzernamen setzen und setze Datenbankeintrag
+                emailVerified()
                 val uidUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
                 val docRef = FirebaseFirestore.getInstance().document("users/$uidUser")
                 docRef.get()
@@ -143,11 +145,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 displayUserInformation()
             } else {
-                //TODO
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
                 Toast.makeText(this, R.string.login_failed, Toast.LENGTH_SHORT).show()
                 login()
             }
@@ -159,7 +156,7 @@ class MainActivity : AppCompatActivity() {
         //if: firebase user does not exist && not online -> Error
         Log.d(TAG, "MainActivity_login()_Start")
         if (FirebaseAuth.getInstance().currentUser == null && !isOnline(this)) {
-            val message = AlertDialog.Builder(this)
+            val message = AlertDialog.Builder(this, R.style.AlertDialogTheme)
             message.setMessage("No Internet Connection!")
             message.setNeutralButton("RELOAD") { _, _ -> login() }
             message.setCancelable(false)
@@ -181,6 +178,7 @@ class MainActivity : AppCompatActivity() {
                     RC_AUTH
                 )
             }
+
             displayUserInformation()
             Log.d(TAG, "MainActivity_login()_End")
         }
@@ -283,6 +281,55 @@ class MainActivity : AppCompatActivity() {
                 username += "$numberOfUsername"
                 userRef.update("username", username)
             }
+    }
+
+    private fun emailVerified() {
+        if (FirebaseAuth.getInstance().currentUser?.isEmailVerified == false) {
+            val user = FirebaseAuth.getInstance().currentUser!!
+
+            if (firstLogin) {
+                FirebaseAuth.getInstance().useAppLanguage()
+                user.sendEmailVerification().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(MainActivity.TAG, "Email sent.")
+                    }
+                }
+                firstLogin = false
+            }
+
+            AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
+                .setTitle("E-Mail verification!")
+                .setMessage("You have to verify your E-Mail address.")
+                .setCancelable(false)
+                .setPositiveButton("Delete"){_, _->
+                    val uid = user.uid
+                    val docRef = FirebaseFirestore.getInstance().document("users/$uid")
+                    docRef.delete().addOnSuccessListener { Log.d(TAG, "Database Data deleted") }
+                    user.delete()
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d(MainActivity.TAG, "user account deleted")
+                                val intent: Intent = Intent(this, MainActivity::class.java)
+                                startActivity(intent)
+                                this?.finishAffinity()
+                            }
+                        }
+                }
+                .setNegativeButton("Send new"){_, _->
+                    FirebaseAuth.getInstance().useAppLanguage()
+                    user.sendEmailVerification().addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d(MainActivity.TAG, "Email sent.")
+                        }
+                    }
+                    emailVerified()
+                }
+                .setNeutralButton("Reload"){_, _->
+                    user.reload()
+                    emailVerified()
+                }
+                .show()
+        }
     }
 
 }
