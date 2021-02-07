@@ -298,10 +298,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
-                .setTitle("E-Mail verification!")
-                .setMessage("You have to verify your E-Mail address.")
+                .setTitle(R.string.emailVerificationTitle)
+                .setMessage(R.string.emailVerificationBody)
                 .setCancelable(false)
-                .setPositiveButton("Delete"){_, _->
+                .setPositiveButton(R.string.emailVerificationDelete){_, _->
                     val uid = user.uid
                     val docRef = FirebaseFirestore.getInstance().document("users/$uid")
                     docRef.delete().addOnSuccessListener { Log.d(TAG, "Database Data deleted") }
@@ -315,7 +315,7 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                 }
-                .setNegativeButton("Send new"){_, _->
+                .setNegativeButton(R.string.emailVerificationSendNew){_, _->
                     FirebaseAuth.getInstance().useAppLanguage()
                     user.sendEmailVerification().addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -324,7 +324,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     emailVerified()
                 }
-                .setNeutralButton("Reload"){_, _->
+                .setNeutralButton(R.string.emailVerificationReload){_, _->
                     user.reload()
                     emailVerified()
                 }

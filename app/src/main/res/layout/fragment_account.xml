@@ -137,23 +137,11 @@
         android:layout_height="0dp"
         android:text="@string/account_delete_account"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/buVerify"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buResetPassword" />
-
-    <Button
-        android:id="@+id/buVerify"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="Verify"
-        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buDeleteAccount" />
+        app:layout_constraintTop_toBottomOf="@+id/buResetPassword" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"

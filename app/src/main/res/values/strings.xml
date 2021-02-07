@@ -31,6 +31,11 @@
     <string name="passwordInfo">You have to enter your password to delete your Account.</string>
     <string name="wordPassword">Password</string>
     <string name="wrongPassword">Wrong password!</string>
+    <string name="emailVerificationTitle">E-Mail verification!</string>
+    <string name="emailVerificationBody">You have to verify your E-Mail address.</string>
+    <string name="emailVerificationDelete">Delete</string>
+    <string name="emailVerificationSendNew">Send new</string>
+    <string name="emailVerificationReload">Reload</string>
 
     <string name="deleteAccount">Do you really want to delete your Account?</string>
     <string name="deleteTitle">Delete Account!</string>

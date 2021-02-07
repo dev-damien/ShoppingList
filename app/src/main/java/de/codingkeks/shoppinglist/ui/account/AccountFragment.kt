@@ -58,17 +58,6 @@ class AccountFragment : Fragment() {
             tv_userName.text = documentSnapshot.get("username") as String? ?: "Loading Username..."
         }
 
-        //TODO remove after verification is included in sign up process
-        //just for testing
-        buVerify.setOnClickListener {
-            fb.useAppLanguage()
-            user.sendEmailVerification().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(MainActivity.TAG, "Email sent.")
-                }
-            }
-        }
-
         buAccountLogout.setOnClickListener {
             AuthUI.getInstance()
                 .signOut(requireContext())
