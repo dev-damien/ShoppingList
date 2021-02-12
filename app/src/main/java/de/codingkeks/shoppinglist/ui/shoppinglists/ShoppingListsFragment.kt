@@ -12,7 +12,9 @@ import android.widget.AdapterView
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import de.codingkeks.shoppinglist.AddNewListActivity
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
@@ -59,6 +61,7 @@ class ShoppingListsFragment : Fragment() {
         adapter = ListAdapter(shoppingList)
         rvLists.adapter = adapter
         rvLists.layoutManager = LinearLayoutManager(requireContext())
+        rvLists.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
 
         spLists.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
