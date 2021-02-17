@@ -39,8 +39,8 @@ class AddNewListActivity : AppCompatActivity() {
             Log.d(MainActivity.TAG, "Image view to change image has been clicked")
             //TODO pass the right images as an arrayList to the ImagePickerActivity;
             //just a testing arrayList with random images
-            val images = arrayListOf(R.drawable.common_full_open_on_phone,
-                R.drawable.common_google_signin_btn_icon_dark,
+            val images = arrayListOf(R.drawable.ic_menu_settings,
+                R.drawable.ic_menu_home,
                 R.drawable.common_google_signin_btn_icon_dark_focused,
                 R.drawable.ic_account_image,
                 R.drawable.ic_friends_person_add,

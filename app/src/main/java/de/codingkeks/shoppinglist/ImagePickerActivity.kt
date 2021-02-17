@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import de.codingkeks.shoppinglist.recyclerview.images.Image
 import de.codingkeks.shoppinglist.recyclerview.images.ImageAdapter
 import de.codingkeks.shoppinglist.ui.imagePicker.DynamicGridLayoutManager
@@ -50,10 +51,7 @@ class ImagePickerActivity : AppCompatActivity() {
         super.onStart()
         rvImages.adapter = ImageAdapter(images)
         Log.d(TAG, "adapter set")
-        rvImages.layoutManager = DynamicGridLayoutManager(this, 500)
+        rvImages.layoutManager = GridLayoutManager(this, 4)
         Log.d(TAG, "pick image Start End")
     }
 }
-
-//TODO throws NullPoimter exeption:
-//java.lang.NullPointerException: Attempt to invoke virtual method 'void android.widget.ImageView.setImageResource(int)' on a null object reference
