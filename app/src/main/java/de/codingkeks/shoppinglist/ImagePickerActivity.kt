@@ -30,7 +30,7 @@ class ImagePickerActivity : AppCompatActivity() {
                 images = mutableListOf()
                 imagesInt.forEach {
                     Log.d(TAG, it.toString())
-                    images.add(Image(it))
+                    images.add(Image(it, images.size==0)) //only first element gets isSelected = true
                 }
             }
         }

@@ -20,12 +20,21 @@ class ImageAdapter(var images: List<Image>): RecyclerView.Adapter<ImageAdapter.I
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         holder.itemView.apply {
             ivImage.setImageResource(images[position].src)
+            if (position != selectedImagePos){
+                ivImage.imageAlpha = 100
+            }
+            else{
+                ivImage.imageAlpha = 255
+            }
         }
 
         holder.itemView.setOnClickListener {
-            images[selectedImagePos].isSelected = false
-            images[position].isSelected = true
-            selectedImagePos = position
+            if (selectedImagePos != position) {
+                images[selectedImagePos].isSelected = false
+                images[position].isSelected = true
+                selectedImagePos = position
+                notifyDataSetChanged()
+            }
         }
     }
 
