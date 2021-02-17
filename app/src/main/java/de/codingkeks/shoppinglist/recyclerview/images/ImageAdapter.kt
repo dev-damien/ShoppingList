@@ -10,6 +10,8 @@ import kotlinx.android.synthetic.main.rv_image.view.*
 class ImageAdapter(var images: List<Image>): RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
     inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
+    private var selectedImagePos:Int = 0
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_image, parent, false)
         return ImageViewHolder(view)
@@ -18,6 +20,12 @@ class ImageAdapter(var images: List<Image>): RecyclerView.Adapter<ImageAdapter.I
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         holder.itemView.apply {
             ivImage.setImageResource(images[position].src)
+        }
+
+        holder.itemView.setOnClickListener {
+            images[selectedImagePos].isSelected = false
+            images[position].isSelected = true
+            selectedImagePos = position
         }
     }
 

@@ -15,6 +15,7 @@ class ImagePickerActivity : AppCompatActivity() {
 
     private val TAG = MainActivity.TAG
     private lateinit var images: MutableList<Image>
+    private val numberOfColumns = 4 //number of columns for the image picker selection
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "pick image onCreate Start")
@@ -38,7 +39,12 @@ class ImagePickerActivity : AppCompatActivity() {
         }
 
         buSelect.setOnClickListener {
-            var image = 0 //TODO get right image resource
+            var image = R.drawable.ic_menu_shoppinglists
+            images.forEach{
+                if (it.isSelected){
+                    image = it.src
+                }
+            }
             intent.putExtra("image", image)
             setResult(Activity.RESULT_OK, intent)
             finish()
@@ -51,7 +57,7 @@ class ImagePickerActivity : AppCompatActivity() {
         super.onStart()
         rvImages.adapter = ImageAdapter(images)
         Log.d(TAG, "adapter set")
-        rvImages.layoutManager = GridLayoutManager(this, 4)
+        rvImages.layoutManager = GridLayoutManager(this, numberOfColumns)
         Log.d(TAG, "pick image Start End")
     }
 }
