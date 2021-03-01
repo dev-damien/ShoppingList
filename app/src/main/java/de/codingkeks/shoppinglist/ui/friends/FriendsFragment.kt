@@ -10,12 +10,14 @@ import android.widget.AdapterView
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.friends.Friend
 import de.codingkeks.shoppinglist.recyclerview.friends.FriendAdapter
 import kotlinx.android.synthetic.main.fragment_friends.*
+import kotlinx.android.synthetic.main.fragment_shoppinglists.*
 
 class FriendsFragment : Fragment() {
 
@@ -61,6 +63,7 @@ class FriendsFragment : Fragment() {
         adapter = FriendAdapter(friendList)
         rvFriends.adapter = adapter
         rvFriends.layoutManager = LinearLayoutManager(requireContext())
+        rvFriends.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
 
         spFriends.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
