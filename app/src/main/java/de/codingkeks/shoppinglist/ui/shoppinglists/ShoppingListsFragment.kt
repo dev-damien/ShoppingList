@@ -14,7 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.AddNewListActivity
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
@@ -27,7 +28,7 @@ class ShoppingListsFragment : Fragment() {
     private lateinit var shoppingListsViewModel: ShoppingListsViewModel
     private val RC_ADD_NEW_LIST = 0
     private var shoppingList: MutableList<ShoppingList> = mutableListOf(
-        ShoppingList("Montag", R.drawable.ic_menu_shoppinglists, true),
+        /*ShoppingList("Montag", R.drawable.ic_menu_shoppinglists, true),
         ShoppingList("WG", R.drawable.ic_menu_shoppinglists, false),
         ShoppingList("Familie", R.drawable.ic_menu_shoppinglists, true),
         ShoppingList("Deutschland", R.drawable.ic_menu_shoppinglists, false),
@@ -37,7 +38,7 @@ class ShoppingListsFragment : Fragment() {
         ShoppingList("Dänemark", R.drawable.ic_menu_shoppinglists, true),
         ShoppingList("Lol", R.drawable.ic_menu_shoppinglists, true),
         ShoppingList("Gott", R.drawable.ic_menu_shoppinglists, true),
-        ShoppingList("Allah", R.drawable.ic_menu_shoppinglists, false)
+        ShoppingList("Allah", R.drawable.ic_menu_shoppinglists, false)*/
     )
     private lateinit var adapter: ListAdapter
 
@@ -62,6 +63,20 @@ class ShoppingListsFragment : Fragment() {
         rvLists.adapter = adapter
         rvLists.layoutManager = LinearLayoutManager(requireContext())
         rvLists.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+        
+        val user = FirebaseAuth.getInstance().currentUser!!
+        val docRef = FirebaseFirestore.getInstance().collection("lists")
+        docRef.whereArrayContains("members", user.uid).get()
+            .addOnSuccessListener { qSnap ->
+                val userRef = FirebaseFirestore.getInstance().document("users/${user.uid}")
+                userRef.get().addOnSuccessListener { userDSnap ->
+                    val arrayFavorites = userDSnap.get("favorites") as ArrayList<*>
+                    qSnap.forEach {
+                        shoppingList.add(ShoppingList(it.getString("name") ?: "Error 69", (it.get("icon_id") as Long).toInt(), arrayFavorites.contains(it.id), it.id))
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
 
         spLists.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -116,7 +131,7 @@ class ShoppingListsFragment : Fragment() {
                     isFav = data.getBooleanExtra("isFav", false)
                 }
             }
-            createNewGroup(listName, listIcon, isFav)
+            //createNewGroup(listName, listIcon, isFav)
         }
     }
 
@@ -126,9 +141,9 @@ class ShoppingListsFragment : Fragment() {
      * @param listIcon the icon of the new list
      */
     private fun createNewGroup(listName:String, listIcon:Int, isFav:Boolean){
-        shoppingList.add(ShoppingList(listName, listIcon, isFav))
+       /*shoppingList.add(ShoppingList(listName, listIcon, isFav))
         sortingShoppingList(spLists.selectedItemPosition)
-        adapter.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()*/
     }
 
     fun sortingShoppingList(position: Int) {

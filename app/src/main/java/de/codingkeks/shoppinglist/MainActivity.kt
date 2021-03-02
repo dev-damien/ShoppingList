@@ -248,11 +248,13 @@ class MainActivity : AppCompatActivity() {
         findingUsername()
 
         docRef.update("friends", FieldValue.arrayUnion())
+        docRef.update("favorites", FieldValue.arrayUnion())
     }
 
     private fun findingUsername() {
         Log.d(TAG, "Finding Username Start")
         var username = FirebaseAuth.getInstance().currentUser?.displayName.toString() + "#"
+        //TODO username trimmen
         Log.d(TAG, "findingUsername username: $username")
         val docRef = FirebaseFirestore.getInstance().collection("users")
 
