@@ -28,6 +28,10 @@ import java.lang.Exception
 
 class ShoppingListsFragment : Fragment() {
 
+    init {
+
+    }
+
     private lateinit var shoppingListsViewModel: ShoppingListsViewModel
     private val RC_ADD_NEW_LIST = 0
     private var shoppingList: MutableList<ShoppingList> = mutableListOf(
