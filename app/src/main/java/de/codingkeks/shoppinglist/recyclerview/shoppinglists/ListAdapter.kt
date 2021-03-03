@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.rv_list.view.*
@@ -28,9 +31,18 @@ class ListAdapter(var lists: List<ShoppingList>, var listsFull: ArrayList<Shoppi
             else ivListFav.setImageResource(R.drawable.ic_friends_star_border)
 
             ivListFav.setOnClickListener() {
+                val user = FirebaseAuth.getInstance().currentUser!!
+                val docRefUser = FirebaseFirestore.getInstance().document("users/${user.uid}")
+
                 lists[position].isFavorite = !lists[position].isFavorite
-                if (lists[position].isFavorite) ivListFav.setImageResource(R.drawable.ic_friends_star)
-                else ivListFav.setImageResource(R.drawable.ic_friends_star_border)
+                if (lists[position].isFavorite) {
+                    ivListFav.setImageResource(R.drawable.ic_friends_star)
+                    docRefUser.update("favorites", FieldValue.arrayUnion(lists[position].listId))
+                }
+                else {
+                    ivListFav.setImageResource(R.drawable.ic_friends_star_border)
+                    docRefUser.update("favorites", FieldValue.arrayRemove(lists[position].listId))
+                }
             }
         }
         holder.itemView.setOnClickListener {
