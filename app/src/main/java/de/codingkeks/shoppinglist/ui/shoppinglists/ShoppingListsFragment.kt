@@ -99,6 +99,7 @@ class ShoppingListsFragment : Fragment() {
                         )
                     }
                     sortingShoppingList(spLists.selectedItemPosition)
+                    adapter.updateList()
                     adapter.notifyDataSetChanged()
                 }
             }

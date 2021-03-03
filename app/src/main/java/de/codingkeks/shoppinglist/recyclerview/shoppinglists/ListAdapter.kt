@@ -77,6 +77,9 @@ class ListAdapter(var lists: List<ShoppingList>, var listsFull: ArrayList<Shoppi
             }
             notifyDataSetChanged()
         }
+    }
 
+    fun updateList() {
+        listsFull = ArrayList<ShoppingList>(lists)
     }
 }
