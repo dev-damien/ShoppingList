@@ -13,6 +13,10 @@ import kotlinx.android.synthetic.main.rv_list.view.*
 
 class ListAdapter(var lists: List<ShoppingList>, var listsFull: ArrayList<ShoppingList> = ArrayList<ShoppingList>(lists)): RecyclerView.Adapter<ListAdapter.ListViewHolder>(), Filterable {
 
+    init {
+        listsFull.addAll(lists)
+    }
+
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {

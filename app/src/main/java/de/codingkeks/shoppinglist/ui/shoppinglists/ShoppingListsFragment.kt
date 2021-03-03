@@ -15,13 +15,16 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import de.codingkeks.shoppinglist.AddNewListActivity
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ListAdapter
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ShoppingList
 import kotlinx.android.synthetic.main.fragment_shoppinglists.*
+import java.lang.Exception
 
 class ShoppingListsFragment : Fragment() {
 
@@ -42,10 +45,14 @@ class ShoppingListsFragment : Fragment() {
     )
     private lateinit var adapter: ListAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_onCreateView()_Start")
         shoppingListsViewModel =
-                ViewModelProviders.of(this).get(ShoppingListsViewModel::class.java)
+            ViewModelProviders.of(this).get(ShoppingListsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_shoppinglists, container, false)
         /*val textView: TextView = root.findViewById(R.id.tv_userName)
         shoppingListsViewModel.text.observe(viewLifecycleOwner, Observer {
@@ -62,8 +69,13 @@ class ShoppingListsFragment : Fragment() {
         adapter = ListAdapter(shoppingList)
         rvLists.adapter = adapter
         rvLists.layoutManager = LinearLayoutManager(requireContext())
-        rvLists.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
-        
+        rvLists.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
+
         val user = FirebaseAuth.getInstance().currentUser!!
         val docRef = FirebaseFirestore.getInstance().collection("lists")
         docRef.whereArrayContains("members", user.uid).get()
@@ -71,10 +83,19 @@ class ShoppingListsFragment : Fragment() {
                 val userRef = FirebaseFirestore.getInstance().document("users/${user.uid}")
                 userRef.get().addOnSuccessListener { userDSnap ->
                     val arrayFavorites = userDSnap.get("favorites") as ArrayList<*>
+                    shoppingList.clear()
                     qSnap.forEach {
-                        shoppingList.add(ShoppingList(it.getString("name") ?: "Error 69", (it.get("icon_id") as Long).toInt(), arrayFavorites.contains(it.id), it.id))
-                        adapter.notifyDataSetChanged()
+                        shoppingList.add(
+                            ShoppingList(
+                                it.getString("name") ?: "Error 69",
+                                (it.get("icon_id") as Long).toInt(),
+                                arrayFavorites.contains(it.id),
+                                it.id
+                            )
+                        )
                     }
+                    sortingShoppingList(spLists.selectedItemPosition)
+                    adapter.notifyDataSetChanged()
                 }
             }
 
@@ -116,22 +137,22 @@ class ShoppingListsFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //data to create a new list
-        if (requestCode == RC_ADD_NEW_LIST){
+        if (requestCode == RC_ADD_NEW_LIST) {
             var listName = ""
             var listIcon = R.drawable.ic_menu_shoppinglists
             var isFav = false
-            if (resultCode == Activity.RESULT_OK && data != null){
-                if (data.hasExtra("name")){
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                if (data.hasExtra("name")) {
                     listName = data.getStringExtra("name") ?: "ErrorList: How tf did you do this"
                 }
-                if (data.hasExtra("icon")){
+                if (data.hasExtra("icon")) {
                     listIcon = data.getIntExtra("icon", R.drawable.ic_menu_shoppinglists)
                 }
-                if (data.hasExtra("isFav")){
+                if (data.hasExtra("isFav")) {
                     isFav = data.getBooleanExtra("isFav", false)
                 }
+                createNewGroup(listName, listIcon, isFav, arrayListOf()) //TODO get selected members
             }
-            //createNewGroup(listName, listIcon, isFav)
         }
     }
 
@@ -140,10 +161,38 @@ class ShoppingListsFragment : Fragment() {
      * @param listName the name of the new list
      * @param listIcon the icon of the new list
      */
-    private fun createNewGroup(listName:String, listIcon:Int, isFav:Boolean){
-       /*shoppingList.add(ShoppingList(listName, listIcon, isFav))
-        sortingShoppingList(spLists.selectedItemPosition)
-        adapter.notifyDataSetChanged()*/
+    private fun createNewGroup(
+        listName: String,
+        listIcon: Int,
+        isFav: Boolean,
+        members: ArrayList<String>
+    ) {
+        try {
+            val user = FirebaseAuth.getInstance().currentUser!!
+            val colRefLists = FirebaseFirestore.getInstance().collection("lists")
+            members.add(user.uid)
+            var listData = hashMapOf(
+                "name" to listName,
+                "icon_id" to listIcon,
+                "description" to "",
+                "members" to members
+            )
+            colRefLists
+                .add(listData)
+                .addOnSuccessListener {
+                    if (isFav) {
+                        val docRefUser =
+                            FirebaseFirestore.getInstance().document("users/${user.uid}")
+                        docRefUser.update("favorites", FieldValue.arrayUnion(it.id))
+                    }
+                }
+                .addOnFailureListener {
+                    throw Exception("error when adding the listID to the favs")
+                }
+            sortingShoppingList(spLists.selectedItemPosition)
+        } catch (ex: Exception) {
+            Log.wtf(MainActivity.TAG, "create new group failed")
+        }
     }
 
     fun sortingShoppingList(position: Int) {
