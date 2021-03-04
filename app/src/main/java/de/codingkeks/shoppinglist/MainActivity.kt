@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
                         login()
                     }
                 }*/
+            /*
             val uidUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
             val docRef = FirebaseFirestore.getInstance().document("users/$uidUser")
 
@@ -91,6 +92,7 @@ class MainActivity : AppCompatActivity() {
             docRef.set(test123, SetOptions.merge()).addOnSuccessListener(OnSuccessListener<Void>() {
                 Log.d(TAG, "Database Daten Test Erfolgreich!")
             })
+            */
         }
         Log.d(TAG, "MainActivity_onCreate()_End")
 
@@ -254,7 +256,7 @@ class MainActivity : AppCompatActivity() {
     private fun findingUsername() {
         Log.d(TAG, "Finding Username Start")
         var username = FirebaseAuth.getInstance().currentUser?.displayName.toString() + "#"
-        //TODO username trimmen
+        username = username.trim().replace("\\s+".toRegex(), " ") //clean the user name input; no leading, trailing or consecutive whitespaces
         Log.d(TAG, "findingUsername username: $username")
         val docRef = FirebaseFirestore.getInstance().collection("users")
 

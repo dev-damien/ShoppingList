@@ -30,19 +30,7 @@ class ShoppingListsFragment : Fragment() {
 
     private lateinit var shoppingListsViewModel: ShoppingListsViewModel
     private val RC_ADD_NEW_LIST = 0
-    private var shoppingList: MutableList<ShoppingList> = mutableListOf(
-        /*ShoppingList("Montag", R.drawable.ic_menu_shoppinglists, true),
-        ShoppingList("WG", R.drawable.ic_menu_shoppinglists, false),
-        ShoppingList("Familie", R.drawable.ic_menu_shoppinglists, true),
-        ShoppingList("Deutschland", R.drawable.ic_menu_shoppinglists, false),
-        ShoppingList("Schweiz", R.drawable.ic_menu_shoppinglists, true),
-        ShoppingList("Polen", R.drawable.ic_menu_shoppinglists, false),
-        ShoppingList("Russland", R.drawable.ic_menu_shoppinglists, true),
-        ShoppingList("Dänemark", R.drawable.ic_menu_shoppinglists, true),
-        ShoppingList("Lol", R.drawable.ic_menu_shoppinglists, true),
-        ShoppingList("Gott", R.drawable.ic_menu_shoppinglists, true),
-        ShoppingList("Allah", R.drawable.ic_menu_shoppinglists, false)*/
-    )
+    private var shoppingList: MutableList<ShoppingList> = mutableListOf()
     private lateinit var adapter: ListAdapter
 
     override fun onCreateView(

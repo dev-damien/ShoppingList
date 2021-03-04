@@ -24,7 +24,7 @@ class AddNewListActivity : AppCompatActivity() {
         buAddNewList_Done.setOnClickListener {
             if (etAddNewList_nameInput.text.toString().trim() != "") {
                 intent.putExtra("name", etAddNewList_nameInput.text.toString().trim())
-                intent.putExtra("icon", selectedImage) //TODO get chosen icon
+                intent.putExtra("icon", selectedImage)
                 intent.putExtra("isFav", isFav)
                 setResult(Activity.RESULT_OK, intent)
                 finish()
