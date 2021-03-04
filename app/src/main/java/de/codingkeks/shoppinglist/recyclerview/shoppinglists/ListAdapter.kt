@@ -14,7 +14,8 @@ import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.rv_list.view.*
 
-class ListAdapter(var lists: List<ShoppingList>, var listsFull: ArrayList<ShoppingList> = ArrayList<ShoppingList>(lists)): RecyclerView.Adapter<ListAdapter.ListViewHolder>(), Filterable {
+class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: ArrayList<ShoppingList> = ArrayList<ShoppingList>(lists))
+    : RecyclerView.Adapter<ListAdapter.ListViewHolder>(), Filterable {
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -73,9 +74,19 @@ class ListAdapter(var lists: List<ShoppingList>, var listsFull: ArrayList<Shoppi
                     }
                 }
             }
-            //TODO Liste sortieren
-            //filteredList.sortBy { it.name }
-            //filteredList.sortByDescending { it.isFavorite }
+
+            when (spPos) { //position 0: Favorites; 1: A-Z; 2: Z-A
+                0 -> {
+                    filteredList.sortBy { it.name }
+                    filteredList.sortByDescending { it.isFavorite }
+                }
+                1 -> {
+                    filteredList.sortBy { it.name }
+                }
+                2 -> {
+                    filteredList.sortByDescending { it.name }
+                }
+            }
 
             var filterResults: FilterResults = FilterResults()
             filterResults.values = filteredList
@@ -93,5 +104,9 @@ class ListAdapter(var lists: List<ShoppingList>, var listsFull: ArrayList<Shoppi
 
     fun updateList() {
         listsFull = ArrayList<ShoppingList>(lists)
+    }
+
+    fun updateSpinnerPos(spPos: Int) {
+        this.spPos = spPos
     }
 }

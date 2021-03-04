@@ -66,7 +66,7 @@ class ShoppingListsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        adapter = ListAdapter(shoppingList)
+        adapter = ListAdapter(shoppingList, spLists.selectedItemPosition)
         rvLists.adapter = adapter
         rvLists.layoutManager = LinearLayoutManager(requireContext())
         rvLists.addItemDecoration(
@@ -109,6 +109,7 @@ class ShoppingListsFragment : Fragment() {
             ) {
                 sortingShoppingList(position)
                 adapter.notifyDataSetChanged()
+                adapter.updateSpinnerPos(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
