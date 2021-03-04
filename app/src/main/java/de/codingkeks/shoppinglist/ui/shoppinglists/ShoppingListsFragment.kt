@@ -52,6 +52,7 @@ class ShoppingListsFragment : Fragment() {
     }
 
     override fun onStart() {
+        Log.d(MainActivity.TAG, "ShoppingListsFragment()_onStart()_Start")
         super.onStart()
 
         adapter = ListAdapter(shoppingList, spLists.selectedItemPosition)
@@ -122,9 +123,11 @@ class ShoppingListsFragment : Fragment() {
                 startActivityForResult(it, RC_ADD_NEW_LIST)
             }
         }
+        Log.d(MainActivity.TAG, "ShoppingListsFragment()_onStart()_End")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.d(MainActivity.TAG, "ShoppingListsFragment()_onActivityResult()_Start")
         super.onActivityResult(requestCode, resultCode, data)
         //data to create a new list
         if (requestCode == RC_ADD_NEW_LIST) {
@@ -144,6 +147,7 @@ class ShoppingListsFragment : Fragment() {
                 createNewGroup(listName, listIcon, isFav, arrayListOf()) //TODO get selected members
             }
         }
+        Log.d(MainActivity.TAG, "ShoppingListsFragment()_onActivityResult()_End")
     }
 
     /**
@@ -157,6 +161,7 @@ class ShoppingListsFragment : Fragment() {
         isFav: Boolean,
         members: ArrayList<String>
     ) {
+        Log.d(MainActivity.TAG, "ShoppingListsFragment()_createNewGroup_Start")
         try {
             val user = FirebaseAuth.getInstance().currentUser!!
             val colRefLists = FirebaseFirestore.getInstance().collection("lists")
@@ -183,9 +188,11 @@ class ShoppingListsFragment : Fragment() {
         } catch (ex: Exception) {
             Log.wtf(MainActivity.TAG, "create new group failed")
         }
+        Log.d(MainActivity.TAG, "ShoppingListsFragment()_createNewGroup_End")
     }
 
     fun sortingShoppingList(position: Int) {
+        Log.d(MainActivity.TAG, "ShoppingListsFragment()_sortingShoppingList_Start")
         when (position) { //position 0: Favorites; 1: A-Z; 2: Z-A
             0 -> {
                 shoppingList.sortBy { it.name }
@@ -198,6 +205,7 @@ class ShoppingListsFragment : Fragment() {
                 shoppingList.sortByDescending { it.name }
             }
         }
+        Log.d(MainActivity.TAG, "ShoppingListsFragment()_sortingShoppingList_End")
     }
 
 }
