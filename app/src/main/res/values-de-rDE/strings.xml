@@ -33,6 +33,11 @@
         <item>A-Z</item>
         <item>Z-A</item>
     </string-array>
+    <string-array name="sortingItem">
+        <item>Neuste</item>
+        <item>A-Z</item>
+        <item>Z-A</item>
+    </string-array>
     <string name="etAddNewListEnterNameHintString">Listenname eingeben ...</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
@@ -46,4 +51,5 @@
     <string name="emailVerificationDelete">Löschen</string>
     <string name="emailVerificationSendNew">Neu senden</string>
     <string name="emailVerificationReload">Neu laden</string>
+    <string name="items_search_hint">Artikel suchen</string>
 </resources>

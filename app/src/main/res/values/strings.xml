@@ -41,6 +41,7 @@
     <string name="deleteTitle">Delete Account!</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="items_search_hint">Search item</string>
 
     <string-array name="sorting">
         <item>Favorites</item>
@@ -49,6 +50,12 @@
     </string-array>
 
     <string-array name="sortingFriend">
+        <item>A-Z</item>
+        <item>Z-A</item>
+    </string-array>
+
+    <string-array name="sortingItem">
+        <item>Latest</item>
         <item>A-Z</item>
         <item>Z-A</item>
     </string-array>
