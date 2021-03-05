@@ -32,6 +32,8 @@ import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -71,6 +73,11 @@ class MainActivity : AppCompatActivity() {
 
         //TODO remove after testing phase
         buLogout.setOnClickListener {
+            //Test how to get the current system time
+            val sdf = SimpleDateFormat("dd.MM.yyyy hh:mm:ss")
+            var time = sdf.format(Date())
+            Log.d(TAG, time)
+
             /*AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener { task ->
