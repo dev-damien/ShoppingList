@@ -43,7 +43,7 @@
         android:layout_marginBottom="8dp"
         android:clickable="true"
         android:contentDescription="Button to add a new item"
-        android:focusable="auto"
+        android:focusable="true"
         android:src="@android:drawable/ic_input_add"
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"

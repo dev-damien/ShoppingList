@@ -52,4 +52,5 @@
     <string name="emailVerificationSendNew">Neu senden</string>
     <string name="emailVerificationReload">Neu laden</string>
     <string name="items_search_hint">Artikel suchen</string>
+    <string name="fabAddNewItemDescription">Knopf um neuen Artikel zu erstellen</string>
 </resources>

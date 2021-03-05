@@ -1,17 +1,21 @@
 package de.codingkeks.shoppinglist.recyclerview.shoppinglists
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import de.codingkeks.shoppinglist.ItemsActivity
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
+import de.codingkeks.shoppinglist.recyclerview.items.ItemAdapter
 import kotlinx.android.synthetic.main.rv_list.view.*
 
 class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: ArrayList<ShoppingList> = ArrayList<ShoppingList>(lists))
@@ -48,6 +52,9 @@ class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: 
         }
         holder.itemView.setOnClickListener {
             Log.d(MainActivity.TAG, "Clicked on Item #$position: " + lists[position].name)
+            val intent = Intent(holder.itemView.context, ItemsActivity::class.java)
+            intent.putExtra("listId", lists[position].listId)
+            holder.itemView.context.startActivity(intent)
         }
     }
 

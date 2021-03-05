@@ -27,6 +27,7 @@
     <string name="lists_image_fav_descrption">Star</string>
     <string name="lists_image_description">The image of the shopping list.</string>
     <string name="fabAddNewListDescription">Button to add a new List</string>
+    <string name="fabAddNewItemDescription">Button to add a new item</string>
     <string name="etAddNewListEnterNameHintString">Enter listname ...</string>
     <string name="passwordInfo">You have to enter your password to delete your Account.</string>
     <string name="wordPassword">Password</string>
