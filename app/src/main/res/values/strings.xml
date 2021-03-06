@@ -37,6 +37,7 @@
     <string name="emailVerificationDelete">Delete</string>
     <string name="emailVerificationSendNew">Send new</string>
     <string name="emailVerificationReload">Reload</string>
+    <string name="addItem">Add Item</string>
 
     <string name="deleteAccount">Do you really want to delete your Account?</string>
     <string name="deleteTitle">Delete Account!</string>
