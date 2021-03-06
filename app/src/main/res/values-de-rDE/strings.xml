@@ -46,4 +46,6 @@
     <string name="emailVerificationDelete">Löschen</string>
     <string name="emailVerificationSendNew">Neu senden</string>
     <string name="emailVerificationReload">Neu laden</string>
+    <string name="friends_added_tab_title">Freunde</string>
+    <string name="friends_requests_tab_title">Anfragen</string>
 </resources>
