@@ -54,4 +54,6 @@
     <string name="items_search_hint">Artikel suchen</string>
     <string name="fabAddNewItemDescription">Knopf um neuen Artikel zu erstellen</string>
     <string name="addItem">Artikel hinzufügen</string>
+    <string name="friends_added_tab_title">Freunde</string>
+    <string name="friends_requests_tab_title">Anfragen</string>
 </resources>

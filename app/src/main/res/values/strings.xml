@@ -55,6 +55,9 @@
         <item>A-Z</item>
         <item>Z-A</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="friends_added_tab_title">Friends</string>
+    <string name="friends_requests_tab_title">Requests</string>
 
     <string-array name="sortingItem">
         <item>Latest</item>
