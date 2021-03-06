@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.SearchView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.recyclerview.items.Item
 import de.codingkeks.shoppinglist.recyclerview.items.ItemAdapter
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ListAdapter
@@ -35,6 +36,27 @@ class ItemsActivity : AppCompatActivity() {
             )
         )
 
+        var listId = intent.getStringExtra("listId")
+        val colRefItems = FirebaseFirestore.getInstance().collection("lists/${listId}/items")
+        colRefItems.get().addOnSuccessListener { qSnap ->
+            qSnap.documents.forEach { dSnap ->
+                if (!(dSnap.get("isBought") as Boolean)) {
+                    items.add(
+                        Item(
+                            dSnap.get("name").toString(),
+                            (dSnap.get("quantity") as Long).toInt(),
+                            dSnap.get("addedBy").toString(),
+                            dSnap.get("addedTime").toString(),
+                            false
+                        )
+                    )
+                }
+                sortingItems(spItems.selectedItemPosition)
+                adapter.updateList()
+                adapter.notifyDataSetChanged()
+            }
+        }
+
         spItems.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -42,6 +64,7 @@ class ItemsActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
+                sortingItems(position)
                 adapter.notifyDataSetChanged()
                 adapter.updateSpinnerPos(position)
             }
@@ -62,5 +85,20 @@ class ItemsActivity : AppCompatActivity() {
                 return false
             }
         })
+    }
+
+    fun sortingItems(position: Int) {
+        when (position) { //position 0: Latest; 1: A-Z; 2: Z-A
+            0 -> {
+                items.sortBy { it.name }
+                items.sortBy { it.addedTime }
+            }
+            1 -> {
+                items.sortBy { it.name }
+            }
+            2 -> {
+                items.sortByDescending { it.name }
+            }
+        }
     }
 }
