@@ -38,6 +38,11 @@
     <string name="emailVerificationSendNew">Send new</string>
     <string name="emailVerificationReload">Reload</string>
     <string name="addItem">Add Item</string>
+    <string name="itemName">Item name</string>
+    <string name="itemNameRequired">Item name is required.</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="quantity">Quantity</string>
 
     <string name="deleteAccount">Do you really want to delete your Account?</string>
     <string name="deleteTitle">Delete Account!</string>

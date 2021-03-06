@@ -56,4 +56,9 @@
     <string name="addItem">Artikel hinzufügen</string>
     <string name="friends_added_tab_title">Freunde</string>
     <string name="friends_requests_tab_title">Anfragen</string>
+    <string name="itemName">Artikelname</string>
+    <string name="itemNameRequired">Artikelname wird benötigt.</string>
+    <string name="submit">Hinzufügen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="quantity">Anzahl</string>
 </resources>

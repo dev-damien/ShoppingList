@@ -5,5 +5,6 @@ data class Item(
     var quantity: Int,
     var addedBy: String,
     var addedTime: String,
-    var isBought: Boolean
+    var isBought: Boolean,
+    var itemId: String
 )
