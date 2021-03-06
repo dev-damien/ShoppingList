@@ -34,7 +34,6 @@ import java.util.*
 
 class ItemsActivity : AppCompatActivity() {
 
-    private val RC_ADD_NEW_ITEM = 0
     private var items: MutableList<Item> = mutableListOf()
     private lateinit var adapter: ItemAdapter
 
@@ -53,7 +52,7 @@ class ItemsActivity : AppCompatActivity() {
             )
         )
 
-        var listId = intent.getStringExtra("listId")
+        val listId = intent.getStringExtra("listId")
         val colRefItems = FirebaseFirestore.getInstance().collection("lists/${listId}/items")
         colRefItems.get().addOnSuccessListener { qSnap ->
             qSnap.documents.forEach { dSnap ->
@@ -123,11 +122,11 @@ class ItemsActivity : AppCompatActivity() {
                 val user = FirebaseAuth.getInstance().currentUser!!
                 val docRefUser = FirebaseFirestore.getInstance().document("users/${user.uid}")
                 docRefUser.get().addOnSuccessListener { dSnap ->
-                    var itemData = hashMapOf(
+                    val itemData = hashMapOf(
                         "name" to textInputEditText.text.toString(),
                         "quantity" to numberInputPicker.value.toLong(),
                         "addedBy" to dSnap.get("username").toString(),
-                        "addedTime" to SimpleDateFormat("dd.MM.yyyy hh:mm").format(Date()),
+                        "addedTime" to SimpleDateFormat("dd.MM.yyyy HH:mm").format(Date()),
                         "isBought" to false
                     )
                     val docRefItems = colRefItems.document()
@@ -135,7 +134,7 @@ class ItemsActivity : AppCompatActivity() {
                         items.add(Item(
                             textInputEditText.text.toString(),
                             numberInputPicker.value, dSnap.get("username").toString(),
-                            SimpleDateFormat("dd.MM.yyyy hh:mm").format(Date()),
+                            SimpleDateFormat("dd.MM.yyyy HH:mm").format(Date()),
                             false,
                             docRefItems.id
                         ))
