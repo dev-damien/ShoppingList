@@ -7,6 +7,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import de.codingkeks.shoppinglist.R
+import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ShoppingList
 import kotlinx.android.synthetic.main.rv_friend.view.*
 
 class FriendAdapter(var friends: List<Friend>, var listsFull: ArrayList<Friend> = ArrayList<Friend>(friends)): RecyclerView.Adapter<FriendAdapter.FriendViewHolder>(), Filterable {
@@ -62,6 +63,10 @@ class FriendAdapter(var friends: List<Friend>, var listsFull: ArrayList<Friend> 
             }
             notifyDataSetChanged()
         }
-
     }
+
+    fun updateList() {
+        listsFull = ArrayList(friends)
+    }
+
 }

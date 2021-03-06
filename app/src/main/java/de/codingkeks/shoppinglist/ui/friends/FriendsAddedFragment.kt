@@ -12,31 +12,28 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.friends.Friend
 import de.codingkeks.shoppinglist.recyclerview.friends.FriendAdapter
+import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ShoppingList
 import kotlinx.android.synthetic.main.fragment_friends_added.*
+import kotlinx.android.synthetic.main.fragment_shoppinglists.*
 
 class FriendsAddedFragment : Fragment() {
 
     private lateinit var friendsViewModel: FriendsViewModel
-    var friendList = mutableListOf(
-        Friend("Hans", R.drawable.ic_account_image),
-        Friend("Flo", R.drawable.ic_account_image),
-        Friend("Jokl", R.drawable.ic_account_image),
-        Friend("Dieter", R.drawable.ic_account_image),
-        Friend("Lol", R.drawable.ic_account_image),
-        Friend("Rudolf", R.drawable.ic_account_image),
-        Friend("Santa", R.drawable.ic_account_image),
-        Friend("Teufel", R.drawable.ic_account_image),
-        Friend("Jesus", R.drawable.ic_account_image),
-        Friend("Gott", R.drawable.ic_account_image),
-        Friend("Allah", R.drawable.ic_account_image)
-    )
+    var friendList: MutableList<Friend> = mutableListOf()
     private lateinit var adapter: FriendAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         Log.d(MainActivity.TAG, "FriendsFragment()_onCreateView()_Start")
         friendsViewModel =
             ViewModelProviders.of(this).get(FriendsViewModel::class.java)
@@ -62,34 +59,75 @@ class FriendsAddedFragment : Fragment() {
         adapter = FriendAdapter(friendList)
         rvFriends.adapter = adapter
         rvFriends.layoutManager = LinearLayoutManager(requireContext())
-        rvFriends.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+        rvFriends.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
 
-        spFriends.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                sortingFriendsList(position)
-                adapter.notifyDataSetChanged()
+        //get all friends of the user
+        val user = FirebaseAuth.getInstance().currentUser!!
+        val docRef = FirebaseFirestore.getInstance().document("users/${user.uid}")
+        docRef.get()
+            .addOnSuccessListener { userDSnap ->
+                if (userDSnap == null) {
+                    Log.d(
+                        MainActivity.TAG,
+                        "cant read friends, because user does not exist in database"
+                    )
+                } else {
+                    Log.d(MainActivity.TAG, "friends will be read")
+                    var friendsIDs = userDSnap.get("friends") as ArrayList<*>
+                    //get the documents of the friends
+                    val colRef = FirebaseFirestore.getInstance().collection("users")
+                    //TODO get only the documents with a name/ID which is in the array
+                    colRef.whereIn(FieldPath.documentId(), friendsIDs).get()
+                        .addOnSuccessListener { querySnapshot ->
+                            friendList.clear()
+                            querySnapshot.forEach {
+                                Log.d(MainActivity.TAG, "username=${it.getString("username")}, icon_id=${it.getLong("icon_id")}")
+                                friendList.add(
+                                    Friend(
+                                        it.getString("username") ?: "ERROR",
+                                        (it.getLong("icon_id") as Long).toInt()
+                                    )
+                                )
+                            }
+                            adapter.updateList()
+                            adapter.notifyDataSetChanged()
+                        }
+                }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
+        spFriends.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    sortingFriendsList(position)
+                    adapter.notifyDataSetChanged()
+                }
 
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
             }
-        }
         svFriends.imeOptions = EditorInfo.IME_ACTION_DONE
-        svFriends.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
+        svFriends.setOnQueryTextListener(
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                adapter.filter.filter(newText)
-                return false
-            }
-        })
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    adapter.filter.filter(newText)
+                    return false
+                }
+            })
 
         Log.d(MainActivity.TAG, "FriendsFragment()_onCreate()_End")
     }
