@@ -63,6 +63,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="friends_added_tab_title">Friends</string>
     <string name="friends_requests_tab_title">Requests</string>
+    <string name="items_bought_tab_title">Items bought</string>
+    <string name="items_tab_title">Items</string>
 
     <string-array name="sortingItem">
         <item>Latest</item>

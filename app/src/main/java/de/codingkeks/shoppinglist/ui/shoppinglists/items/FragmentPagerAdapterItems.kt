@@ -1,10 +1,10 @@
-package de.codingkeks.shoppinglist.ui.friends
+package de.codingkeks.shoppinglist.ui.shoppinglists.items
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-class FragmentPagerAdapterFriends(fragmentManager: FragmentManager) :
+class FragmentPagerAdapterItems(fragmentManager: FragmentManager) :
     FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private var fragmentList: ArrayList<Fragment> = ArrayList<Fragment>()

@@ -61,4 +61,6 @@
     <string name="submit">Hinzufügen</string>
     <string name="cancel">Abbrechen</string>
     <string name="quantity">Anzahl</string>
+    <string name="items_bought_tab_title">Gekaufte Artikel</string>
+    <string name="items_tab_title">Artikel</string>
 </resources>
