@@ -67,7 +67,11 @@
     <string name="items_tab_title">Items</string>
     <string name="friends_fab_add_description">Button to add a new friend</string>
     <string name="addFriendDialogTitle">Add friend</string>
-
+    <string name="addFriendDialogNameInputHint">Name of friend [name#0000]</string>
+    <string name="addFriendDialogPositiveButton">Send request</string>
+    <string name="addFriendDialogInputInvalidToast">Input is not a valid format. Enter name like this: First Last#0000</string>
+    <string name="addFriendDialogFriendNotFound">No user with this name was found. Make sure the name is written correctly.</string>
+    <string name="addFriendDialogFriendAlreadyAdded">User is already in your friendslist.</string>
     <string-array name="sortingItem">
         <item>Latest</item>
         <item>A-Z</item>

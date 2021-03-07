@@ -75,33 +75,11 @@ class MainActivity : AppCompatActivity() {
 
         //TODO remove after testing phase
         buLogout.setOnClickListener {
-            //Test how to get the current system time
-            val sdf = SimpleDateFormat("dd.MM.yyyy hh:mm:ss")
-            var time = sdf.format(Date())
-            Log.d(TAG, time)
-
-            /*AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "User has been logged out")
-                        login()
-                    }
-                }*/
-            /*
-            val uidUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
-            val docRef = FirebaseFirestore.getInstance().document("users/$uidUser")
-
-            var test123: HashMap<String, HashMap<String, Int>> = HashMap<String, HashMap<String, Int>>()
-            var test456: HashMap<String, Int> = HashMap<String, Int>()
-            test456.put(uidUser, 2)
-
-            test123.put("description", test456)
-
-            docRef.set(test123, SetOptions.merge()).addOnSuccessListener(OnSuccessListener<Void>() {
-                Log.d(TAG, "Database Daten Test Erfolgreich!")
-            })
-            */
+            var friendName = "test name#7867"
+            if(friendName.matches(".+#[0-9]{4}".toRegex())){
+                Log.d(TAG, "true")
+            }
+            else Log.d(TAG, "false")
         }
         Log.d(TAG, "MainActivity_onCreate()_End")
 

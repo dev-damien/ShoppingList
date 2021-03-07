@@ -65,4 +65,8 @@
     <string name="items_tab_title">Artikel</string>
     <string name="friends_fab_add_description">Knopf um Freund hinzuzufügen</string>
     <string name="addFriendDialogTitle">Freund hinzufügen</string>
+    <string name="addFriendDialogNameInputHint">Name des Freundes [Name#0000]</string>
+    <string name="addFriendDialogPositiveButton">Anfrage senden</string>
+    <string name="addFriendDialogInputInvalidToast">Eingabeformat ist ungültig. Gib den Name so ein: Vor Nach#0000</string>
+    <string name="addFriendDialogFriendNotFound">Es wurde kein Nutzer mit diesem Name gefunden. Überprüfe nochmal die Schreibweise.</string>
 </resources>
