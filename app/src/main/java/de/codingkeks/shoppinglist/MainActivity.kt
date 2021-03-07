@@ -35,6 +35,8 @@ import kotlinx.android.synthetic.main.nav_header_main.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+private const val defaultIconId = R.drawable.ic_account_image
+
 class MainActivity : AppCompatActivity() {
 
     companion object {
@@ -249,7 +251,7 @@ class MainActivity : AppCompatActivity() {
 
         docRef.set(mapOf(
             "username" to "",
-            "icon_id" to 1))
+            "icon_id" to defaultIconId))
             .addOnSuccessListener(OnSuccessListener<Void>() {
                 Log.d(TAG, "User Document created")
         })
@@ -258,6 +260,7 @@ class MainActivity : AppCompatActivity() {
 
         docRef.update("friends", FieldValue.arrayUnion())
         docRef.update("favorites", FieldValue.arrayUnion())
+        docRef.update("friendRequests", FieldValue.arrayUnion())
     }
 
     private fun findingUsername() {

@@ -25,6 +25,9 @@ import kotlinx.android.synthetic.main.fragment_account.*
 
 class AccountFragment : Fragment() {
 
+    private val RC_DELETE_ACC = 55
+    private val RC_REAUTH_USER = 155
+
     private lateinit var accountViewModel: AccountViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -80,7 +83,7 @@ class AccountFragment : Fragment() {
                     if (user.providerData[1].providerId == EmailAuthProvider.PROVIDER_ID) {
                         val intent: Intent =
                             Intent(requireContext(), ReauthenticateActivity::class.java)
-                        startActivityForResult(intent, 155)
+                        startActivityForResult(intent, RC_REAUTH_USER)
                     } else {
                         val providers = arrayListOf(
                             AuthUI.IdpConfig.GoogleBuilder().build()
@@ -91,7 +94,7 @@ class AccountFragment : Fragment() {
                                 .setAvailableProviders(providers)
                                 .setIsSmartLockEnabled(false, true)
                                 .build(),
-                            55
+                            RC_DELETE_ACC
                         )
                     }
                 }
@@ -115,7 +118,7 @@ class AccountFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 155 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == RC_REAUTH_USER && resultCode == Activity.RESULT_OK) {
             val user = FirebaseAuth.getInstance().currentUser!!
             var password: String = data!!.getStringExtra("password")
             val credential = EmailAuthProvider.getCredential(user.email.toString(), password)
@@ -141,7 +144,7 @@ class AccountFragment : Fragment() {
                     Toast.makeText(context, R.string.wrongPassword, Toast.LENGTH_LONG).show()
                 }
         }
-        if (requestCode == 55 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == RC_DELETE_ACC && resultCode == Activity.RESULT_OK) {
             val user = FirebaseAuth.getInstance().currentUser!!
             try {
                 val id = IdpResponse.fromResultIntent(data)!!.idpToken
