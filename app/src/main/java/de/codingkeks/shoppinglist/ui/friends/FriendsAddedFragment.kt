@@ -78,7 +78,8 @@ class FriendsAddedFragment : Fragment() {
                     )
                 } else {
                     Log.d(MainActivity.TAG, "friends will be read")
-                    var friendsIDs = userDSnap.get("friends") as ArrayList<*>
+                    var friendsIDs = userDSnap.get("friends") as ArrayList<Friend>
+                    if (friendsIDs.isEmpty()) return@addOnSuccessListener
                     //get the documents of the friends
                     val colRef = FirebaseFirestore.getInstance().collection("users")
                     //TODO get only the documents with a name/ID which is in the array
@@ -90,7 +91,8 @@ class FriendsAddedFragment : Fragment() {
                                 friendList.add(
                                     Friend(
                                         it.getString("username") ?: "ERROR",
-                                        (it.getLong("icon_id") as Long).toInt()
+                                        (it.getLong("icon_id") as Long).toInt(),
+                                        it.id
                                     )
                                 )
                             }
