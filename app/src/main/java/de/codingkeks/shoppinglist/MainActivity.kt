@@ -36,6 +36,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private const val defaultIconId = R.drawable.ic_account_image
+private const val RC_AUTH = 69
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,7 +45,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private val RC_AUTH = 69
     var firstLogin = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -148,8 +148,8 @@ class MainActivity : AppCompatActivity() {
                 val uidUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
                 val docRef = FirebaseFirestore.getInstance().document("users/$uidUser")
                 docRef.get()
-                    .addOnSuccessListener {
-                        if (!it.exists()) {
+                    .addOnSuccessListener { docSnap ->
+                        if (!docSnap.exists()) {
                             createUserDoc()
                         }
                         displayUserInformation()
@@ -249,12 +249,18 @@ class MainActivity : AppCompatActivity() {
         val uidUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
         val docRef = FirebaseFirestore.getInstance().document("users/$uidUser")
 
-        docRef.set(mapOf(
-            "username" to "",
-            "icon_id" to defaultIconId))
+        docRef.set(
+            mapOf(
+                "username" to "",
+                "icon_id" to defaultIconId
+            )
+        )
             .addOnSuccessListener(OnSuccessListener<Void>() {
                 Log.d(TAG, "User Document created")
-        })
+            })
+            .addOnFailureListener {
+                Log.d(TAG, "put data in userDoc failed")
+            }
 
         findingUsername()
 
@@ -266,12 +272,15 @@ class MainActivity : AppCompatActivity() {
     private fun findingUsername() {
         Log.d(TAG, "Finding Username Start")
         var username = FirebaseAuth.getInstance().currentUser?.displayName.toString() + "#"
-        username = username.trim().replace("\\s+".toRegex(), " ") //clean the user name input; no leading, trailing or consecutive whitespaces
+        username = username.trim().replace(
+            "\\s+".toRegex(),
+            " "
+        ) //clean the user name input; no leading, trailing or consecutive whitespaces
         Log.d(TAG, "findingUsername username: $username")
         val docRef = FirebaseFirestore.getInstance().collection("users")
 
         docRef
-            .addSnapshotListener{ _, _ ->
+            .addSnapshotListener { _, _ ->
                 displayUserInformation()
             }
 
@@ -315,7 +324,7 @@ class MainActivity : AppCompatActivity() {
                 .setTitle(R.string.emailVerificationTitle)
                 .setMessage(R.string.emailVerificationBody)
                 .setCancelable(false)
-                .setPositiveButton(R.string.emailVerificationDelete){_, _->
+                .setPositiveButton(R.string.emailVerificationDelete) { _, _ ->
                     val uid = user.uid
                     val docRef = FirebaseFirestore.getInstance().document("users/$uid")
                     docRef.delete().addOnSuccessListener { Log.d(TAG, "Database Data deleted") }
@@ -329,7 +338,7 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                 }
-                .setNegativeButton(R.string.emailVerificationSendNew){_, _->
+                .setNegativeButton(R.string.emailVerificationSendNew) { _, _ ->
                     FirebaseAuth.getInstance().useAppLanguage()
                     user.sendEmailVerification().addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -338,7 +347,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     emailVerified()
                 }
-                .setNeutralButton(R.string.emailVerificationReload){_, _->
+                .setNeutralButton(R.string.emailVerificationReload) { _, _ ->
                     user.reload()
                     emailVerified()
                 }
