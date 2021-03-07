@@ -63,4 +63,6 @@
     <string name="quantity">Anzahl</string>
     <string name="items_bought_tab_title">Gekaufte Artikel</string>
     <string name="items_tab_title">Artikel</string>
+    <string name="friends_fab_add_description">Knopf um Freund hinzuzufügen</string>
+    <string name="addFriendDialogTitle">Freund hinzufügen</string>
 </resources>

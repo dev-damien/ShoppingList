@@ -7,6 +7,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.friends.FriendsFragment">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddFriend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:contentDescription="@string/friends_fab_add_description"
+        android:src="@drawable/ic_friends_person_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayoutFriends"
         android:layout_width="match_parent"
@@ -26,8 +39,12 @@
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPagerFriends"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayoutFriends">
 
     </androidx.viewpager.widget.ViewPager>
 
