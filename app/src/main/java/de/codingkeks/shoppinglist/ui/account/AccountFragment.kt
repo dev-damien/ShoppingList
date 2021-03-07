@@ -58,7 +58,7 @@ class AccountFragment : Fragment() {
         val uidUser = user?.uid.toString()
         val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
         userRef.get().addOnSuccessListener { documentSnapshot ->
-            tv_userName.text = documentSnapshot.get("username") as String? ?: "Loading Username..."
+            tv_userName.text = documentSnapshot.get("username") as String? ?: "Loading Username..." //TODO stings.xml
         }
 
         buAccountLogout.setOnClickListener {

@@ -63,6 +63,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="friends_added_tab_title">Friends</string>
     <string name="friends_requests_tab_title">Requests</string>
+    <string name="friends_fab_add_description">Button to add a new friend</string>
+    <string name="addFriendDialogTitle">Add friend</string>
 
     <string-array name="sortingItem">
         <item>Latest</item>
