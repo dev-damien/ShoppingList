@@ -1,13 +1,13 @@
-package de.codingkeks.shoppinglist.recyclerview.images
+package de.codingkeks.shoppinglist.recyclerview.friendRequests
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import de.codingkeks.shoppinglist.R
-import kotlinx.android.synthetic.main.rv_image.view.*
+import kotlinx.android.synthetic.main.rv_friend_request.view.*
 
-class FriendRequestAdapter(var images: List<Image>): RecyclerView.Adapter<FriendRequestAdapter.FriendRequestViewHolder>() {
+class FriendRequestAdapter(var friendRequests: List<FriendRequest>): RecyclerView.Adapter<FriendRequestAdapter.FriendRequestViewHolder>() {
     inner class FriendRequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private var selectedImagePos:Int = 0
@@ -18,28 +18,24 @@ class FriendRequestAdapter(var images: List<Image>): RecyclerView.Adapter<Friend
     }
 
     override fun onBindViewHolder(holder: FriendRequestViewHolder, position: Int) {
+
         holder.itemView.apply {
-            ivImage.setImageResource(images[position].src)
-            if (position != selectedImagePos){
-                ivImage.imageAlpha = 100
+            ivFriendRequestImage.setImageResource(friendRequests[position].profilePicture)
+            tvFriendRequestName.text = friendRequests[position].name
+
+            ivFriendRequestAccept.setOnClickListener {
+                //TODO accept friends request
             }
-            else{
-                ivImage.imageAlpha = 255
+
+            ivFriendRequestDecline.setOnClickListener {
+                //TODO decline friend request
             }
         }
 
-        holder.itemView.setOnClickListener {
-            if (selectedImagePos != position) {
-                images[selectedImagePos].isSelected = false
-                images[position].isSelected = true
-                selectedImagePos = position
-                notifyDataSetChanged()
-            }
-        }
     }
 
     override fun getItemCount(): Int {
-        return images.size
+        return friendRequests.size
     }
 
 }
