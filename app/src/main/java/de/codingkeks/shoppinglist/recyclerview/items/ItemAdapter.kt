@@ -1,21 +1,17 @@
 package de.codingkeks.shoppinglist.recyclerview.items
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.rv_item.view.*
-import kotlinx.android.synthetic.main.rv_list.view.*
 
-class ItemAdapter(var items: List<Item>, var spPos: Int, var itemsFull: ArrayList<Item> = ArrayList<Item>(items))
+class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var itemsFull: ArrayList<Item> = ArrayList<Item>(items))
     : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>(), Filterable {
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -32,8 +28,28 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var itemsFull: ArrayLis
             tvContributor.text = items[position].addedBy
             tvAddedTime.text = items[position].addedTime
         }
-        holder.itemView.setOnClickListener {
-            Log.d(MainActivity.TAG, "Clicked on Item #$position: " + items[position].name)
+        holder.itemView.btnItemOptions.setOnClickListener {
+            val popupMenu = PopupMenu(holder.itemView.context, holder.itemView.btnItemOptions)
+            popupMenu.menuInflater.inflate(R.menu.popup_item_options, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.action_bought -> {
+                        val docRef = FirebaseFirestore.getInstance().document("lists/${listId}/items/${items[position].itemId}")
+                        docRef.update("isBought", true).addOnSuccessListener {
+                            updateList()
+                            notifyDataSetChanged()
+                        }
+                    }
+                    R.id.action_edit -> {
+
+                    }
+                    R.id.action_delete -> {
+
+                    }
+                }
+                true
+            })
+            popupMenu.show()
         }
     }
 
@@ -61,9 +77,10 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var itemsFull: ArrayLis
                 }
             }
 
-            when (spPos) { //position 0: Favorites; 1: A-Z; 2: Z-A
+            when (spPos) { //position 0: Latest; 1: A-Z; 2: Z-A
                 0 -> {
                     filteredList.sortBy { it.name }
+                    filteredList.sortBy { it.addedTime }
                 }
                 1 -> {
                     filteredList.sortBy { it.name }

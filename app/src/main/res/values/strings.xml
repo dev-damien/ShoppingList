@@ -67,6 +67,9 @@
     <string name="items_tab_title">Items</string>
     <string name="friends_fab_add_description">Button to add a new friend</string>
     <string name="addFriendDialogTitle">Add friend</string>
+    <string name="popup_bought">Mark as bought</string>
+    <string name="popup_edit">Edit</string>
+
     <string name="addFriendDialogNameInputHint">Name of friend [name#0000]</string>
     <string name="addFriendDialogPositiveButton">Send request</string>
     <string name="addFriendDialogInputInvalidToast">Input is not a valid format. Enter name like this: First Last#42</string>
