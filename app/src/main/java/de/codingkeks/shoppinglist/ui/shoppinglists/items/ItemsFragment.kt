@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.TypedValue
@@ -77,8 +78,8 @@ class ItemsFragment : Fragment() {
                             dSnap.get("addedTime").toString(),
                             false,
                             dSnap.id,
-                            "",
-                            ""
+                            dSnap.get("boughtBy").toString(),
+                            dSnap.get("boughtAt").toString()
                         )
                     )
                 }
@@ -142,8 +143,8 @@ class ItemsFragment : Fragment() {
                         "addedBy" to dSnap.get("username").toString(),
                         "addedTime" to SimpleDateFormat("dd.MM.yyyy HH:mm").format(Date()),
                         "isBought" to false,
-                        "boughtBy" to "",
-                        "boughtAt" to ""
+                        "boughtBy" to dSnap.get("boughtBy").toString(),
+                        "boughtAt" to dSnap.get("boughtAt").toString()
                     )
                     val docRefItems = colRefItems.document()
                     docRefItems.set(itemData).addOnSuccessListener {
@@ -235,6 +236,7 @@ class ItemsFragment : Fragment() {
         textInputEditText.id = View.generateViewId()
         textInputEditText.tag = "textInputEditTextTag"
         textInputEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+        textInputEditText.filters = arrayOf(*textInputEditText.filters, InputFilter.LengthFilter(30))
         textInputLayout.addView(textInputEditText, 0)
 
         val textView = TextView(context)

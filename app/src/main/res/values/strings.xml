@@ -78,6 +78,9 @@
     <string name="addFriendDialogSelfRequest">You can not add yourself as a Friend.</string>
     <string name="addFriendDialogFriendAlreadyRequested">User has already been requested.</string>
     <string name="addFriendDialogFriendRequestedEachOther">You were requested by this user. You are friends now.</string>
+    <string name="delete_item">Delete Item</string>
+    <string name="delete_item_sure">Do you really want to delete this item?</string>
+    <string name="popup_bought_not">Mark as not bought</string>
     <string-array name="sortingItem">
         <item>Latest</item>
         <item>A-Z</item>

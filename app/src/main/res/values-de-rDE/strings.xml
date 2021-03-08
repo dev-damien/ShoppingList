@@ -75,4 +75,7 @@
     <string name="addFriendDialogSelfRequest">Du kannst dich nicht selbst  als Freund hinzufügen.</string>
     <string name="addFriendDialogFriendAlreadyRequested">Nutzer wurde bereits angefragt.</string>
     <string name="addFriendDialogFriendRequestedEachOther">Dieser Nutzer hat dich bereits angefragt. Ihr seid jetzt Freunde.</string>
+    <string name="delete_item">Artikel löschen</string>
+    <string name="delete_item_sure">Sind sie sicher, dass sie den Artiekl löschen wollen?</string>
+    <string name="popup_bought_not">Als nicht gekauft markieren</string>
 </resources>

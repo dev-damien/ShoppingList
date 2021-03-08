@@ -7,7 +7,7 @@
 
 
     <TextView
-        android:id="@+id/tvItemName"
+        android:id="@+id/tvItemNameBought"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="start|center_vertical"
@@ -17,16 +17,16 @@
         android:textColor="#000000"
         android:textSize="20sp"
         app:autoSizeMaxTextSize="20sp"
-        app:autoSizeMinTextSize="14sp"
+        app:autoSizeMinTextSize="12sp"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineBought2"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineBought"
+        app:layout_constraintStart_toStartOf="@+id/guidelineBought3"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@tools:sample/cities" />
 
     <TextView
-        android:id="@+id/tvQuantity"
+        android:id="@+id/tvQuantityBought"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
@@ -35,13 +35,13 @@
         android:text="5"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineBought2"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineBought3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvContributor"
+        android:id="@+id/tvBoughtBy"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="start|center_vertical"
@@ -50,13 +50,13 @@
         android:text="TextView"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tvAddedTime"
+        app:layout_constraintEnd_toStartOf="@+id/tvBoughtTime"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="@+id/guidelineBought2"
         tools:text="@tools:sample/full_names" />
 
     <TextView
-        android:id="@+id/tvAddedTime"
+        android:id="@+id/tvBoughtTime"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="start|center_vertical"
@@ -65,13 +65,13 @@
         android:text="TextView"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toEndOf="@+id/tvContributor"
-        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineBought"
+        app:layout_constraintStart_toEndOf="@+id/tvBoughtBy"
+        app:layout_constraintTop_toTopOf="@+id/guidelineBought2"
         tools:text="@tools:sample/date/ddmmyy" />
 
     <ImageButton
-        android:id="@+id/btnItemOptions"
+        android:id="@+id/btnItemOptionsBought"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#00FFFFFF"
@@ -79,26 +79,26 @@
         android:tint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/guidelineBought"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_items_options_horiz" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
+        android:id="@+id/guidelineBought"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.80" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
+        android:id="@+id/guidelineBought2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.63" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
+        android:id="@+id/guidelineBought3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"

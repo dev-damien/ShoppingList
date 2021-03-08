@@ -10,51 +10,38 @@ import android.widget.Filterable
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.R
-import kotlinx.android.synthetic.main.rv_item.view.*
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
+import kotlinx.android.synthetic.main.rv_item_bought.view.*
 
-class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var itemsFull: ArrayList<Item> = ArrayList<Item>(items))
-    : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>(), Filterable {
+class ItemBoughtAdapter(var items: List<Item>, var spPos: Int, var listId: String, var itemsFull: ArrayList<Item> = ArrayList<Item>(items))
+    : RecyclerView.Adapter<ItemBoughtAdapter.ItemViewHolder>(), Filterable {
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_bought, parent, false)
         return ItemViewHolder(view)
     }
 
     @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.itemView.apply {
-            tvItemName.text = items[position].name
-            tvQuantity.text = items[position].quantity.toString()
-            tvContributor.text = items[position].addedBy
-            tvAddedTime.text = items[position].addedTime
+            tvItemNameBought.text = items[position].name
+            tvQuantityBought.text = items[position].quantity.toString()
+            tvBoughtBy.text = items[position].boughtBy
+            tvBoughtTime.text = items[position].boughtAt
         }
-        holder.itemView.btnItemOptions.setOnClickListener {
-            val popupMenu = PopupMenu(holder.itemView.context, holder.itemView.btnItemOptions)
-            popupMenu.menuInflater.inflate(R.menu.popup_item_options, popupMenu.menu)
+        holder.itemView.btnItemOptionsBought.setOnClickListener {
+            val popupMenu = PopupMenu(holder.itemView.context, holder.itemView.btnItemOptionsBought)
+            popupMenu.menuInflater.inflate(R.menu.popup_item_bought_options, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_bought -> {
-                        val uid = FirebaseAuth.getInstance().currentUser?.uid
-                        val colRefUsers = FirebaseFirestore.getInstance().document("users/${uid}")
-                        colRefUsers.get().addOnSuccessListener {
-                            val username = it.get("username")
-                            val docRef = FirebaseFirestore.getInstance().document("lists/${listId}/items/${items[position].itemId}")
-                            docRef.update("isBought", true)
-                            docRef.update("boughtBy", username.toString())
-                            docRef.update("boughtAt", SimpleDateFormat("dd.MM.yyyy HH:mm").format(
-                                Date()
-                            ))
-                            updateList()
-                            notifyDataSetChanged()
-                        }
+                        val docRef = FirebaseFirestore.getInstance().document("lists/${listId}/items/${items[position].itemId}")
+                        docRef.update("isBought", false)
+                        updateList()
+                        notifyDataSetChanged()
                     }
                     R.id.action_edit -> {
 

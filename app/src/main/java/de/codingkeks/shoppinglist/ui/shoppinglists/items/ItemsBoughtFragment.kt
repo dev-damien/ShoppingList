@@ -15,13 +15,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.items.Item
-import de.codingkeks.shoppinglist.recyclerview.items.ItemAdapter
+import de.codingkeks.shoppinglist.recyclerview.items.ItemBoughtAdapter
 import kotlinx.android.synthetic.main.fragment_items_bought.*
 
 class ItemsBoughtFragment : Fragment() {
 
     private var items: MutableList<Item> = mutableListOf()
-    private lateinit var adapter: ItemAdapter
+    private lateinit var adapter: ItemBoughtAdapter
     private lateinit var registration: ListenerRegistration
 
     override fun onCreateView(
@@ -37,7 +37,7 @@ class ItemsBoughtFragment : Fragment() {
         super.onStart()
         val listId = activity?.intent?.getStringExtra("listId").toString()
 
-        adapter = ItemAdapter(items, spItemsBought.selectedItemPosition, listId)
+        adapter = ItemBoughtAdapter(items, spItemsBought.selectedItemPosition, listId)
         rvItemsBought.adapter = adapter
         rvItemsBought.layoutManager = LinearLayoutManager(requireContext())
         rvItemsBought.addItemDecoration(
@@ -60,8 +60,8 @@ class ItemsBoughtFragment : Fragment() {
                             dSnap.get("addedTime").toString(),
                             true,
                             dSnap.id,
-                            "",
-                            ""
+                            dSnap.get("boughtBy").toString(),
+                            dSnap.get("boughtAt").toString()
                         )
                     )
                 }
@@ -110,7 +110,7 @@ class ItemsBoughtFragment : Fragment() {
         when (position) { //position 0: Latest; 1: A-Z; 2: Z-A
             0 -> {
                 items.sortBy { it.name }
-                items.sortBy { it.addedTime }
+                items.sortBy { it.boughtAt }
             }
             1 -> {
                 items.sortBy { it.name }
