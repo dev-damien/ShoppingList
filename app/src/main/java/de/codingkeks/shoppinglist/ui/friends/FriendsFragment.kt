@@ -139,7 +139,11 @@ class FriendsFragment : Fragment() {
                                             )
                                         ) {
                                             //other user already requested this user -> they will be added as friends
-                                            Toast.makeText(requireContext(), getString(R.string.addFriendDialogFriendRequestedEachOther), Toast.LENGTH_LONG).show()
+                                            Toast.makeText(
+                                                requireContext(),
+                                                getString(R.string.addFriendDialogFriendRequestedEachOther),
+                                                Toast.LENGTH_LONG
+                                            ).show()
                                             docRefUser.update(
                                                 "friends",
                                                 FieldValue.arrayUnion(docRefFriend.id)
