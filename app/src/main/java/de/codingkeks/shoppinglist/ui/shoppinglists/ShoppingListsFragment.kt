@@ -17,14 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.AddNewListActivity
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ListAdapter
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ShoppingList
 import kotlinx.android.synthetic.main.fragment_shoppinglists.*
-import java.lang.Exception
 
 class ShoppingListsFragment : Fragment() {
 
@@ -32,6 +31,7 @@ class ShoppingListsFragment : Fragment() {
     private val RC_ADD_NEW_LIST = 0
     private var shoppingList: MutableList<ShoppingList> = mutableListOf()
     private lateinit var adapter: ListAdapter
+    private lateinit var registration: ListenerRegistration
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,13 +67,12 @@ class ShoppingListsFragment : Fragment() {
 
         val user = FirebaseAuth.getInstance().currentUser!!
         val docRef = FirebaseFirestore.getInstance().collection("lists")
-        docRef.whereArrayContains("members", user.uid).get()
-            .addOnSuccessListener { qSnap ->
+        registration = docRef.whereArrayContains("members", user.uid).addSnapshotListener { qSnap, _ ->
                 val userRef = FirebaseFirestore.getInstance().document("users/${user.uid}")
                 userRef.get().addOnSuccessListener { userDSnap ->
                     val arrayFavorites = userDSnap.get("favorites") as ArrayList<*>
                     shoppingList.clear()
-                    qSnap.forEach {
+                    qSnap?.forEach {
                         shoppingList.add(
                             ShoppingList(
                                 it.getString("name") ?: "Error 69",
@@ -124,6 +123,11 @@ class ShoppingListsFragment : Fragment() {
             }
         }
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_onStart()_End")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        registration.remove()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
