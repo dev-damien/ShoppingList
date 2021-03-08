@@ -69,9 +69,12 @@
     <string name="addFriendDialogTitle">Add friend</string>
     <string name="addFriendDialogNameInputHint">Name of friend [name#0000]</string>
     <string name="addFriendDialogPositiveButton">Send request</string>
-    <string name="addFriendDialogInputInvalidToast">Input is not a valid format. Enter name like this: First Last#0000</string>
+    <string name="addFriendDialogInputInvalidToast">Input is not a valid format. Enter name like this: First Last#42</string>
     <string name="addFriendDialogFriendNotFound">No user with this name was found. Make sure the name is written correctly.</string>
     <string name="addFriendDialogFriendAlreadyAdded">User is already in your friendslist.</string>
+    <string name="addFriendDialogSelfRequest">You can not add yourself as a Friend.</string>
+    <string name="addFriendDialogFriendAlreadyRequested">User has already been requested.</string>
+    <string name="addFriendDialogFriendRequestedEachOther">You were requested by this user. You are friends now.</string>
     <string-array name="sortingItem">
         <item>Latest</item>
         <item>A-Z</item>

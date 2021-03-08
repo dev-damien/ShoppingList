@@ -133,29 +133,62 @@ class FriendsFragment : Fragment() {
                                         ).show()
                                     } else {
                                         //requested user is not a friend yet
-                                        //test if requested user already requested user
+                                        //test if requested-user already requested the user
                                         if ((dSnapUser.get("friendRequests") as ArrayList<String>).contains(
                                                 docRefFriend.id
                                             )
                                         ) {
                                             //other user already requested this user -> they will be added as friends
-                                            docRefUser.update("friends", FieldValue.arrayUnion(docRefFriend.id))
-                                            val requestedUser = db.document("users/${docRefFriend.id}")
-                                            requestedUser.update("friends", FieldValue.arrayUnion(docRefUser.id))
-                                            docRefUser.update("friendRequests", FieldValue.arrayRemove(docRefFriend.id)) //remove id of requested user from requestArray
+                                            Toast.makeText(requireContext(), getString(R.string.addFriendDialogFriendRequestedEachOther), Toast.LENGTH_LONG).show()
+                                            docRefUser.update(
+                                                "friends",
+                                                FieldValue.arrayUnion(docRefFriend.id)
+                                            )
+                                            val requestedUser =
+                                                db.document("users/${docRefFriend.id}")
+                                            requestedUser.update(
+                                                "friends",
+                                                FieldValue.arrayUnion(docRefUser.id)
+                                            )
+                                            docRefUser.update(
+                                                "friendRequests",
+                                                FieldValue.arrayRemove(docRefFriend.id)
+                                            ) //remove id of requested user from requestArray
                                         } else {
-                                            //normal request process
-                                            val requestedUser = db.document("users/${docRefFriend.id}")
-                                            requestedUser.update("friendRequests", FieldValue.arrayUnion(docRefUser.id))
+                                            //test if input is own name (weird loser, get some real friends)
+                                            if (docRefFriend.id == docRefUser.id) {
+                                                //user requested himself
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    getString(R.string.addFriendDialogSelfRequest),
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            } else {
+                                                //test if user already requested friend (second time request)
+                                                if ((docRefFriend.get("friendRequests") as ArrayList<String>).contains(
+                                                        docRefUser.id
+                                                    )
+                                                ) {
+                                                    //friend request was send already
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        getText(R.string.addFriendDialogFriendAlreadyRequested),
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+                                                } else {
+                                                    //normal request process
+                                                    val requestedUser =
+                                                        db.document("users/${docRefFriend.id}")
+                                                    requestedUser.update(
+                                                        "friendRequests",
+                                                        FieldValue.arrayUnion(docRefUser.id)
+                                                    )
+                                                }
+                                            }
                                         }
                                     }
                                 }
                             }
-
-                        //TODO test if user already requested friend (second time request)
-                        //TODO test if input is own name (weird loser, get some real friends)
-
-
                     } else {
                         Log.d(MainActivity.TAG, "friend search input is invalid")
                         Toast.makeText(
