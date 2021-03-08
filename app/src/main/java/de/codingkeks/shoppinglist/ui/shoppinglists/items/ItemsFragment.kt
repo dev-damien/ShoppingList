@@ -143,8 +143,8 @@ class ItemsFragment : Fragment() {
                         "addedBy" to dSnap.get("username").toString(),
                         "addedTime" to SimpleDateFormat("dd.MM.yyyy HH:mm").format(Date()),
                         "isBought" to false,
-                        "boughtBy" to dSnap.get("boughtBy").toString(),
-                        "boughtAt" to dSnap.get("boughtAt").toString()
+                        "boughtBy" to "",
+                        "boughtAt" to ""
                     )
                     val docRefItems = colRefItems.document()
                     docRefItems.set(itemData).addOnSuccessListener {
@@ -205,6 +205,10 @@ class ItemsFragment : Fragment() {
             }
             2 -> {
                 items.sortByDescending { it.name }
+            }
+            3 -> {
+                items.sortBy { it.name }
+                items.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
             }
         }
     }

@@ -125,6 +125,14 @@ class ItemsBoughtFragment : Fragment() {
             2 -> {
                 items.sortByDescending { it.name }
             }
+            3 -> {
+                items.sortBy { it.name }
+                try {
+                    items.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
+                } catch (ex: Exception) {
+                    Log.d(MainActivity.TAG, "Cant parse because values are empty")
+                }
+            }
         }
     }
 }

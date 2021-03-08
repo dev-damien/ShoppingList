@@ -37,6 +37,7 @@
         <item>Neuste</item>
         <item>A-Z</item>
         <item>Z-A</item>
+        <item>Älteste</item>
     </string-array>
     <string name="etAddNewListEnterNameHintString">Listenname eingeben ...</string>
     <string name="yes">Ja</string>
