@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.rv_item_bought.view.*
+import java.text.SimpleDateFormat
 
 class ItemBoughtAdapter(var items: List<Item>, var spPos: Int, var listId: String, var itemsFull: ArrayList<Item> = ArrayList<Item>(items))
     : RecyclerView.Adapter<ItemBoughtAdapter.ItemViewHolder>(), Filterable {
@@ -92,7 +93,7 @@ class ItemBoughtAdapter(var items: List<Item>, var spPos: Int, var listId: Strin
             when (spPos) { //position 0: Latest; 1: A-Z; 2: Z-A
                 0 -> {
                     filteredList.sortBy { it.name }
-                    filteredList.sortBy { it.addedTime }
+                    filteredList.sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
                 }
                 1 -> {
                     filteredList.sortBy { it.name }

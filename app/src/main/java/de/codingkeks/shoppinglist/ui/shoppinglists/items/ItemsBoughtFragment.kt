@@ -2,6 +2,7 @@ package de.codingkeks.shoppinglist.ui.shoppinglists.items
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +14,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.items.Item
 import de.codingkeks.shoppinglist.recyclerview.items.ItemBoughtAdapter
 import kotlinx.android.synthetic.main.fragment_items_bought.*
+import java.text.SimpleDateFormat
 
 class ItemsBoughtFragment : Fragment() {
 
@@ -110,7 +113,11 @@ class ItemsBoughtFragment : Fragment() {
         when (position) { //position 0: Latest; 1: A-Z; 2: Z-A
             0 -> {
                 items.sortBy { it.name }
-                items.sortBy { it.boughtAt }
+                try {
+                    items.sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
+                } catch (ex: Exception) {
+                    Log.d(MainActivity.TAG, "Cant parse because values are empty")
+                }
             }
             1 -> {
                 items.sortBy { it.name }

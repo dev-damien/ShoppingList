@@ -198,7 +198,7 @@ class ItemsFragment : Fragment() {
         when (position) { //position 0: Latest; 1: A-Z; 2: Z-A
             0 -> {
                 items.sortBy { it.name }
-                items.sortBy { it.addedTime }
+                items.sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
             }
             1 -> {
                 items.sortBy { it.name }

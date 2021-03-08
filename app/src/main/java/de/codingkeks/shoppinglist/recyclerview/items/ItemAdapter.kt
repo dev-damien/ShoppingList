@@ -105,7 +105,7 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
             when (spPos) { //position 0: Latest; 1: A-Z; 2: Z-A
                 0 -> {
                     filteredList.sortBy { it.name }
-                    filteredList.sortBy { it.addedTime }
+                    filteredList.sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
                 }
                 1 -> {
                     filteredList.sortBy { it.name }
