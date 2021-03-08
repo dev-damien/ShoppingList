@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.FragmentPagerAdapterItems
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.ItemsBoughtFragment
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.ItemsFragment
@@ -16,6 +17,13 @@ class ItemsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_items)
+
+        FirebaseFirestore.getInstance()
+            .document("lists/${intent.getStringExtra("listId")}")
+            .get().addOnSuccessListener {
+            title = it.get("name").toString()
+        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         tabLayout = findViewById(R.id.tabLayoutItems)
         viewPager = findViewById(R.id.viewPagerItems)
@@ -46,5 +54,10 @@ class ItemsActivity : AppCompatActivity() {
         adapter.addFragment(ItemsBoughtFragment(), getString(R.string.items_bought_tab_title))
 
         viewPager.adapter = adapter
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }
