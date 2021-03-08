@@ -88,7 +88,7 @@ class ItemBoughtAdapter(var items: List<Item>, var spPos: Int, var listId: Strin
                                     when (spPos) { //position 0: Latest; 1: A-Z; 2: Z-A
                                         0 -> {
                                             (items as ArrayList<Item>).sortBy { it.name }
-                                            (items as ArrayList<Item>).sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
+                                            (items as ArrayList<Item>).sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
                                         }
                                         1 -> {
                                             (items as ArrayList<Item>).sortBy { it.name }
@@ -98,7 +98,7 @@ class ItemBoughtAdapter(var items: List<Item>, var spPos: Int, var listId: Strin
                                         }
                                         3 -> {
                                             (items as ArrayList<Item>).sortBy { it.name }
-                                            (items as ArrayList<Item>).sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
+                                            (items as ArrayList<Item>).sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
                                         }
                                     }
                                     updateList()

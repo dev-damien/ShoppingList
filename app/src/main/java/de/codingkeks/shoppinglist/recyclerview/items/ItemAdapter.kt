@@ -81,7 +81,7 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
                         val textInputEditText = alertLayout.
                         findViewWithTag<TextInputEditText>("textInputEditTextTag")
 
-                        alertBuilder.setPositiveButton("Change") { _, _->
+                        alertBuilder.setPositiveButton(R.string.change) { _, _->
                             val user = FirebaseAuth.getInstance().currentUser!!
                             val docRefUser = FirebaseFirestore.getInstance().document("users/${user.uid}")
                             docRefUser.get().addOnSuccessListener { dSnap ->

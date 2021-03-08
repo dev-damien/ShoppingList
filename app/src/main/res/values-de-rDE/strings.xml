@@ -79,4 +79,5 @@
     <string name="delete_item">Artikel löschen</string>
     <string name="delete_item_sure">Sind sie sicher, dass sie den Artiekl löschen wollen?</string>
     <string name="popup_bought_not">Als nicht gekauft markieren</string>
+    <string name="change">Ändern</string>
 </resources>
