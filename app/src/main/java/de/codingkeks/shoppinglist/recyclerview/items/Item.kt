@@ -6,5 +6,7 @@ data class Item(
     var addedBy: String,
     var addedTime: String,
     var isBought: Boolean,
-    var itemId: String
+    var itemId: String,
+    var boughtBy: String,
+    var boughtAt: String
 )

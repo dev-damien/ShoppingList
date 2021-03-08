@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.items.Item
 import de.codingkeks.shoppinglist.recyclerview.items.ItemAdapter
@@ -21,6 +22,7 @@ class ItemsBoughtFragment : Fragment() {
 
     private var items: MutableList<Item> = mutableListOf()
     private lateinit var adapter: ItemAdapter
+    private lateinit var registration: ListenerRegistration
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +35,9 @@ class ItemsBoughtFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     override fun onStart() {
         super.onStart()
+        val listId = activity?.intent?.getStringExtra("listId").toString()
 
-        adapter = ItemAdapter(items, spItemsBought.selectedItemPosition)
+        adapter = ItemAdapter(items, spItemsBought.selectedItemPosition, listId)
         rvItemsBought.adapter = adapter
         rvItemsBought.layoutManager = LinearLayoutManager(requireContext())
         rvItemsBought.addItemDecoration(
@@ -44,10 +47,10 @@ class ItemsBoughtFragment : Fragment() {
             )
         )
 
-        val listId = activity?.intent?.getStringExtra("listId")
         val colRefItems = FirebaseFirestore.getInstance().collection("lists/${listId}/items")
-        colRefItems.get().addOnSuccessListener { qSnap ->
-            qSnap.documents.forEach { dSnap ->
+        registration = colRefItems.addSnapshotListener { qSnap, _ ->
+            items.clear()
+            qSnap?.documents?.forEach { dSnap ->
                 if (dSnap.get("isBought") as Boolean) {
                     items.add(
                         Item(
@@ -56,14 +59,16 @@ class ItemsBoughtFragment : Fragment() {
                             dSnap.get("addedBy").toString(),
                             dSnap.get("addedTime").toString(),
                             true,
-                            dSnap.id
+                            dSnap.id,
+                            "",
+                            ""
                         )
                     )
                 }
-                sortingItems(spItemsBought.selectedItemPosition)
-                adapter.updateList()
-                adapter.notifyDataSetChanged()
             }
+            sortingItems(spItemsBought.selectedItemPosition)
+            adapter.updateList()
+            adapter.notifyDataSetChanged()
         }
 
         spItemsBought.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -94,6 +99,11 @@ class ItemsBoughtFragment : Fragment() {
                 return false
             }
         })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        registration.remove()
     }
 
     fun sortingItems(position: Int) {

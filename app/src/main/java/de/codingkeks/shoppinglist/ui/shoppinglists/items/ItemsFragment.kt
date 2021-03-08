@@ -27,6 +27,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.items.Item
 import de.codingkeks.shoppinglist.recyclerview.items.ItemAdapter
@@ -38,6 +39,7 @@ class ItemsFragment : Fragment() {
 
     private var items: MutableList<Item> = mutableListOf()
     private lateinit var adapter: ItemAdapter
+    private lateinit var registration: ListenerRegistration
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,8 +52,9 @@ class ItemsFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     override fun onStart() {
         super.onStart()
+        val listId = activity?.intent?.getStringExtra("listId").toString()
 
-        adapter = ItemAdapter(items, spItems.selectedItemPosition)
+        adapter = ItemAdapter(items, spItems.selectedItemPosition, listId)
         rvItems.adapter = adapter
         rvItems.layoutManager = LinearLayoutManager(requireContext())
         rvItems.addItemDecoration(
@@ -61,10 +64,10 @@ class ItemsFragment : Fragment() {
             )
         )
 
-        val listId = activity?.intent?.getStringExtra("listId")
         val colRefItems = FirebaseFirestore.getInstance().collection("lists/${listId}/items")
-        colRefItems.get().addOnSuccessListener { qSnap ->
-            qSnap.documents.forEach { dSnap ->
+        registration = colRefItems.addSnapshotListener { qSnap, _ ->
+            items.clear()
+            qSnap?.documents?.forEach { dSnap ->
                 if (!(dSnap.get("isBought") as Boolean)) {
                     items.add(
                         Item(
@@ -73,7 +76,9 @@ class ItemsFragment : Fragment() {
                             dSnap.get("addedBy").toString(),
                             dSnap.get("addedTime").toString(),
                             false,
-                            dSnap.id
+                            dSnap.id,
+                            "",
+                            ""
                         )
                     )
                 }
@@ -136,17 +141,12 @@ class ItemsFragment : Fragment() {
                         "quantity" to numberInputPicker.value.toLong(),
                         "addedBy" to dSnap.get("username").toString(),
                         "addedTime" to SimpleDateFormat("dd.MM.yyyy HH:mm").format(Date()),
-                        "isBought" to false
+                        "isBought" to false,
+                        "boughtBy" to "",
+                        "boughtAt" to ""
                     )
                     val docRefItems = colRefItems.document()
                     docRefItems.set(itemData).addOnSuccessListener {
-                        items.add(Item(
-                            textInputEditText.text.toString(),
-                            numberInputPicker.value, dSnap.get("username").toString(),
-                            SimpleDateFormat("dd.MM.yyyy HH:mm").format(Date()),
-                            false,
-                            docRefItems.id
-                        ))
                         sortingItems(spItems.selectedItemPosition)
                         adapter.updateList()
                         adapter.notifyDataSetChanged()
@@ -186,6 +186,11 @@ class ItemsFragment : Fragment() {
                 }
             })
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        registration.remove()
     }
 
     fun sortingItems(position: Int) {
