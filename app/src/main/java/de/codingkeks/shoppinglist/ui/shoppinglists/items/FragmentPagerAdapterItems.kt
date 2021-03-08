@@ -32,3 +32,4 @@ class FragmentPagerAdapterItems(fragmentManager: FragmentManager) :
     }
 
 }
+

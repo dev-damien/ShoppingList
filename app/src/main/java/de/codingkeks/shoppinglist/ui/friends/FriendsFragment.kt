@@ -80,7 +80,6 @@ class FriendsFragment : Fragment() {
 
         })
 
-        //TODO create alert dialog
         //add a new friend
         fabAddFriend.setOnClickListener {
             val alertBuilder =
@@ -99,8 +98,7 @@ class FriendsFragment : Fragment() {
                 val docRefUser = db.document("users/${user.uid}")
                 docRefUser.get().addOnSuccessListener { dSnapUser ->
                     var friendName = textInputEditText.text.toString()
-                    if (friendName.matches(".+#[0-9]{1,4}".toRegex())) {
-
+                    if (friendName.matches(".+#[0-9]{1,9}".toRegex())) {
                         db.collection("users")
                             .whereEqualTo("username", friendName)
                             .get()
