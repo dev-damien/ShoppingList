@@ -67,4 +67,12 @@
     <string name="addFriendDialogTitle">Freund hinzufügen</string>
     <string name="popup_bought">Als gekauft markieren</string>
     <string name="popup_edit">Editieren</string>
+    <string name="addFriendDialogNameInputHint">Name des Freundes [Name#0000]</string>
+    <string name="addFriendDialogPositiveButton">Anfrage senden</string>
+    <string name="addFriendDialogInputInvalidToast">Eingabeformat ist ungültig. Gib den Name so ein: Vor Nach#42</string>
+    <string name="addFriendDialogFriendNotFound">Es wurde kein Nutzer mit diesem Name gefunden. Überprüfe nochmal die Schreibweise.</string>
+    <string name="addFriendDialogFriendAlreadyAdded">Nutzer ist bereits in der Freundesliste.</string>
+    <string name="addFriendDialogSelfRequest">Du kannst dich nicht selbst  als Freund hinzufügen.</string>
+    <string name="addFriendDialogFriendAlreadyRequested">Nutzer wurde bereits angefragt.</string>
+    <string name="addFriendDialogFriendRequestedEachOther">Dieser Nutzer hat dich bereits angefragt. Ihr seid jetzt Freunde.</string>
 </resources>
