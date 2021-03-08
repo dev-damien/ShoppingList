@@ -21,10 +21,10 @@
     <string name="account_email">E-Mail</string>
     <string name="account_id">ID</string>
     <string name="friends_image_description">The profile image of your friend.</string>
-    <string name="friends_image_fav_descrption">Star!!!</string>
+    <string name="friends_image_fav_description">Star!!!</string>
     <string name="friends_search_hint">Search friend</string>
     <string name="lists_search_hint">Search list</string>
-    <string name="lists_image_fav_descrption">Star</string>
+    <string name="lists_image_fav_description">Star</string>
     <string name="lists_image_description">The image of the shopping list.</string>
     <string name="fabAddNewListDescription">Button to add a new List</string>
     <string name="fabAddNewItemDescription">Button to add a new item</string>
@@ -60,7 +60,7 @@
         <item>A-Z</item>
         <item>Z-A</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="friends_added_tab_title">Friends</string>
     <string name="friends_requests_tab_title">Requests</string>
     <string name="items_bought_tab_title">Items bought</string>

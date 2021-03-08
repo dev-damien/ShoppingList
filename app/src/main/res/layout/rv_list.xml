@@ -11,7 +11,7 @@
         android:id="@+id/ivListFav"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:contentDescription="@string/lists_image_fav_descrption"
+        android:contentDescription="@string/lists_image_fav_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

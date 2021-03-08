@@ -18,10 +18,10 @@
     <string name="account_email">E-Mail</string>
     <string name="account_id">ID</string>
     <string name="friends_image_description">Profilbild von deinem Freund.</string>
-    <string name="friends_image_fav_descrption">Stern!!!</string>
+    <string name="friends_image_fav_description">Stern!!!</string>
     <string name="friends_search_hint">Freund suchen</string>
     <string name="lists_search_hint">Liste suchen</string>
-    <string name="lists_image_fav_descrption">Stern</string>
+    <string name="lists_image_fav_description">Stern</string>
     <string name="lists_image_description">Bild von der Einkaufsliste.</string>
     <string name="fabAddNewListDescription">Knopf um neue Liste zu erstellen</string>
     <string-array name="sorting">
