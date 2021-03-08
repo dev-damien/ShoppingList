@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -15,7 +14,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.ItemsActivity
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
-import de.codingkeks.shoppinglist.recyclerview.items.ItemAdapter
 import kotlinx.android.synthetic.main.rv_list.view.*
 
 class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: ArrayList<ShoppingList> = ArrayList<ShoppingList>(lists))
@@ -41,13 +39,24 @@ class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: 
 
                 lists[position].isFavorite = !lists[position].isFavorite
                 if (lists[position].isFavorite) {
-                    ivListFav.setImageResource(R.drawable.ic_friends_star)
                     docRefUser.update("favorites", FieldValue.arrayUnion(lists[position].listId))
                 }
                 else {
-                    ivListFav.setImageResource(R.drawable.ic_friends_star_border)
                     docRefUser.update("favorites", FieldValue.arrayRemove(lists[position].listId))
                 }
+                when (spPos) { //position 0: Favorites; 1: A-Z; 2: Z-A
+                    0 -> {
+                        (lists as ArrayList<ShoppingList>).sortBy { it.name }
+                        (lists as ArrayList<ShoppingList>).sortByDescending { it.isFavorite }
+                    }
+                    1 -> {
+                        (lists as ArrayList<ShoppingList>).sortBy { it.name }
+                    }
+                    2 -> {
+                        (lists as ArrayList<ShoppingList>).sortByDescending { it.name }
+                    }
+                }
+                notifyDataSetChanged()
             }
         }
         holder.itemView.setOnClickListener {
