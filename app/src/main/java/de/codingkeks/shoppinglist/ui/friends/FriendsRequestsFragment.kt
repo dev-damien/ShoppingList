@@ -9,17 +9,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.friendRequests.FriendRequest
 import de.codingkeks.shoppinglist.recyclerview.friendRequests.FriendRequestAdapter
-import de.codingkeks.shoppinglist.recyclerview.friends.Friend
-import de.codingkeks.shoppinglist.recyclerview.friends.FriendAdapter
-import de.codingkeks.shoppinglist.recyclerview.items.Item
-import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ShoppingList
 import kotlinx.android.synthetic.main.fragment_friends_added.*
 import kotlinx.android.synthetic.main.fragment_friends_requests.*
 import kotlinx.android.synthetic.main.fragment_items.*

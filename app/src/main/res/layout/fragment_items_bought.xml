@@ -19,6 +19,8 @@
         android:id="@+id/svItemsBought"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:focusable="false"
+        android:focusableInTouchMode="true"
         android:iconifiedByDefault="false"
         android:queryHint="@string/items_search_hint"
         app:layout_constraintStart_toStartOf="parent"

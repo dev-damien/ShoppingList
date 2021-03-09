@@ -21,7 +21,6 @@ import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.friendRequests.FriendRequest
 import de.codingkeks.shoppinglist.recyclerview.friends.Friend
 import de.codingkeks.shoppinglist.recyclerview.friends.FriendAdapter
-import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ShoppingList
 import kotlinx.android.synthetic.main.fragment_friends_added.*
 import kotlinx.android.synthetic.main.fragment_friends_requests.*
 import kotlinx.android.synthetic.main.fragment_shoppinglists.*
@@ -59,6 +58,8 @@ class FriendsAddedFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        svFriends.clearFocus()
+        svFriends.setQuery("", false)
 
         adapter = FriendAdapter(friendList)
         rvFriends.adapter = adapter

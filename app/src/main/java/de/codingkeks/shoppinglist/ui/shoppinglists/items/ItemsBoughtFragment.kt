@@ -38,6 +38,8 @@ class ItemsBoughtFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     override fun onStart() {
         super.onStart()
+        svItemsBought.clearFocus()
+        svItemsBought.setQuery("", false)
         val listId = activity?.intent?.getStringExtra("listId").toString()
 
         adapter = ItemBoughtAdapter(items, spItemsBought.selectedItemPosition, listId)
