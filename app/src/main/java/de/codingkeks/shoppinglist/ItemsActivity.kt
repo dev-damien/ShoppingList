@@ -18,6 +18,7 @@ class ItemsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_items)
 
+        title = ""
         FirebaseFirestore.getInstance()
             .document("lists/${intent.getStringExtra("listId")}")
             .get().addOnSuccessListener {
