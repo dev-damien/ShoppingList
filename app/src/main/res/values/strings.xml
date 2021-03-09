@@ -86,9 +86,9 @@
     <string name="friend_requests_no_friends">No friends found</string>
     <string-array name="sortingItem">
         <item>Latest</item>
+        <item>Oldest</item>
         <item>A-Z</item>
         <item>Z-A</item>
-        <item>Oldest</item>
     </string-array>
 
 </resources>
