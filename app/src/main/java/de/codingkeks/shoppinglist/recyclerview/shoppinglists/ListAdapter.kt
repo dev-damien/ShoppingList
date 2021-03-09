@@ -46,14 +46,14 @@ class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: 
                 }
                 when (spPos) { //position 0: Favorites; 1: A-Z; 2: Z-A
                     0 -> {
-                        (lists as ArrayList<ShoppingList>).sortBy { it.name }
+                        (lists as ArrayList<ShoppingList>).sortBy { it.name.toLowerCase() }
                         (lists as ArrayList<ShoppingList>).sortByDescending { it.isFavorite }
                     }
                     1 -> {
-                        (lists as ArrayList<ShoppingList>).sortBy { it.name }
+                        (lists as ArrayList<ShoppingList>).sortBy { it.name.toLowerCase() }
                     }
                     2 -> {
-                        (lists as ArrayList<ShoppingList>).sortByDescending { it.name }
+                        (lists as ArrayList<ShoppingList>).sortByDescending { it.name.toLowerCase() }
                     }
                 }
                 notifyDataSetChanged()
@@ -93,14 +93,14 @@ class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: 
 
             when (spPos) { //position 0: Favorites; 1: A-Z; 2: Z-A
                 0 -> {
-                    filteredList.sortBy { it.name }
+                    filteredList.sortBy { it.name.toLowerCase() }
                     filteredList.sortByDescending { it.isFavorite }
                 }
                 1 -> {
-                    filteredList.sortBy { it.name }
+                    filteredList.sortBy { it.name.toLowerCase() }
                 }
                 2 -> {
-                    filteredList.sortByDescending { it.name }
+                    filteredList.sortByDescending { it.name.toLowerCase() }
                 }
             }
 

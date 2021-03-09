@@ -112,7 +112,7 @@ class ItemsBoughtFragment : Fragment() {
     fun sortingItems(position: Int) {
         when (position) { //position 0: Latest; 1: A-Z; 2: Z-A
             0 -> {
-                items.sortBy { it.name }
+                items.sortBy { it.name.toLowerCase() }
                 try {
                     items.sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
                 } catch (ex: Exception) {
@@ -120,7 +120,7 @@ class ItemsBoughtFragment : Fragment() {
                 }
             }
             1 -> {
-                items.sortBy { it.name }
+                items.sortBy { it.name.toLowerCase() }
                 try {
                     items.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
                 } catch (ex: Exception) {
@@ -128,10 +128,10 @@ class ItemsBoughtFragment : Fragment() {
                 }
             }
             2 -> {
-                items.sortBy { it.name }
+                items.sortBy { it.name.toLowerCase() }
             }
             3 -> {
-                items.sortByDescending { it.name }
+                items.sortByDescending { it.name.toLowerCase() }
             }
         }
     }

@@ -98,18 +98,18 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
                                 docRefItems.update(itemData).addOnSuccessListener {
                                     when (spPos) { //position 0: Latest; 1: A-Z; 2: Z-A
                                         0 -> {
-                                            (items as ArrayList<Item>).sortBy { it.name }
+                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase() }
                                             (items as ArrayList<Item>).sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
                                         }
                                         1 -> {
-                                            (items as ArrayList<Item>).sortBy { it.name }
+                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase() }
                                             (items as ArrayList<Item>).sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
                                         }
                                         2 -> {
-                                            (items as ArrayList<Item>).sortBy { it.name }
+                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase() }
                                         }
                                         3 -> {
-                                            (items as ArrayList<Item>).sortByDescending { it.name }
+                                            (items as ArrayList<Item>).sortByDescending { it.name.toLowerCase() }
                                         }
                                     }
                                     updateList()
@@ -195,18 +195,18 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
 
             when (spPos) { //position 0: Latest; 1: A-Z; 2: Z-A
                 0 -> {
-                    filteredList.sortBy { it.name }
+                    filteredList.sortBy { it.name.toLowerCase() }
                     filteredList.sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
                 }
                 1 -> {
-                    filteredList.sortBy { it.name }
+                    filteredList.sortBy { it.name.toLowerCase() }
                     filteredList.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
                 }
                 2 -> {
-                    filteredList.sortBy { it.name }
+                    filteredList.sortBy { it.name.toLowerCase() }
                 }
                 3 -> {
-                    filteredList.sortByDescending { it.name }
+                    filteredList.sortByDescending { it.name.toLowerCase() }
                 }
             }
 

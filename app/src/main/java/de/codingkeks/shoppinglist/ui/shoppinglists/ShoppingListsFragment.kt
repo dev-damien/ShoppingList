@@ -1,6 +1,7 @@
 package de.codingkeks.shoppinglist.ui.shoppinglists
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,8 +11,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.SearchView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -24,6 +31,11 @@ import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ListAdapter
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ShoppingList
 import kotlinx.android.synthetic.main.fragment_shoppinglists.*
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import java.util.*
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class ShoppingListsFragment : Fragment() {
 
@@ -82,9 +94,7 @@ class ShoppingListsFragment : Fragment() {
                             )
                         )
                     }
-                    sortingShoppingList(spLists.selectedItemPosition)
-                    adapter.updateList()
-                    adapter.notifyDataSetChanged()
+                    sortingShoppingList()
                 }
             }
 
@@ -95,9 +105,10 @@ class ShoppingListsFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                sortingShoppingList(position)
-                adapter.notifyDataSetChanged()
-                adapter.updateSpinnerPos(position)
+                lifecycleScope.launch {
+                    save("spinnerPos", position)
+                    sortingShoppingList()
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -121,6 +132,10 @@ class ShoppingListsFragment : Fragment() {
             Intent(context, AddNewListActivity::class.java).also {
                 startActivityForResult(it, RC_ADD_NEW_LIST)
             }
+        }
+
+        lifecycleScope.launch {
+            spLists.setSelection(read("spinnerPos"))
         }
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_onStart()_End")
     }
@@ -188,28 +203,45 @@ class ShoppingListsFragment : Fragment() {
                 .addOnFailureListener {
                     throw Exception("error when adding the listID to the favs")
                 }
-            sortingShoppingList(spLists.selectedItemPosition)
+            sortingShoppingList()
         } catch (ex: Exception) {
             Log.wtf(MainActivity.TAG, "create new group failed")
         }
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_createNewGroup_End")
     }
 
-    fun sortingShoppingList(position: Int) {
+    fun sortingShoppingList() {
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_sortingShoppingList_Start")
-        when (position) { //position 0: Favorites; 1: A-Z; 2: Z-A
-            0 -> {
-                shoppingList.sortBy { it.name }
-                shoppingList.sortByDescending { it.isFavorite }
+        lifecycleScope.launch {
+            when (read("spinnerPos")) { //position 0: Favorites; 1: A-Z; 2: Z-A
+                0 -> {
+                    shoppingList.sortBy { it.name.toLowerCase() }
+                    shoppingList.sortByDescending { it.isFavorite }
+                }
+                1 -> {
+                    shoppingList.sortBy { it.name.toLowerCase() }
+                }
+                2 -> {
+                    shoppingList.sortByDescending { it.name.toLowerCase() }
+                }
             }
-            1 -> {
-                shoppingList.sortBy { it.name }
-            }
-            2 -> {
-                shoppingList.sortByDescending { it.name }
-            }
+            adapter.updateSpinnerPos(read("spinnerPos"))
+            adapter.updateList()
+            adapter.notifyDataSetChanged()
         }
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_sortingShoppingList_End")
     }
 
+    private suspend fun save(key: String, value: Int) {
+        val dataStoreKey = intPreferencesKey(key)
+        requireContext()?.dataStore?.edit { settings ->
+            settings[dataStoreKey] = value
+        }
+    }
+
+    private suspend fun read(key: String): Int {
+        val dataStoreKey = intPreferencesKey(key)
+        val preferences = requireContext()?.dataStore?.data?.first()
+        return preferences?.get(dataStoreKey) ?: 0
+    }
 }

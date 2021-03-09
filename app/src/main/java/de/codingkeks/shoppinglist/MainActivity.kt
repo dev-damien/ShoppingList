@@ -28,12 +28,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 private const val defaultIconId = R.drawable.ic_account_image
 private const val RC_AUTH = 69
@@ -81,8 +78,8 @@ class MainActivity : AppCompatActivity() {
             }
             else Log.d(TAG, "false")
         }
-        Log.d(TAG, "MainActivity_onCreate()_End")
 
+        Log.d(TAG, "MainActivity_onCreate()_End")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
