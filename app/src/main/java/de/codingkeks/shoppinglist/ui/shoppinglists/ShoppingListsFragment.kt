@@ -58,7 +58,6 @@ class ShoppingListsFragment : Fragment() {
         shoppingListsViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })*/
-
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_onCreateView()_End")
         return root
     }
@@ -66,6 +65,8 @@ class ShoppingListsFragment : Fragment() {
     override fun onStart() {
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_onStart()_Start")
         super.onStart()
+        svLists.clearFocus()
+        svLists.setQuery("", false)
 
         adapter = ListAdapter(shoppingList, spLists.selectedItemPosition)
         rvLists.adapter = adapter

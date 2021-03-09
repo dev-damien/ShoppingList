@@ -2,10 +2,10 @@ package de.codingkeks.shoppinglist.ui.friends
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -15,9 +15,6 @@ import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.friendRequests.FriendRequest
 import de.codingkeks.shoppinglist.recyclerview.friendRequests.FriendRequestAdapter
-import de.codingkeks.shoppinglist.recyclerview.friends.Friend
-import de.codingkeks.shoppinglist.recyclerview.friends.FriendAdapter
-import de.codingkeks.shoppinglist.recyclerview.items.Item
 import kotlinx.android.synthetic.main.fragment_friends_added.*
 import kotlinx.android.synthetic.main.fragment_friends_requests.*
 import kotlinx.android.synthetic.main.fragment_items.*
