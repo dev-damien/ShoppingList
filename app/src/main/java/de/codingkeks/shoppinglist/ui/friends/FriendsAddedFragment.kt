@@ -87,7 +87,6 @@ class FriendsAddedFragment : Fragment() {
                         .addOnSuccessListener { querySnapshot ->
                             friendList.clear()
                             querySnapshot.forEach {
-                                Log.d(MainActivity.TAG, "username=${it.getString("username")}, icon_id=${it.getLong("icon_id")}")
                                 friendList.add(
                                     Friend(
                                         it.getString("username") ?: "ERROR",

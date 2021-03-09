@@ -82,6 +82,8 @@
     <string name="delete_item">Delete Item</string>
     <string name="delete_item_sure">Do you really want to delete this item?</string>
     <string name="popup_bought_not">Mark as not bought</string>
+    <string name="addFriendDialogFriendRequestedSucess">User requested.</string>
+    <string name="friend_requests_no_friends">No friends found</string>
     <string-array name="sortingItem">
         <item>Latest</item>
         <item>A-Z</item>

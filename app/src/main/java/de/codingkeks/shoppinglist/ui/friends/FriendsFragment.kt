@@ -185,6 +185,7 @@ class FriendsFragment : Fragment() {
                                                         "friendRequests",
                                                         FieldValue.arrayUnion(docRefUser.id)
                                                     )
+                                                    Toast.makeText(requireContext(), getString(R.string.addFriendDialogFriendRequestedSucess), Toast.LENGTH_LONG).show()
                                                 }
                                             }
                                         }
