@@ -74,11 +74,12 @@ class FriendsRequestsFragment : Fragment() {
             tvFriendRequestsNoFriends.text = ""
 
             //get requested user data and add to the list
-            friendRequestsList.clear()
+            //friendRequestsList.clear()
             db.collection("users")
                 .whereIn(FieldPath.documentId(), friendRequestIds).get()
                 .addOnSuccessListener { userDocs  ->
                     Log.d(MainActivity.TAG, "read friend requests was successful: ${userDocs.size()} request(s)")
+                    friendRequestsList.clear()
                     for (userRequestDoc in userDocs) {
                         friendRequestsList.add(
                             FriendRequest(

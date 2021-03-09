@@ -94,11 +94,12 @@ class FriendsAddedFragment : Fragment() {
             tvNoFriends.text = ""
 
             //get friends data and add to the list
-            friendList.clear()
+            //friendList.clear() TODO test if useless
             db.collection("users")
                 .whereIn(FieldPath.documentId(), friendIds).get()
                 .addOnSuccessListener { friendsDocs  ->
                     Log.d(MainActivity.TAG, "read friends was successful: ${friendsDocs.size()} friend(s)")
+                    friendList.clear()
                     for (friend in friendsDocs) {
                         friendList.add(
                             Friend(
