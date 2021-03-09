@@ -80,4 +80,6 @@
     <string name="delete_item_sure">Sind sie sicher, dass sie den Artiekl löschen wollen?</string>
     <string name="popup_bought_not">Als nicht gekauft markieren</string>
     <string name="change">Ändern</string>
+    <string name="addFriendDialogFriendRequestedSucess">Nutzer wurde angefragt.</string>
+    <string name="friend_requests_no_friends">Keine Freunde gefunden</string>
 </resources>

@@ -3,7 +3,11 @@ package de.codingkeks.shoppinglist.recyclerview.friendRequests
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.rv_friend_request.view.*
 
@@ -23,15 +27,24 @@ class FriendRequestAdapter(var friendRequests: List<FriendRequest>): RecyclerVie
             ivFriendRequestImage.setImageResource(friendRequests[position].profilePicture)
             tvFriendRequestName.text = friendRequests[position].name
 
+            val db = FirebaseFirestore.getInstance()
+            val user = FirebaseAuth.getInstance().currentUser ?: return
+            val userDoc = db.document("users/${user.uid}")
+            val requestedFriendId = friendRequests[position].friendId
+            val requestedFriendDoc = db.document("users/${requestedFriendId}")
+
             ivFriendRequestAccept.setOnClickListener {
-                //TODO accept friends request
+                // accept friend request and remove request
+                userDoc.update("friends", FieldValue.arrayUnion(requestedFriendId))
+                requestedFriendDoc.update("friends", FieldValue.arrayUnion(user.uid))
+                userDoc.update("friendRequests", FieldValue.arrayRemove(requestedFriendId))
             }
 
             ivFriendRequestDecline.setOnClickListener {
-                //TODO decline friend request
+                //decline friend request
+                userDoc.update("friendRequests", FieldValue.arrayRemove(requestedFriendId))
             }
         }
-
     }
 
     override fun getItemCount(): Int {
