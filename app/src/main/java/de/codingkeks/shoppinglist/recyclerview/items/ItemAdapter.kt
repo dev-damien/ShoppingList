@@ -103,13 +103,13 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
                                         }
                                         1 -> {
                                             (items as ArrayList<Item>).sortBy { it.name }
+                                            (items as ArrayList<Item>).sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
                                         }
                                         2 -> {
-                                            (items as ArrayList<Item>).sortByDescending { it.name }
+                                            (items as ArrayList<Item>).sortBy { it.name }
                                         }
                                         3 -> {
-                                            (items as ArrayList<Item>).sortBy { it.name }
-                                            (items as ArrayList<Item>).sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
+                                            (items as ArrayList<Item>).sortByDescending { it.name }
                                         }
                                     }
                                     updateList()
@@ -200,13 +200,13 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
                 }
                 1 -> {
                     filteredList.sortBy { it.name }
+                    filteredList.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
                 }
                 2 -> {
-                    filteredList.sortByDescending { it.name }
+                    filteredList.sortBy { it.name }
                 }
                 3 -> {
-                    filteredList.sortBy { it.name }
-                    filteredList.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
+                    filteredList.sortByDescending { it.name }
                 }
             }
 

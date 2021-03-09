@@ -84,9 +84,9 @@
     <string name="popup_bought_not">Mark as not bought</string>
     <string-array name="sortingItem">
         <item>Latest</item>
+        <item>Oldest</item>
         <item>A-Z</item>
         <item>Z-A</item>
-        <item>Oldest</item>
     </string-array>
 
 </resources>

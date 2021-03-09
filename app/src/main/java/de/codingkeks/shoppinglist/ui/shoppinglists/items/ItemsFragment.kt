@@ -202,13 +202,13 @@ class ItemsFragment : Fragment() {
             }
             1 -> {
                 items.sortBy { it.name }
+                items.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
             }
             2 -> {
-                items.sortByDescending { it.name }
+                items.sortBy { it.name }
             }
             3 -> {
-                items.sortBy { it.name }
-                items.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
+                items.sortByDescending { it.name }
             }
         }
     }
