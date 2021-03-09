@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.MainActivity
@@ -18,6 +19,7 @@ import de.codingkeks.shoppinglist.recyclerview.friendRequests.FriendRequestAdapt
 import de.codingkeks.shoppinglist.recyclerview.friends.Friend
 import de.codingkeks.shoppinglist.recyclerview.friends.FriendAdapter
 import de.codingkeks.shoppinglist.recyclerview.items.Item
+import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ShoppingList
 import kotlinx.android.synthetic.main.fragment_friends_added.*
 import kotlinx.android.synthetic.main.fragment_friends_requests.*
 import kotlinx.android.synthetic.main.fragment_items.*
@@ -56,26 +58,47 @@ class FriendsRequestsFragment : Fragment() {
         val user = FirebaseAuth.getInstance().currentUser!!
         val db = FirebaseFirestore.getInstance()
         val userDoc = db.document("users/${user.uid}")
-        registration = userDoc.addSnapshotListener { requestDSnap, e ->
-            if (e != null){
+        registration = userDoc.addSnapshotListener { userDocSnap, e ->
+            if (e != null) {
                 Log.w(MainActivity.TAG, "Listen to user doc failed (in friend Requests)")
                 return@addSnapshotListener
             }
-            if (requestDSnap == null || !requestDSnap.exists()){
+            if (userDocSnap == null || !userDocSnap.exists()) {
                 Log.w(MainActivity.TAG, "Data of user doc (in friend request): null")
-            }
-            //friendRequestsList.clear()
-            if (requestDSnap == null) {
                 return@addSnapshotListener
             }
-            var friendRequestIds = requestDSnap.get("friendRequests") as ArrayList<String>
-            if (friendRequestIds.isEmpty()) tvFriendRequestsNoFriends.text = getString(R.string.friend_requests_no_friends)
+            val friendRequestIds = userDocSnap.get("friendRequests") as ArrayList<String> //get all IDs of the users that requested current user
+            if (friendRequestIds.isEmpty()) {
+                tvFriendRequestsNoFriends.text =
+                    getString(R.string.friend_requests_no_requests)
+                friendRequestsList.clear()
+                adapter.notifyDataSetChanged()
+                return@addSnapshotListener
+            }
+            tvFriendRequestsNoFriends.text = ""
 
             //get requested user data and add to the list
-            //db.collection()
-            //friendRequestsList.add()
+            friendRequestsList.clear()
+            db.collection("users")
+                .whereIn(FieldPath.documentId(), friendRequestIds).get()
+                .addOnSuccessListener { userDocs  ->
+                    Log.d(MainActivity.TAG, "read friend requests was successful: ${userDocs.size()} request(s)")
+                    for (userRequestDoc in userDocs) {
+                        friendRequestsList.add(
+                            FriendRequest(
+                                userRequestDoc.getString("username")!!,
+                                (userRequestDoc.getLong("icon_id") as Long).toInt(),
+                                userRequestDoc.id
+                            )
+                        )
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+                .addOnFailureListener{
+                    Log.d(MainActivity.TAG, "read friend requests failed")
+                }
+            adapter.notifyDataSetChanged()
         }
-        adapter.notifyDataSetChanged()
     }
 
     override fun onStop() {

@@ -15,12 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
+import de.codingkeks.shoppinglist.recyclerview.friendRequests.FriendRequest
 import de.codingkeks.shoppinglist.recyclerview.friends.Friend
 import de.codingkeks.shoppinglist.recyclerview.friends.FriendAdapter
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ShoppingList
 import kotlinx.android.synthetic.main.fragment_friends_added.*
+import kotlinx.android.synthetic.main.fragment_friends_requests.*
 import kotlinx.android.synthetic.main.fragment_shoppinglists.*
 
 class FriendsAddedFragment : Fragment() {
@@ -28,6 +31,7 @@ class FriendsAddedFragment : Fragment() {
     private lateinit var friendsViewModel: FriendsViewModel
     var friendList: MutableList<Friend> = mutableListOf()
     private lateinit var adapter: FriendAdapter
+    private lateinit var registration: ListenerRegistration
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,40 +70,50 @@ class FriendsAddedFragment : Fragment() {
             )
         )
 
-        //get all friends of the user
         val user = FirebaseAuth.getInstance().currentUser!!
-        val docRef = FirebaseFirestore.getInstance().document("users/${user.uid}")
-        docRef.get()
-            .addOnSuccessListener { userDSnap ->
-                if (userDSnap == null) {
-                    Log.d(
-                        MainActivity.TAG,
-                        "cant read friends, because user does not exist in database"
-                    )
-                } else {
-                    Log.d(MainActivity.TAG, "friends will be read")
-                    var friendsIDs = userDSnap.get("friends") as ArrayList<Friend>
-                    if (friendsIDs.isEmpty()) return@addOnSuccessListener
-                    //get the documents of the friends
-                    val colRef = FirebaseFirestore.getInstance().collection("users")
-                    //TODO get only the documents with a name/ID which is in the array
-                    colRef.whereIn(FieldPath.documentId(), friendsIDs).get()
-                        .addOnSuccessListener { querySnapshot ->
-                            friendList.clear()
-                            querySnapshot.forEach {
-                                friendList.add(
-                                    Friend(
-                                        it.getString("username") ?: "ERROR",
-                                        (it.getLong("icon_id") as Long).toInt(),
-                                        it.id
-                                    )
-                                )
-                            }
-                            adapter.updateList()
-                            adapter.notifyDataSetChanged()
-                        }
-                }
+        val db = FirebaseFirestore.getInstance()
+        val userDoc = db.document("users/${user.uid}")
+        registration = userDoc.addSnapshotListener { userDocSnap, e ->
+            if (e != null) {
+                Log.w(MainActivity.TAG, "Listen to user doc failed (in friends)")
+                return@addSnapshotListener
             }
+            if (userDocSnap == null || !userDocSnap.exists()) {
+                Log.w(MainActivity.TAG, "Data of user doc (in friends): null")
+                return@addSnapshotListener
+            }
+            val friendIds = userDocSnap.get("friends") as ArrayList<String> //get all IDs of the friends
+            if (friendIds.isEmpty()) {
+                tvNoFriends.text =
+                    getString(R.string.friend_requests_no_friends)
+                friendList.clear()
+                adapter.notifyDataSetChanged()
+                return@addSnapshotListener
+            }
+            tvNoFriends.text = ""
+
+            //get friends data and add to the list
+            friendList.clear()
+            db.collection("users")
+                .whereIn(FieldPath.documentId(), friendIds).get()
+                .addOnSuccessListener { friendsDocs  ->
+                    Log.d(MainActivity.TAG, "read friends was successful: ${friendsDocs.size()} friend(s)")
+                    for (friend in friendsDocs) {
+                        friendList.add(
+                            Friend(
+                                friend.getString("username")!!,
+                                (friend.getLong("icon_id") as Long).toInt(),
+                                friend.id
+                            )
+                        )
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+                .addOnFailureListener{
+                    Log.d(MainActivity.TAG, "read friends failed")
+                }
+            adapter.notifyDataSetChanged()
+        }
 
         spFriends.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {

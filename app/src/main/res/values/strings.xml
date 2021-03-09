@@ -71,7 +71,7 @@
     <string name="popup_bought">Mark as bought</string>
     <string name="popup_edit">Edit</string>
 
-    <string name="addFriendDialogNameInputHint">Name of friend [name#0000]</string>
+    <string name="addFriendDialogNameInputHint">Name of friend</string>
     <string name="addFriendDialogPositiveButton">Send request</string>
     <string name="addFriendDialogInputInvalidToast">Input is not a valid format. Enter name like this: First Last#42</string>
     <string name="addFriendDialogFriendNotFound">No user with this name was found. Make sure the name is written correctly.</string>
@@ -83,6 +83,7 @@
     <string name="delete_item_sure">Do you really want to delete this item?</string>
     <string name="popup_bought_not">Mark as not bought</string>
     <string name="addFriendDialogFriendRequestedSucess">User requested.</string>
+    <string name="friend_requests_no_requests">No friend requests found</string>
     <string name="friend_requests_no_friends">No friends found</string>
     <string-array name="sortingItem">
         <item>Latest</item>
