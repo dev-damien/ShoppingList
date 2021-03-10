@@ -89,12 +89,11 @@ class FriendsRequestsFragment : Fragment() {
                             )
                         )
                     }
-                    //adapter.notifyDataSetChanged()
+                    adapter.notifyDataSetChanged()
                 }
                 .addOnFailureListener{
                     Log.d(MainActivity.TAG, "read friend requests failed")
                 }
-            adapter.notifyDataSetChanged()
         }
     }
 
