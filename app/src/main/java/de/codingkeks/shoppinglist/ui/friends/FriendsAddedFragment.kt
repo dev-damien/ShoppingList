@@ -1,5 +1,6 @@
 package de.codingkeks.shoppinglist.ui.friends
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,8 +9,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.SearchView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -23,6 +30,10 @@ import de.codingkeks.shoppinglist.recyclerview.friends.FriendAdapter
 import kotlinx.android.synthetic.main.fragment_friends_added.*
 import kotlinx.android.synthetic.main.fragment_friends_requests.*
 import kotlinx.android.synthetic.main.fragment_shoppinglists.*
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "friends_settings")
 
 class FriendsAddedFragment : Fragment() {
 
@@ -65,7 +76,7 @@ class FriendsAddedFragment : Fragment() {
         svFriends.clearFocus()
         svFriends.setQuery("", false)
 
-        adapter = FriendAdapter(friendList)
+        adapter = FriendAdapter(friendList, spFriends.selectedItemPosition)
         rvFriends.adapter = adapter
         rvFriends.layoutManager = LinearLayoutManager(requireContext())
         rvFriends.addItemDecoration(
@@ -74,7 +85,6 @@ class FriendsAddedFragment : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
-
 
         val user = FirebaseAuth.getInstance().currentUser!!
         val db = FirebaseFirestore.getInstance()
@@ -93,6 +103,7 @@ class FriendsAddedFragment : Fragment() {
                 tvNoFriends.text =
                     getString(R.string.friend_requests_no_friends)
                 friendList.clear()
+                adapter.updateList()
                 adapter.notifyDataSetChanged()
                 return@addSnapshotListener
             }
@@ -113,12 +124,12 @@ class FriendsAddedFragment : Fragment() {
                             )
                         )
                     }
-                    adapter.notifyDataSetChanged()
+                    adapter.updateList()
+                    sortingFriendsList()
                 }
                 .addOnFailureListener{
                     Log.d(MainActivity.TAG, "read friends failed")
                 }
-            adapter.notifyDataSetChanged()
         }
 
         spFriends.onItemSelectedListener =
@@ -129,8 +140,10 @@ class FriendsAddedFragment : Fragment() {
                     position: Int,
                     id: Long
                 ) {
-                    sortingFriendsList(position)
-                    adapter.notifyDataSetChanged()
+                    lifecycleScope.launch {
+                        save("spinnerPos", position)
+                        sortingFriendsList()
+                    }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -150,17 +163,38 @@ class FriendsAddedFragment : Fragment() {
                 }
             })
 
+        lifecycleScope.launch {
+            spFriends.setSelection(read("spinnerPos"))
+        }
         Log.d(MainActivity.TAG, "FriendsFragment()_onCreate()_End")
     }
 
-    fun sortingFriendsList(position: Int) {
-        when (position) { //0: A-Z; 1: Z-A
-            0 -> {
-                friendList.sortBy { it.name.toLowerCase() }
+    fun sortingFriendsList() {
+        lifecycleScope.launch {
+            val position = read("spinnerPos")
+            when (position) { //0: A-Z; 1: Z-A
+                0 -> {
+                    friendList.sortBy { it.name.toLowerCase() }
+                }
+                1 -> {
+                    friendList.sortByDescending { it.name.toLowerCase() }
+                }
             }
-            1 -> {
-                friendList.sortByDescending { it.name.toLowerCase() }
-            }
+            adapter.updateSpinnerPos(position)
+            adapter.notifyDataSetChanged()
         }
+    }
+
+    private suspend fun save(key: String, value: Int) {
+        val dataStoreKey = intPreferencesKey(key)
+        requireContext().dataStore.edit { settings ->
+            settings[dataStoreKey] = value
+        }
+    }
+
+    private suspend fun read(key: String): Int {
+        val dataStoreKey = intPreferencesKey(key)
+        val preferences = requireContext().dataStore.data.first()
+        return preferences[dataStoreKey] ?: 0
     }
 }

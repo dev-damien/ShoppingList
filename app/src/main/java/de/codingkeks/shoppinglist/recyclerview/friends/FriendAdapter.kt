@@ -7,10 +7,9 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import de.codingkeks.shoppinglist.R
-import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ShoppingList
 import kotlinx.android.synthetic.main.rv_friend.view.*
 
-class FriendAdapter(var friends: List<Friend>, var listsFull: ArrayList<Friend> = ArrayList<Friend>(friends)): RecyclerView.Adapter<FriendAdapter.FriendViewHolder>(), Filterable {
+class FriendAdapter(var friends: List<Friend>, var spPos: Int, var listsFull: ArrayList<Friend> = ArrayList<Friend>(friends)): RecyclerView.Adapter<FriendAdapter.FriendViewHolder>(), Filterable {
     inner class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
@@ -48,8 +47,15 @@ class FriendAdapter(var friends: List<Friend>, var listsFull: ArrayList<Friend> 
                     }
                 }
             }
-            //TODO Liste sortieren
-            filteredList.sortBy { it.name }
+
+            when (spPos) {
+                0 -> {
+                    filteredList.sortBy { it.name.toLowerCase() }
+                }
+                1 -> {
+                    filteredList.sortByDescending { it.name.toLowerCase() }
+                }
+            }
 
             var filterResults: FilterResults = FilterResults()
             filterResults.values = filteredList
@@ -69,4 +75,7 @@ class FriendAdapter(var friends: List<Friend>, var listsFull: ArrayList<Friend> 
         listsFull = ArrayList(friends)
     }
 
+    fun updateSpinnerPos(position: Int) {
+        spPos = position
+    }
 }
