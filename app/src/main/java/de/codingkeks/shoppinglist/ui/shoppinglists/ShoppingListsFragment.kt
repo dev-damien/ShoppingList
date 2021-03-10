@@ -95,6 +95,7 @@ class ShoppingListsFragment : Fragment() {
                             )
                         )
                     }
+                    adapter.updateList()
                     sortingShoppingList()
                 }
             }
@@ -204,6 +205,7 @@ class ShoppingListsFragment : Fragment() {
                 .addOnFailureListener {
                     throw Exception("error when adding the listID to the favs")
                 }
+            adapter.updateList()
             sortingShoppingList()
         } catch (ex: Exception) {
             Log.wtf(MainActivity.TAG, "create new group failed")
@@ -228,7 +230,6 @@ class ShoppingListsFragment : Fragment() {
                 }
             }
             adapter.updateSpinnerPos(position)
-            adapter.updateList()
             adapter.notifyDataSetChanged()
         }
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_sortingShoppingList_End")
