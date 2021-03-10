@@ -35,7 +35,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.*
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "lists_settings")
 
 class ShoppingListsFragment : Fragment() {
 
@@ -214,7 +214,8 @@ class ShoppingListsFragment : Fragment() {
     fun sortingShoppingList() {
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_sortingShoppingList_Start")
         lifecycleScope.launch {
-            when (read("spinnerPos")) { //position 0: Favorites; 1: A-Z; 2: Z-A
+            val position = read("spinnerPos")
+            when (position) { //position 0: Favorites; 1: A-Z; 2: Z-A
                 0 -> {
                     shoppingList.sortBy { it.name.toLowerCase() }
                     shoppingList.sortByDescending { it.isFavorite }
@@ -226,7 +227,7 @@ class ShoppingListsFragment : Fragment() {
                     shoppingList.sortByDescending { it.name.toLowerCase() }
                 }
             }
-            adapter.updateSpinnerPos(read("spinnerPos"))
+            adapter.updateSpinnerPos(position)
             adapter.updateList()
             adapter.notifyDataSetChanged()
         }
@@ -235,14 +236,14 @@ class ShoppingListsFragment : Fragment() {
 
     private suspend fun save(key: String, value: Int) {
         val dataStoreKey = intPreferencesKey(key)
-        requireContext()?.dataStore?.edit { settings ->
+        requireContext().dataStore.edit { settings ->
             settings[dataStoreKey] = value
         }
     }
 
     private suspend fun read(key: String): Int {
         val dataStoreKey = intPreferencesKey(key)
-        val preferences = requireContext()?.dataStore?.data?.first()
-        return preferences?.get(dataStoreKey) ?: 0
+        val preferences = requireContext().dataStore.data.first()
+        return preferences[dataStoreKey] ?: 0
     }
 }

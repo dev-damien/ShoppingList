@@ -1,6 +1,7 @@
 package de.codingkeks.shoppinglist.ui.shoppinglists.items
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,7 +10,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.SearchView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,7 +26,11 @@ import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.items.Item
 import de.codingkeks.shoppinglist.recyclerview.items.ItemBoughtAdapter
 import kotlinx.android.synthetic.main.fragment_items_bought.*
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "items_bought_settings")
 
 class ItemsBoughtFragment : Fragment() {
 
@@ -71,9 +82,7 @@ class ItemsBoughtFragment : Fragment() {
                     )
                 }
             }
-            sortingItems(spItemsBought.selectedItemPosition)
-            adapter.updateList()
-            adapter.notifyDataSetChanged()
+            sortingItems()
         }
 
         spItemsBought.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -83,9 +92,10 @@ class ItemsBoughtFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                sortingItems(position)
-                adapter.notifyDataSetChanged()
-                adapter.updateSpinnerPos(position)
+                lifecycleScope.launch {
+                    save("spinnerPos", position)
+                    sortingItems()
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -104,6 +114,10 @@ class ItemsBoughtFragment : Fragment() {
                 return false
             }
         })
+
+        lifecycleScope.launch {
+            spItemsBought.setSelection(read("spinnerPos"))
+        }
     }
 
     override fun onStop() {
@@ -111,30 +125,48 @@ class ItemsBoughtFragment : Fragment() {
         registration.remove()
     }
 
-    fun sortingItems(position: Int) {
-        when (position) { //position 0: Latest; 1: A-Z; 2: Z-A
-            0 -> {
-                items.sortBy { it.name.toLowerCase() }
-                try {
-                    items.sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
-                } catch (ex: Exception) {
-                    Log.d(MainActivity.TAG, "Cant parse because values are empty")
+    fun sortingItems() {
+        lifecycleScope.launch {
+            val position = read("spinnerPos")
+            when (position) { //position 0: Latest; 1: A-Z; 2: Z-A
+                0 -> {
+                    items.sortBy { it.name.toLowerCase() }
+                    try {
+                        items.sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
+                    } catch (ex: Exception) {
+                        Log.d(MainActivity.TAG, "Cant parse because values are empty")
+                    }
+                }
+                1 -> {
+                    items.sortBy { it.name.toLowerCase() }
+                    try {
+                        items.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
+                    } catch (ex: Exception) {
+                        Log.d(MainActivity.TAG, "Cant parse because values are empty")
+                    }
+                }
+                2 -> {
+                    items.sortBy { it.name.toLowerCase() }
+                }
+                3 -> {
+                    items.sortByDescending { it.name.toLowerCase() }
                 }
             }
-            1 -> {
-                items.sortBy { it.name.toLowerCase() }
-                try {
-                    items.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
-                } catch (ex: Exception) {
-                    Log.d(MainActivity.TAG, "Cant parse because values are empty")
-                }
-            }
-            2 -> {
-                items.sortBy { it.name.toLowerCase() }
-            }
-            3 -> {
-                items.sortByDescending { it.name.toLowerCase() }
-            }
+            adapter.notifyDataSetChanged()
+            adapter.updateSpinnerPos(position)
         }
+    }
+
+    private suspend fun save(key: String, value: Int) {
+        val dataStoreKey = intPreferencesKey(key)
+        requireContext().dataStore.edit { settings ->
+            settings[dataStoreKey] = value
+        }
+    }
+
+    private suspend fun read(key: String): Int {
+        val dataStoreKey = intPreferencesKey(key)
+        val preferences = requireContext().dataStore.data.first()
+        return preferences[dataStoreKey] ?: 0
     }
 }

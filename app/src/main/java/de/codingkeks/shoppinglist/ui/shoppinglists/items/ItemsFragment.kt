@@ -21,7 +21,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputEditText
@@ -33,8 +39,12 @@ import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.items.Item
 import de.codingkeks.shoppinglist.recyclerview.items.ItemAdapter
 import kotlinx.android.synthetic.main.fragment_items.*
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "item_settings")
 
 class ItemsFragment : Fragment() {
 
@@ -85,9 +95,7 @@ class ItemsFragment : Fragment() {
                         )
                     )
                 }
-                sortingItems(spItems.selectedItemPosition)
-                adapter.updateList()
-                adapter.notifyDataSetChanged()
+                sortingItems()
             }
         }
 
@@ -98,9 +106,10 @@ class ItemsFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                sortingItems(position)
-                adapter.notifyDataSetChanged()
-                adapter.updateSpinnerPos(position)
+                lifecycleScope.launch {
+                    save("spinnerPos", position)
+                    sortingItems()
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -119,6 +128,10 @@ class ItemsFragment : Fragment() {
                 return false
             }
         })
+
+        lifecycleScope.launch {
+            spItems.setSelection(read("spinnerPos"))
+        }
 
         fabAddNewItem.setOnClickListener {
             val alertBuilder = AlertDialog.Builder(
@@ -150,9 +163,7 @@ class ItemsFragment : Fragment() {
                     )
                     val docRefItems = colRefItems.document()
                     docRefItems.set(itemData).addOnSuccessListener {
-                        sortingItems(spItems.selectedItemPosition)
-                        adapter.updateList()
-                        adapter.notifyDataSetChanged()
+                        sortingItems()
                     }
                 }
             }
@@ -196,22 +207,28 @@ class ItemsFragment : Fragment() {
         registration.remove()
     }
 
-    fun sortingItems(position: Int) {
-        when (position) { //position 0: Latest; 1: A-Z; 2: Z-A
-            0 -> {
-                items.sortBy { it.name.toLowerCase() }
-                items.sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
+    fun sortingItems() {
+        lifecycleScope.launch {
+            val position: Int = read("spinnerPos")
+            when (position) { //position 0: Latest; 1: A-Z; 2: Z-A
+                0 -> {
+                    items.sortBy { it.name.toLowerCase() }
+                    items.sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
+                }
+                1 -> {
+                    items.sortBy { it.name.toLowerCase() }
+                    items.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
+                }
+                2 -> {
+                    items.sortBy { it.name.toLowerCase() }
+                }
+                3 -> {
+                    items.sortByDescending { it.name.toLowerCase() }
+                }
             }
-            1 -> {
-                items.sortBy { it.name.toLowerCase() }
-                items.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
-            }
-            2 -> {
-                items.sortBy { it.name.toLowerCase() }
-            }
-            3 -> {
-                items.sortByDescending { it.name.toLowerCase() }
-            }
+            adapter.updateList()
+            adapter.updateSpinnerPos(position)
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -270,4 +287,17 @@ class ItemsFragment : Fragment() {
     private fun Int.toDp(context: Context):Int = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), context.resources.displayMetrics
     ).toInt()
+
+    private suspend fun save(key: String, value: Int) {
+        val dataStoreKey = intPreferencesKey(key)
+        requireContext().dataStore.edit { settings ->
+            settings[dataStoreKey] = value
+        }
+    }
+
+    private suspend fun read(key: String): Int {
+        val dataStoreKey = intPreferencesKey(key)
+        val preferences = requireContext().dataStore.data.first()
+        return preferences[dataStoreKey] ?: 0
+    }
 }

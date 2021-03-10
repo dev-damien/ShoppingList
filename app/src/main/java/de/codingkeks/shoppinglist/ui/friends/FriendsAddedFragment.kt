@@ -18,7 +18,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
-import de.codingkeks.shoppinglist.recyclerview.friendRequests.FriendRequest
 import de.codingkeks.shoppinglist.recyclerview.friends.Friend
 import de.codingkeks.shoppinglist.recyclerview.friends.FriendAdapter
 import kotlinx.android.synthetic.main.fragment_friends_added.*
@@ -152,10 +151,10 @@ class FriendsAddedFragment : Fragment() {
     fun sortingFriendsList(position: Int) {
         when (position) { //0: A-Z; 1: Z-A
             0 -> {
-                friendList.sortBy { it.name }
+                friendList.sortBy { it.name.toLowerCase() }
             }
             1 -> {
-                friendList.sortByDescending { it.name }
+                friendList.sortByDescending { it.name.toLowerCase() }
             }
         }
     }
