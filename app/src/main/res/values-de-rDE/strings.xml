@@ -83,4 +83,6 @@
     <string name="addFriendDialogFriendRequestedSucess">Nutzer wurde angefragt.</string>
     <string name="friend_requests_no_requests">Keine Freundschaftsanfragen gefunden</string>
     <string name="friend_requests_no_friends">Keine Freunde gefunden</string>
+    <string name="friend_remove">Freund entfernen</string>
+    <string name="friend_dialog_remove_message">Möchtest du wirklich den folgenden Freund entfernen?</string>
 </resources>

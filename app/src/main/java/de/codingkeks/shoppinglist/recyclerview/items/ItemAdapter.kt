@@ -51,7 +51,7 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
             popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_bought -> {
-                        val uid = FirebaseAuth.getInstance().currentUser?.uid
+                        val uid = FirebaseAuth.getInstance().currentUser!!.uid
                         val colRefUsers = FirebaseFirestore.getInstance().document("users/${uid}")
                         colRefUsers.get().addOnSuccessListener {
                             val username = it.get("username")

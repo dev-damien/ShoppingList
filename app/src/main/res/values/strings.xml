@@ -85,6 +85,9 @@
     <string name="addFriendDialogFriendRequestedSucess">User requested.</string>
     <string name="friend_requests_no_requests">No friend requests found</string>
     <string name="friend_requests_no_friends">No friends found</string>
+    <string name="friend_remove">Remove Friend</string>
+    <string name="friend_dialog_remove_message">Do you really want to remove the following friend?</string>
+    <string name="dialog_remove">Remove</string>
     <string-array name="sortingItem">
         <item>Latest</item>
         <item>Oldest</item>
