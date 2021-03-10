@@ -83,7 +83,12 @@
     <string name="addFriendDialogFriendRequestedSucess">Nutzer wurde angefragt.</string>
     <string name="friend_requests_no_requests">Keine Freundschaftsanfragen gefunden</string>
     <string name="friend_requests_no_friends">Keine Freunde gefunden</string>
+    <string name="popup_leave">Verlassen</string>
+    <string name="leave_group">Gruppe verlassen</string>
+    <string name="delete_group">Gruppe löschen</string>
+    <string name="delete_list">Sind sie sicher, dass sie die Liste löschen wollen?\n\nWENN SIE DIE LISTE LÖSCHEN WERDEN ALLE MITGLIEDER ENTFERNT!!!</string>
     <string name="friend_remove">Freund entfernen</string>
     <string name="friend_dialog_remove_message">Möchtest du wirklich den folgenden Freund entfernen?</string>
     <string name="dialog_remove">Entfernen</string>
+    <string name="leave_list">Sind sie sicher, dass sie die Liste verlassen möchten?</string>
 </resources>

@@ -85,9 +85,14 @@
     <string name="addFriendDialogFriendRequestedSucess">User requested.</string>
     <string name="friend_requests_no_requests">No friend requests found</string>
     <string name="friend_requests_no_friends">No friends found</string>
+    <string name="popup_leave">Leave</string>
+    <string name="leave_group">Leave group</string>
+    <string name="delete_group">Delete group</string>
+    <string name="delete_list">Are you sure you want to delete the group?\n\nBE AWARE THAT EVERYONE ELSE GETS KICKED OUT OF THE GROUP!!!</string>
     <string name="friend_remove">Remove Friend</string>
     <string name="friend_dialog_remove_message">Do you really want to remove the following friend?</string>
     <string name="dialog_remove">Remove</string>
+    <string name="leave_list">Are you sure you want to leave the group?</string>
     <string-array name="sortingItem">
         <item>Latest</item>
         <item>Oldest</item>
