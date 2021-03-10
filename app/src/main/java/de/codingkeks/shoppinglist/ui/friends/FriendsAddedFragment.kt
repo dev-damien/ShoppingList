@@ -55,6 +55,11 @@ class FriendsAddedFragment : Fragment() {
         Log.d(MainActivity.TAG, "FriendsFragment()_onCreate()_Start")
     }
 
+    override fun onStop() {
+        super.onStop()
+        registration.remove()
+    }
+
     override fun onStart() {
         super.onStart()
         svFriends.clearFocus()
@@ -69,6 +74,7 @@ class FriendsAddedFragment : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
+
 
         val user = FirebaseAuth.getInstance().currentUser!!
         val db = FirebaseFirestore.getInstance()
