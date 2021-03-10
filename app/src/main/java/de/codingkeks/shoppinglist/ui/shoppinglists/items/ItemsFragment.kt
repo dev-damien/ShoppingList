@@ -95,8 +95,8 @@ class ItemsFragment : Fragment() {
                         )
                     )
                 }
-                sortingItems()
             }
+            sortingItems()
         }
 
         spItems.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

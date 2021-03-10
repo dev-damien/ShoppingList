@@ -252,14 +252,16 @@ class MainActivity : AppCompatActivity() {
             " "
         ) //clean the user name input; no leading, trailing or consecutive whitespaces
         Log.d(TAG, "findingUsername username: $username")
-        val docRef = FirebaseFirestore.getInstance().collection("users")
+        val colRef = FirebaseFirestore.getInstance().collection("users")
 
+        val uidUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        val docRef = colRef.document(uidUser)
         docRef
             .addSnapshotListener { _, _ ->
                 displayUserInformation()
             }
 
-        docRef
+        colRef
             .whereGreaterThan("username", username)
             .whereLessThan("username", username + "999999999")
             .orderBy("username", Query.Direction.DESCENDING)
@@ -274,7 +276,6 @@ class MainActivity : AppCompatActivity() {
                     if (numberOfUsername != null) numberOfUsername++ ?: 1
                 }
 
-                val uidUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
                 val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
                 username += "$numberOfUsername"
                 userRef.update("username", username)
