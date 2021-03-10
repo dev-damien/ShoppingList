@@ -99,7 +99,6 @@ class FriendsAddedFragment : Fragment() {
             tvNoFriends.text = ""
 
             //get friends data and add to the list
-            //friendList.clear() TODO test if useless
             db.collection("users")
                 .whereIn(FieldPath.documentId(), friendIds).get()
                 .addOnSuccessListener { friendsDocs  ->

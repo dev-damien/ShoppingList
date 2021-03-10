@@ -82,6 +82,7 @@ class ItemsBoughtFragment : Fragment() {
                     )
                 }
             }
+            adapter.updateList()
             sortingItems()
         }
 
