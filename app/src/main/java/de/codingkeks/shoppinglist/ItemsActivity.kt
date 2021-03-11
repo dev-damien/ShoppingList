@@ -32,31 +32,32 @@ class ItemsActivity : AppCompatActivity() {
                     .setTitle(R.string.leave_group)
                     .setMessage(R.string.leave_list)
                     .setPositiveButton(R.string.popup_leave) { _, _ ->
-                        val uid = FirebaseAuth.getInstance().currentUser?.uid
-                        val listId = intent.getStringExtra("listId")
+                        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+                        val listId = intent.getStringExtra("listId") ?: return@setPositiveButton
                         FirebaseFirestore.getInstance().document("lists/$listId")
                             .get().addOnSuccessListener { dSnap ->
                                 val list = dSnap.get("members") as ArrayList<*>
                                 if (list.size > 1) {
                                     dSnap.reference.update("members", FieldValue.arrayRemove(uid))
                                         .addOnSuccessListener {
-                                        if (intent.getBooleanExtra("isFav", false)) {
-                                            FirebaseFirestore.getInstance().document("users/$uid")
-                                                .get().addOnSuccessListener {
-                                                    it.reference.update(
-                                                        "favorites",
-                                                        FieldValue.arrayRemove(listId)
-                                                    )
-                                                }
+                                            if (intent.getBooleanExtra("isFav", false)) {
+                                                FirebaseFirestore.getInstance()
+                                                    .document("users/$uid")
+                                                    .get().addOnSuccessListener {
+                                                        it.reference.update(
+                                                            "favorites",
+                                                            FieldValue.arrayRemove(listId)
+                                                        )
+                                                    }
+                                            }
                                         }
-                                    }
                                     onBackPressed()
                                 } else {
-                                    //TODO delete Items Collection -> delete Document
-                                    deleteItemsCollection()
-                                    deleteListDocument()
+                                    deleteItemsCollection(listId, uid)
+                                    deleteListDocument(listId, uid)
+                                    onBackPressed()
                                 }
-                        }
+                            }
                     }
                     .setNegativeButton(R.string.cancel, null)
                     .show()
@@ -67,9 +68,11 @@ class ItemsActivity : AppCompatActivity() {
                     .setTitle(R.string.delete_group)
                     .setMessage(R.string.delete_list)
                     .setPositiveButton(R.string.emailVerificationDelete) { _, _ ->
-                        //TODO delete Items Collection -> delete Document
-                        deleteItemsCollection()
-                        deleteListDocument()
+                        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+                        val listId = intent.getStringExtra("listId") ?: return@setPositiveButton
+                        deleteItemsCollection(listId, uid)
+                        deleteListDocument(listId, uid)
+                        onBackPressed()
                     }
                     .setNegativeButton(R.string.cancel, null)
                     .show()
@@ -127,11 +130,27 @@ class ItemsActivity : AppCompatActivity() {
         return true
     }
 
-    private fun deleteItemsCollection() {
-        //TODO
+    private fun deleteItemsCollection(listId: String, uid: String) {
+        FirebaseFirestore.getInstance().collection("lists/$listId/items")
+            .get().addOnSuccessListener { qSnap ->
+                qSnap.forEach { qdSnap ->
+                    qdSnap.reference.delete()
+                }
+            }
     }
 
-    private fun deleteListDocument() {
-        //TODO
+    private fun deleteListDocument(listId: String, uid: String) {
+        FirebaseFirestore.getInstance().collection("users")
+            .whereArrayContains("favorites", listId)
+            .get().addOnSuccessListener { qSnap ->
+                qSnap.forEach { qdSnap ->
+                    qdSnap.reference.update(
+                        "favorites",
+                        FieldValue.arrayRemove(listId)
+                    )
+                }
+            }
+
+        FirebaseFirestore.getInstance().document("lists/$listId").delete()
     }
 }

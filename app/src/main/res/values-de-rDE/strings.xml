@@ -91,4 +91,5 @@
     <string name="friend_dialog_remove_message">Möchtest du wirklich den folgenden Freund entfernen?</string>
     <string name="dialog_remove">Entfernen</string>
     <string name="leave_list">Sind sie sicher, dass sie die Liste verlassen möchten?</string>
+    <string name="already_deleted">Entschuldigung, aber die Liste wurde gelöscht.</string>
 </resources>

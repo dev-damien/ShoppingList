@@ -14,10 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.AdapterView
-import android.widget.NumberPicker
-import android.widget.SearchView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -149,21 +146,30 @@ class ItemsFragment : Fragment() {
             findViewWithTag<TextInputEditText>("textInputEditTextTag")
 
             alertBuilder.setPositiveButton(R.string.submit) { _, _->
-                val user = FirebaseAuth.getInstance().currentUser!!
-                val docRefUser = FirebaseFirestore.getInstance().document("users/${user.uid}")
-                docRefUser.get().addOnSuccessListener { dSnap ->
-                    val itemData = hashMapOf(
-                        "name" to textInputEditText.text.toString(),
-                        "quantity" to numberInputPicker.value.toLong(),
-                        "addedBy" to dSnap.get("username").toString(),
-                        "addedTime" to SimpleDateFormat("dd.MM.yyyy HH:mm").format(Date()),
-                        "isBought" to false,
-                        "boughtBy" to "",
-                        "boughtAt" to ""
-                    )
-                    val docRefItems = colRefItems.document()
-                    docRefItems.set(itemData).addOnSuccessListener {
-                        sortingItems()
+                FirebaseFirestore.getInstance().document("lists/$listId")
+                    .get().addOnSuccessListener {
+                    if (!it.exists()) {
+                        Toast.makeText(requireContext(), R.string.already_deleted, Toast.LENGTH_LONG).show()
+                        requireActivity().onBackPressed()
+                    }
+                    else {
+                        val user = FirebaseAuth.getInstance().currentUser!!
+                        val docRefUser = FirebaseFirestore.getInstance().document("users/${user.uid}")
+                        docRefUser.get().addOnSuccessListener { dSnap ->
+                            val itemData = hashMapOf(
+                                "name" to textInputEditText.text.toString(),
+                                "quantity" to numberInputPicker.value.toLong(),
+                                "addedBy" to dSnap.get("username").toString(),
+                                "addedTime" to SimpleDateFormat("dd.MM.yyyy HH:mm").format(Date()),
+                                "isBought" to false,
+                                "boughtBy" to "",
+                                "boughtAt" to ""
+                            )
+                            val docRefItems = colRefItems.document()
+                            docRefItems.set(itemData).addOnSuccessListener {
+                                sortingItems()
+                            }
+                        }
                     }
                 }
             }
