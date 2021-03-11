@@ -55,6 +55,11 @@ class AccountFragment : Fragment() {
         super.onStart()
         val fb = FirebaseAuth.getInstance()
         val user = fb.currentUser!!
+        FirebaseFirestore.getInstance().document("users/${user.uid}").get()
+            .addOnSuccessListener {
+                val image = (it.getLong("icon_id") as Long).toInt()
+                ivAccountImage.setImageResource(image)
+            }
         tv_userEmail.text = user.email
         tv_userID.text = user.uid
 
@@ -194,6 +199,9 @@ class AccountFragment : Fragment() {
                     //set selected image to new account image
                     val selectedImage = data.getIntExtra("image", -1)
                     ivAccountImage.setImageResource(selectedImage)
+                    val user = FirebaseAuth.getInstance().currentUser!!
+                    FirebaseFirestore.getInstance().document("users/${user.uid}")
+                        .update("icon_id", selectedImage)
                 }
             }
         }
