@@ -86,4 +86,6 @@
     <string name="friend_remove">Freund entfernen</string>
     <string name="friend_dialog_remove_message">Möchtest du wirklich den folgenden Freund entfernen?</string>
     <string name="dialog_remove">Entfernen</string>
+    <string name="create">Erstellen</string>
+    <string name="select">Wählen</string>
 </resources>
