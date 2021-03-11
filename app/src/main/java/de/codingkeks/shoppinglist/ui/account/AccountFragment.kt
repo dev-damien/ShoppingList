@@ -17,16 +17,19 @@ import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
+import de.codingkeks.shoppinglist.ImagePickerActivity
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.MainActivity.Companion.TAG
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.ReauthenticateActivity
+import kotlinx.android.synthetic.main.activity_add_new_list.*
 import kotlinx.android.synthetic.main.fragment_account.*
 
-class AccountFragment : Fragment() {
+private const val RC_DELETE_ACC = 42
+private const val RC_REAUTH_USER = 69
+private const val RC_CHANGE_IMAGE = 420
 
-    private val RC_DELETE_ACC = 55
-    private val RC_REAUTH_USER = 155
+class AccountFragment : Fragment() {
 
     private lateinit var accountViewModel: AccountViewModel
 
@@ -55,7 +58,7 @@ class AccountFragment : Fragment() {
         tv_userEmail.text = user.email
         tv_userID.text = user.uid
 
-        val uidUser = user?.uid.toString()
+        val uidUser = user.uid
         val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
         userRef.get().addOnSuccessListener { documentSnapshot ->
             tv_userName.text = documentSnapshot.get("username") as String? ?: "Loading Username..." //TODO stings.xml
@@ -113,8 +116,18 @@ class AccountFragment : Fragment() {
                 }
         }
 
+        ivAccountImage.setOnClickListener {
+            editAccountImage()
+        }
+
+        ivAccount_editImage.setOnClickListener {
+            editAccountImage()
+        }
+
         Log.d(MainActivity.TAG, "AccountFragment_onStart()_End")
     }
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -174,6 +187,36 @@ class AccountFragment : Fragment() {
                 Log.d(TAG, "PW wrong 2")
                 Toast.makeText(context, R.string.wrongPassword, Toast.LENGTH_LONG).show()
             }
+        }
+        if (requestCode == RC_CHANGE_IMAGE) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                if (data.hasExtra("image")){
+                    //set selected image to new account image
+                    val selectedImage = data.getIntExtra("image", -1)
+                    ivAccountImage.setImageResource(selectedImage)
+                }
+            }
+        }
+    }
+
+    private fun editAccountImage(){
+        Log.d(MainActivity.TAG, "Image view to change account image has been clicked")
+        //TODO pass the right images as an arrayList to the ImagePickerActivity;
+        //just a testing arrayList with random images
+        val images = arrayListOf(
+            R.drawable.ic_menu_settings,
+            R.drawable.ic_menu_home,
+            R.drawable.common_google_signin_btn_icon_dark_focused,
+            R.drawable.ic_account_image,
+            R.drawable.ic_friends_person_add,
+            R.drawable.ic_launcher_background,
+            R.drawable.ic_menu_friends,
+            R.drawable.ic_friends_star_border,
+            R.drawable.ic_menu_account
+        )
+        Intent(context, ImagePickerActivity::class.java).also {
+            it.putExtra("images", images)
+            startActivityForResult(it, RC_CHANGE_IMAGE)
         }
     }
 

@@ -88,6 +88,7 @@
     <string name="friend_remove">Remove Friend</string>
     <string name="friend_dialog_remove_message">Do you really want to remove the following friend?</string>
     <string name="dialog_remove">Remove</string>
+    <string name="account_image_edit_description" translatable="false">Edit image</string>
     <string-array name="sortingItem">
         <item>Latest</item>
         <item>Oldest</item>
