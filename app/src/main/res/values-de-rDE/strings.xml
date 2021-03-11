@@ -94,4 +94,5 @@
     <string name="select">Wählen</string>
     <string name="leave_list">Sind sie sicher, dass sie die Liste verlassen möchten?</string>
     <string name="already_deleted">Entschuldigung, aber die Liste wurde gelöscht.</string>
+    <string name="image_picker_title">Bild wählen</string>
 </resources>

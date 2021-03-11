@@ -99,6 +99,7 @@
     <string name="select">Select</string>
     <string name="leave_list">Are you sure you want to leave the group?</string>
     <string name="already_deleted">Sorry, but the list has been deleted.</string>
+    <string name="image_picker_title">Select image</string>
     <string-array name="sortingItem">
         <item>Latest</item>
         <item>Oldest</item>

@@ -22,6 +22,8 @@ class ImagePickerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_picker)
 
+        title = getString(R.string.image_picker_title)
+
         if (intent.hasExtra("images")){
             Log.d(TAG, "intent has an extra")
             val imagesInt = intent.getIntegerArrayListExtra("images")
