@@ -88,7 +88,7 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
                                 val itemData = hashMapOf(
                                     "name" to textInputEditText.text.toString(),
                                     "quantity" to numberInputPicker.value.toLong(),
-                                    "addedBy" to dSnap.get("username").toString(),
+                                    "addedBy" to items[position].addedBy,
                                     "addedTime" to items[position].addedTime,
                                     "isBought" to false,
                                     "boughtBy" to "",

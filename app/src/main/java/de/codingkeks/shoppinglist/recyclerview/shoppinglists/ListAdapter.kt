@@ -63,6 +63,7 @@ class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: 
             Log.d(MainActivity.TAG, "Clicked on Item #$position: " + lists[position].name)
             val intent = Intent(holder.itemView.context, ItemsActivity::class.java)
             intent.putExtra("listId", lists[position].listId)
+            intent.putExtra("isFav", lists[position].isFavorite)
             holder.itemView.context.startActivity(intent)
         }
     }

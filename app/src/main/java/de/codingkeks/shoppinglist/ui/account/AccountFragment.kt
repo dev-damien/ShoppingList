@@ -16,6 +16,7 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.ImagePickerActivity
 import de.codingkeks.shoppinglist.MainActivity
@@ -142,8 +143,22 @@ class AccountFragment : Fragment() {
             val credential = EmailAuthProvider.getCredential(user.email.toString(), password)
             password = ""
             val uid = user.uid
-            val docRef = FirebaseFirestore.getInstance().document("users/$uid")
-            docRef.delete().addOnSuccessListener { Log.d(TAG, "Database Data deleted") }
+            val docRefUser = FirebaseFirestore.getInstance().document("users/$uid")
+            docRefUser.delete().addOnSuccessListener { Log.d(TAG, "Database Data deleted") }
+            FirebaseFirestore.getInstance().collection("users")
+                .whereArrayContains("friends", uid)
+                .get().addOnSuccessListener { qSnap ->
+                    qSnap.forEach { qdSnap ->
+                        qdSnap.reference.update("friends", FieldValue.arrayRemove(uid))
+                    }
+                }
+            FirebaseFirestore.getInstance().collection("lists")
+                .whereArrayContains("members", uid)
+                .get().addOnSuccessListener { qSnap ->
+                    qSnap.forEach { qdSnap ->
+                        qdSnap.reference.update("members", FieldValue.arrayRemove(uid))
+                    }
+                }
             user.reauthenticate(credential)
                 .addOnSuccessListener {
                     Log.d(TAG, "User re-authenticated.")
