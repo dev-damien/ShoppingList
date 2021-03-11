@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home,
                 R.id.nav_shoppinglists,
                 R.id.nav_friends,
                 R.id.nav_account,
@@ -72,11 +71,7 @@ class MainActivity : AppCompatActivity() {
 
         //TODO remove after testing phase
         buLogout.setOnClickListener {
-            var friendName = "test name#7867"
-            if(friendName.matches(".+#[0-9]{4}".toRegex())){
-                Log.d(TAG, "true")
-            }
-            else Log.d(TAG, "false")
+
         }
 
         Log.d(TAG, "MainActivity_onCreate()_End")
