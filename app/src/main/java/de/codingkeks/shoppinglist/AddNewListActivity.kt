@@ -81,7 +81,9 @@ class AddNewListActivity : AppCompatActivity() {
             }
         }
         else if (requestCode == RC_MEMBER && resultCode == Activity.RESULT_OK) {
-
+            if (data != null) {
+                intent.putExtra("memberData", data.getStringArrayListExtra("newMemberData"))
+            }
         }
         Log.d(MainActivity.TAG, "AddNewListActivity_onActivityResult()_End")
     }

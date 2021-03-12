@@ -157,7 +157,15 @@ class ShoppingListsFragment : Fragment() {
                 if (data.hasExtra("isFav")) {
                     isFav = data.getBooleanExtra("isFav", false)
                 }
-                createNewGroup(listName, listIcon, isFav, arrayListOf()) //TODO get selected members
+                if (data.hasExtra("memberData")) {
+                    createNewGroup(
+                        listName,
+                        listIcon,
+                        isFav,
+                        data.getStringArrayListExtra("memberData") as ArrayList<String>
+                    )
+                }
+                else createNewGroup(listName, listIcon, isFav, arrayListOf())
             }
         }
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_onActivityResult()_End")
