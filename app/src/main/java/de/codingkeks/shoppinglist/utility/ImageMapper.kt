@@ -6,18 +6,19 @@ import kotlinx.android.synthetic.main.fragment_account.*
 class ImageMapper {
 
     //Map which maps all resource ids to database ids
-    private val app2database = mapOf<Int, Int>(
-        R.drawable.ic_menu_home to 0
+    private val app2database: HashMap<Int, Int> = hashMapOf(
+        //TODO add all the images (account, group)
+        R.drawable.ic_account_image to 0,
+        R.drawable.ic_pregnant_woman to 1
     )
 
     //reversed Map
-    private lateinit var database2App: HashMap<Int, Int>
+    private var database2App: HashMap<Int, Int> = hashMapOf()
 
     constructor(){
         app2database.entries.forEach {
             database2App[it.value] = it.key
         }
-
     }
 
     /**
