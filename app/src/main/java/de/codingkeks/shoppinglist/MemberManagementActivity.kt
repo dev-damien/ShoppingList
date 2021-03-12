@@ -151,7 +151,9 @@ class MemberManagementActivity : AppCompatActivity() {
             .addSnapshotListener { dSnap, _ ->
                 val uid = FirebaseAuth.getInstance().currentUser!!.uid
                 if (dSnap != null) {
-                    if (!(dSnap.get("members") as ArrayList<*>).contains(uid)) {
+                    var isMember = dSnap.get("members") ?: return@addSnapshotListener
+                    isMember = isMember as ArrayList<*>
+                    if (!isMember.contains(uid)) {
                         setResult(12)
                         finish()
                     }
