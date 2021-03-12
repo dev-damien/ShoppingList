@@ -3,6 +3,7 @@ package de.codingkeks.shoppinglist
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputFilter
 import android.text.InputType
 import android.util.Log
 import android.widget.Toast
@@ -25,6 +26,7 @@ class AddNewListActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         etAddNewList_nameInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+        etAddNewList_nameInput.filters = arrayOf(*etAddNewList_nameInput.filters, InputFilter.LengthFilter(30))
 
         buAddNewList_Done.setOnClickListener {
             if (etAddNewList_nameInput.text.toString().trim() != "") {
