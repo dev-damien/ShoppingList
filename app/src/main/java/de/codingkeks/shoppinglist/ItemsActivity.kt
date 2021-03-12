@@ -3,6 +3,7 @@ package de.codingkeks.shoppinglist
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.Menu
 import android.view.MenuItem
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.FragmentPagerAdapterItems
@@ -130,7 +132,30 @@ class ItemsActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_MEMBER && resultCode == Activity.RESULT_OK) {
-
+            try {
+                val memberList = data!!.getStringArrayListExtra("newMemberData")!!
+                FirebaseFirestore.getInstance().document("lists/${intent.getStringExtra("listId")}")
+                    .get().addOnSuccessListener { dSnapList ->
+                        var oldMembers = dSnapList.get("members") as ArrayList<*>
+                        oldMembers = oldMembers.minus(memberList) as ArrayList<*>
+                        if (oldMembers.isNotEmpty()) {
+                            FirebaseFirestore.getInstance().collection("users")
+                                .whereIn(FieldPath.documentId(), oldMembers)
+                                .whereArrayContains("favorites", intent.getStringExtra("listId")!!)
+                                .get().addOnSuccessListener { qSnapUsers ->
+                                    qSnapUsers.forEach {
+                                        it.reference.update(
+                                            "favorites",
+                                            FieldValue.arrayRemove(intent.getStringExtra("listId"))
+                                        )
+                                    }
+                                }
+                        }
+                        dSnapList.reference.update("members", memberList)
+                    }
+            } catch (ex: Exception) {
+                Log.d(MainActivity.TAG, "Error that really should not happen!")
+            }
         }
     }
 
