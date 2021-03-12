@@ -23,8 +23,6 @@ import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.MainActivity.Companion.TAG
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.ReauthenticateActivity
-import de.codingkeks.shoppinglist.utility.ImageMapping
-import kotlinx.android.synthetic.main.activity_add_new_list.*
 import kotlinx.android.synthetic.main.fragment_account.*
 
 private const val RC_DELETE_ACC = 42
