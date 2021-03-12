@@ -46,6 +46,7 @@ class ItemsActivity : AppCompatActivity() {
                     .setTitle(R.string.leave_group)
                     .setMessage(R.string.leave_list)
                     .setPositiveButton(R.string.popup_leave) { _, _ ->
+                        registration.remove()
                         val uid = FirebaseAuth.getInstance().currentUser!!.uid
                         val listId = intent.getStringExtra("listId") ?: return@setPositiveButton
                         FirebaseFirestore.getInstance().document("lists/$listId")
@@ -67,6 +68,7 @@ class ItemsActivity : AppCompatActivity() {
                                         }
                                     onBackPressed()
                                 } else {
+                                    registration.remove()
                                     deleteItemsCollection(listId)
                                     deleteListDocument(listId)
                                     onBackPressed()
@@ -82,6 +84,7 @@ class ItemsActivity : AppCompatActivity() {
                     .setTitle(R.string.delete_group)
                     .setMessage(R.string.delete_list)
                     .setPositiveButton(R.string.emailVerificationDelete) { _, _ ->
+                        registration.remove()
                         val listId = intent.getStringExtra("listId") ?: return@setPositiveButton
                         deleteItemsCollection(listId)
                         deleteListDocument(listId)
