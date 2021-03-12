@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.FragmentPagerAdapterItems
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.ItemsBoughtFragment
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.ItemsFragment
@@ -23,8 +24,8 @@ private const val RC_MEMBER = 99
 
 class ItemsActivity : AppCompatActivity() {
     lateinit var viewPager: ViewPager
-
     lateinit var tabLayout: TabLayout
+    private lateinit var registration: ListenerRegistration
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.popup_list_options, menu)
@@ -127,34 +128,55 @@ class ItemsActivity : AppCompatActivity() {
             }
 
         })
+
+        registration = FirebaseFirestore.getInstance().document("lists/${intent.getStringExtra("listId")}")
+            .addSnapshotListener { dSnap, _ ->
+                val uid = FirebaseAuth.getInstance().currentUser!!.uid
+                if (dSnap != null) {
+                    if (!(dSnap.get("members") as ArrayList<*>).contains(uid)) onBackPressed()
+                } else onBackPressed()
+            }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        registration.remove()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_MEMBER && resultCode == Activity.RESULT_OK) {
-            try {
-                val memberList = data!!.getStringArrayListExtra("newMemberData")!!
-                FirebaseFirestore.getInstance().document("lists/${intent.getStringExtra("listId")}")
-                    .get().addOnSuccessListener { dSnapList ->
-                        var oldMembers = dSnapList.get("members") as ArrayList<*>
-                        oldMembers = oldMembers.minus(memberList) as ArrayList<*>
-                        if (oldMembers.isNotEmpty()) {
-                            FirebaseFirestore.getInstance().collection("users")
-                                .whereIn(FieldPath.documentId(), oldMembers)
-                                .whereArrayContains("favorites", intent.getStringExtra("listId")!!)
-                                .get().addOnSuccessListener { qSnapUsers ->
-                                    qSnapUsers.forEach {
-                                        it.reference.update(
-                                            "favorites",
-                                            FieldValue.arrayRemove(intent.getStringExtra("listId"))
-                                        )
+        if (requestCode == RC_MEMBER ) {
+            if (resultCode == Activity.RESULT_OK) {
+                try {
+                    val memberList = data!!.getStringArrayListExtra("newMemberData")!!
+                    FirebaseFirestore.getInstance()
+                        .document("lists/${intent.getStringExtra("listId")}")
+                        .get().addOnSuccessListener { dSnapList ->
+                            var oldMembers = dSnapList.get("members") as ArrayList<*>
+                            oldMembers = oldMembers.minus(memberList) as ArrayList<*>
+                            if (oldMembers.isNotEmpty()) {
+                                FirebaseFirestore.getInstance().collection("users")
+                                    .whereIn(FieldPath.documentId(), oldMembers)
+                                    .whereArrayContains(
+                                        "favorites",
+                                        intent.getStringExtra("listId")!!
+                                    )
+                                    .get().addOnSuccessListener { qSnapUsers ->
+                                        qSnapUsers.forEach {
+                                            it.reference.update(
+                                                "favorites",
+                                                FieldValue.arrayRemove(intent.getStringExtra("listId"))
+                                            )
+                                        }
                                     }
-                                }
+                            }
+                            dSnapList.reference.update("members", memberList)
                         }
-                        dSnapList.reference.update("members", memberList)
-                    }
-            } catch (ex: Exception) {
-                Log.d(MainActivity.TAG, "Error that really should not happen!")
+                } catch (ex: Exception) {
+                    Log.d(MainActivity.TAG, "Error that really should not happen!")
+                }
+            } else if (resultCode == 12) {
+                onBackPressed()
             }
         }
     }

@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.recyclerview.members.Member
 import de.codingkeks.shoppinglist.recyclerview.members.MemberAdapter
 import kotlinx.android.synthetic.main.activity_member_management.*
@@ -31,6 +32,7 @@ class MemberManagementActivity : AppCompatActivity() {
 
     var memberList: MutableList<Member> = mutableListOf()
     private lateinit var adapter: MemberAdapter
+    private lateinit var registration: ListenerRegistration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,6 +146,22 @@ class MemberManagementActivity : AppCompatActivity() {
         lifecycleScope.launch {
             spMembers.setSelection(read("spinnerPos"))
         }
+
+        registration = FirebaseFirestore.getInstance().document("lists/${intent.getStringExtra("listId")}")
+            .addSnapshotListener { dSnap, _ ->
+                val uid = FirebaseAuth.getInstance().currentUser!!.uid
+                if (dSnap != null) {
+                    if (!(dSnap.get("members") as ArrayList<*>).contains(uid)) {
+                        setResult(12)
+                        finish()
+                    }
+                }
+            }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        registration.remove()
     }
 
     fun sortingMembersList() {
