@@ -23,6 +23,7 @@ import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.MainActivity.Companion.TAG
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.ReauthenticateActivity
+import de.codingkeks.shoppinglist.utility.ImageMapper
 import kotlinx.android.synthetic.main.fragment_account.*
 
 private const val RC_DELETE_ACC = 42
@@ -30,6 +31,8 @@ private const val RC_REAUTH_USER = 69
 private const val RC_CHANGE_IMAGE = 420
 
 class AccountFragment : Fragment() {
+
+    private val mapper = ImageMapper()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d(TAG, "AccountFragment_onCreateView()_Start")
@@ -46,7 +49,7 @@ class AccountFragment : Fragment() {
         FirebaseFirestore.getInstance().document("users/${user.uid}").get()
             .addOnSuccessListener {
                 val image = (it.getLong("icon_id") as Long).toInt()
-                ivAccountImage.setImageResource(image)
+                ivAccountImage.setImageResource(mapper.download(image))
             }
         tv_userEmail.text = user.email
         tv_userID.text = user.uid
@@ -201,7 +204,7 @@ class AccountFragment : Fragment() {
                     ivAccountImage.setImageResource(selectedImage)
                     val user = FirebaseAuth.getInstance().currentUser!!
                     FirebaseFirestore.getInstance().document("users/${user.uid}")
-                        .update("icon_id", selectedImage)
+                        .update("icon_id", mapper.upload(selectedImage))
                 }
             }
         }

@@ -16,4 +16,6 @@ class SettingsFragment : Fragment() {
         Log.d(MainActivity.TAG, "SettingsFragment()_onCreateView()_End")
         return root
     }
+
+
 }
