@@ -29,7 +29,6 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
 private const val defaultIconId = R.drawable.ic_account_image
@@ -68,11 +67,6 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         login()
-
-        //TODO remove after testing phase
-        buLogout.setOnClickListener {
-
-        }
 
         Log.d(TAG, "MainActivity_onCreate()_End")
     }

@@ -6,20 +6,21 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.firebase.ui.auth.IdpResponse
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_add_new_list.*
 
 class AddNewListActivity : AppCompatActivity() {
 
     val RC_IMAGEPICKER = 1
+    val RC_MEMBER = 99
     var selectedImage: Int = R.drawable.ic_menu_shoppinglists
     var isFav = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_new_list)
+
+        title = getString(R.string.create_list)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         buAddNewList_Done.setOnClickListener {
             if (etAddNewList_nameInput.text.toString().trim() != "") {
@@ -29,7 +30,7 @@ class AddNewListActivity : AppCompatActivity() {
                 setResult(Activity.RESULT_OK, intent)
                 finish()
             } else {
-                Toast.makeText(this, "You have to enter a name", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.enter_name, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -59,6 +60,11 @@ class AddNewListActivity : AppCompatActivity() {
                 startActivityForResult(it, RC_IMAGEPICKER)
             }
         }
+
+        buAddMember.setOnClickListener {
+            val intent = Intent(this, MemberManagementActivity::class.java)
+            startActivityForResult(intent, RC_MEMBER)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -66,7 +72,6 @@ class AddNewListActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_IMAGEPICKER) {
-
             if (resultCode == Activity.RESULT_OK && data != null) {
                 if (data.hasExtra("image")){
                     selectedImage = data.getIntExtra("image", -1)
@@ -74,7 +79,14 @@ class AddNewListActivity : AppCompatActivity() {
                 }
             }
         }
+        else if (requestCode == RC_MEMBER && resultCode == Activity.RESULT_OK) {
+
+        }
         Log.d(MainActivity.TAG, "AddNewListActivity_onActivityResult()_End")
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
 }

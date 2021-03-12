@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_remove_circle_outline" />
+        app:srcCompat="@drawable/ic_add_circle_outline" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline7"

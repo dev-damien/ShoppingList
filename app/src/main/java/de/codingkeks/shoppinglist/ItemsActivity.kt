@@ -1,5 +1,7 @@
 package de.codingkeks.shoppinglist
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.Menu
@@ -20,6 +22,8 @@ class ItemsActivity : AppCompatActivity() {
     lateinit var viewPager: ViewPager
     lateinit var tabLayout: TabLayout
 
+    val RC_MEMBER = 99
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.popup_list_options, menu)
         return true
@@ -27,6 +31,13 @@ class ItemsActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
+            R.id.action_member -> {
+                val intent = Intent(this, MemberManagementActivity::class.java).apply {
+                    putExtra("listId", intent.getStringExtra("listId"))
+                }
+                startActivityForResult(intent, RC_MEMBER)
+                true
+            }
             R.id.action_leave -> {
                 AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
                     .setTitle(R.string.leave_group)
@@ -114,6 +125,13 @@ class ItemsActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_MEMBER && resultCode == Activity.RESULT_OK) {
+
+        }
     }
 
     private fun setUpViewPager(viewPager: ViewPager) {

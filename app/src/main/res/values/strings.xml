@@ -100,6 +100,10 @@
     <string name="leave_list">Are you sure you want to leave the group?</string>
     <string name="already_deleted">Sorry, but the list has been deleted.</string>
     <string name="image_picker_title">Select image</string>
+    <string name="popup_member">Member Management</string>
+    <string name="add_member">Add Member</string>
+    <string name="enter_name">You have to enter a name</string>
+    <string name="create_list">Create Shopping List</string>
     <string-array name="sortingItem">
         <item>Latest</item>
         <item>Oldest</item>

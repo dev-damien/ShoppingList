@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_member"
+        android:title="@string/popup_member"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_leave"
         android:title="@string/popup_leave"
         app:showAsAction="never"/>

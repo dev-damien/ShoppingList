@@ -95,4 +95,8 @@
     <string name="leave_list">Sind sie sicher, dass sie die Liste verlassen möchten?</string>
     <string name="already_deleted">Entschuldigung, aber die Liste wurde gelöscht.</string>
     <string name="image_picker_title">Bild wählen</string>
+    <string name="popup_member">Teilnehmer verwalten</string>
+    <string name="add_member">Teilnehmer hinzufügen</string>
+    <string name="enter_name">Du musst einen Namen eingeben</string>
+    <string name="create_list">Einkauszettel erstellen</string>
 </resources>
