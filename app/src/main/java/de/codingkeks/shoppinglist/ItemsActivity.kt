@@ -17,12 +17,12 @@ import de.codingkeks.shoppinglist.ui.shoppinglists.items.FragmentPagerAdapterIte
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.ItemsBoughtFragment
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.ItemsFragment
 
+private const val RC_MEMBER = 99
+
 class ItemsActivity : AppCompatActivity() {
-
     lateinit var viewPager: ViewPager
-    lateinit var tabLayout: TabLayout
 
-    val RC_MEMBER = 99
+    lateinit var tabLayout: TabLayout
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.popup_list_options, menu)

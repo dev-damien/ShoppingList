@@ -23,6 +23,7 @@ import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.MainActivity.Companion.TAG
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.ReauthenticateActivity
+import de.codingkeks.shoppinglist.utility.ImageMapping
 import kotlinx.android.synthetic.main.activity_add_new_list.*
 import kotlinx.android.synthetic.main.fragment_account.*
 
@@ -33,6 +34,7 @@ private const val RC_CHANGE_IMAGE = 420
 class AccountFragment : Fragment() {
 
     private lateinit var accountViewModel: AccountViewModel
+    private val mapper = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d(MainActivity.TAG, "AccountFragment_onCreateView()_Start")

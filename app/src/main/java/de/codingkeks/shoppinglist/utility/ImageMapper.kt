@@ -3,7 +3,7 @@ package de.codingkeks.shoppinglist.utility
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.fragment_account.*
 
-class ImageMapping {
+class ImageMapper {
 
     //Map which maps all resource ids to database ids
     private val app2database = mapOf<Int, Int>(
