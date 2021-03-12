@@ -53,7 +53,6 @@ class ItemsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_items, container, false)
     }
 
@@ -213,23 +212,24 @@ class ItemsFragment : Fragment() {
         registration.remove()
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun sortingItems() {
         lifecycleScope.launch {
             val position: Int = read("spinnerPos")
             when (position) { //position 0: Latest; 1: A-Z; 2: Z-A
                 0 -> {
-                    items.sortBy { it.name.toLowerCase() }
+                    items.sortBy { it.name.toLowerCase(Locale.ROOT) }
                     items.sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
                 }
                 1 -> {
-                    items.sortBy { it.name.toLowerCase() }
+                    items.sortBy { it.name.toLowerCase(Locale.ROOT) }
                     items.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
                 }
                 2 -> {
-                    items.sortBy { it.name.toLowerCase() }
+                    items.sortBy { it.name.toLowerCase(Locale.ROOT) }
                 }
                 3 -> {
-                    items.sortByDescending { it.name.toLowerCase() }
+                    items.sortByDescending { it.name.toLowerCase(Locale.ROOT) }
                 }
             }
             adapter.updateList()

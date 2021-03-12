@@ -3,7 +3,6 @@ package de.codingkeks.shoppinglist.ui.friends
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
@@ -11,15 +10,13 @@ import android.text.TextWatcher
 import android.util.Log
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.NumberPicker
-import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
@@ -29,27 +26,18 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
-import de.codingkeks.shoppinglist.recyclerview.items.Item
 import kotlinx.android.synthetic.main.fragment_friends.*
-import kotlinx.android.synthetic.main.fragment_items.*
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
 class FriendsFragment : Fragment() {
 
-    lateinit var myFragment: View
-    lateinit var viewPager: ViewPager
-    lateinit var tabLayout: TabLayout
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var myFragment: View
+    private lateinit var viewPager: ViewPager
+    private lateinit var tabLayout: TabLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         myFragment = inflater.inflate(R.layout.fragment_friends, container, false)
 
@@ -97,7 +85,7 @@ class FriendsFragment : Fragment() {
                 val user = FirebaseAuth.getInstance().currentUser!!
                 val docRefUser = db.document("users/${user.uid}")
                 docRefUser.get().addOnSuccessListener { dSnapUser ->
-                    var friendName = textInputEditText.text.toString()
+                    val friendName = textInputEditText.text.toString()
                     if (friendName.matches(".+#[0-9]{1,9}".toRegex())) {
                         db.collection("users")
                             .whereEqualTo("username", friendName)
@@ -119,7 +107,7 @@ class FriendsFragment : Fragment() {
                                     )
                                     //test if requested user is already added
                                     val docRefFriend = it.documents[0]
-                                    if ((dSnapUser.get("friends") as ArrayList<String>).contains(
+                                    if ((dSnapUser.get("friends") as ArrayList<*>).contains(
                                             docRefFriend.id
                                         )
                                     ) {
@@ -132,7 +120,7 @@ class FriendsFragment : Fragment() {
                                     } else {
                                         //requested user is not a friend yet
                                         //test if requested-user already requested the user
-                                        if ((dSnapUser.get("friendRequests") as ArrayList<String>).contains(
+                                        if ((dSnapUser.get("friendRequests") as ArrayList<*>).contains(
                                                 docRefFriend.id
                                             )
                                         ) {
@@ -167,7 +155,7 @@ class FriendsFragment : Fragment() {
                                                 ).show()
                                             } else {
                                                 //test if user already requested friend (second time request)
-                                                if ((docRefFriend.get("friendRequests") as ArrayList<String>).contains(
+                                                if ((docRefFriend.get("friendRequests") as ArrayList<*>).contains(
                                                         docRefUser.id
                                                     )
                                                 ) {
@@ -238,7 +226,7 @@ class FriendsFragment : Fragment() {
     }
 
     private fun setUpViewPager(viewPager: ViewPager) {
-        var adapter: FragmentPagerAdapterFriends = FragmentPagerAdapterFriends(childFragmentManager)
+        val adapter = FragmentPagerAdapterFriends(childFragmentManager)
 
         adapter.addFragment(FriendsAddedFragment(), getString(R.string.friends_added_tab_title))
         adapter.addFragment(

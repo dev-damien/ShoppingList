@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.rv_member.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MemberAdapter(
     var members: List<Member>,
     var spPos: Int,
-    var listsFull: ArrayList<Member> = ArrayList<Member>(members)
+    var listsFull: ArrayList<Member> = ArrayList(members)
 ) : RecyclerView.Adapter<MemberAdapter.MemberViewHolder>(), Filterable {
     inner class MemberViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -49,15 +51,15 @@ class MemberAdapter(
 
     private var filter: Filter = object : Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            var filteredList: ArrayList<Member> = ArrayList<Member>()
+            val filteredList: ArrayList<Member> = ArrayList()
 
             if (constraint == null || constraint.isEmpty()) {
                 filteredList.addAll(listsFull)
             } else {
-                var filterPattern: String = constraint.toString().toLowerCase().trim()
+                val filterPattern: String = constraint.toString().toLowerCase(Locale.ROOT).trim()
 
                 listsFull.forEach {
-                    if (it.name.toLowerCase().contains(filterPattern)) {
+                    if (it.name.toLowerCase(Locale.ROOT).contains(filterPattern)) {
                         filteredList.add(it)
                     }
                 }
@@ -66,16 +68,16 @@ class MemberAdapter(
             val uid = FirebaseAuth.getInstance().currentUser!!.uid
             when (spPos) {
                 0 -> {
-                    filteredList.sortBy { it.name.toLowerCase() }
+                    filteredList.sortBy { it.name.toLowerCase(Locale.ROOT) }
                 }
                 1 -> {
-                    filteredList.sortByDescending { it.name.toLowerCase() }
+                    filteredList.sortByDescending { it.name.toLowerCase(Locale.ROOT) }
                 }
             }
             filteredList.sortByDescending { it.isMember }
             filteredList.sortByDescending { it.friendId == uid }
 
-            var filterResults: FilterResults = FilterResults()
+            val filterResults = FilterResults()
             filterResults.values = filteredList
             return filterResults
         }
@@ -97,14 +99,14 @@ class MemberAdapter(
         spPos = position
     }
 
-    fun sortingMembersList() {
+    private fun sortingMembersList() {
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
         when (spPos) { //0: A-Z; 1: Z-A
             0 -> {
-                (members as ArrayList<Member>).sortBy { it.name.toLowerCase() }
+                (members as ArrayList<Member>).sortBy { it.name.toLowerCase(Locale.ROOT) }
             }
             1 -> {
-                (members as ArrayList<Member>).sortByDescending { it.name.toLowerCase() }
+                (members as ArrayList<Member>).sortByDescending { it.name.toLowerCase(Locale.ROOT) }
             }
         }
         (members as ArrayList<Member>).sortByDescending { it.isMember }

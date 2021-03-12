@@ -22,13 +22,9 @@ import kotlinx.android.synthetic.main.fragment_items.*
 
 class FriendsRequestsFragment : Fragment() {
 
-    var friendRequestsList: MutableList<FriendRequest> = mutableListOf()
+    private var friendRequestsList: MutableList<FriendRequest> = mutableListOf()
     private lateinit var adapter: FriendRequestAdapter
     private lateinit var registration: ListenerRegistration
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +59,7 @@ class FriendsRequestsFragment : Fragment() {
                 Log.w(MainActivity.TAG, "Data of user doc (in friend request): null")
                 return@addSnapshotListener
             }
-            val friendRequestIds = userDocSnap.get("friendRequests") as ArrayList<String> //get all IDs of the users that requested current user
+            val friendRequestIds = userDocSnap.get("friendRequests") as ArrayList<*> //get all IDs of the users that requested current user
             if (friendRequestIds.isEmpty()) {
                 tvFriendRequestsNoFriends.text =
                     getString(R.string.friend_requests_no_requests)

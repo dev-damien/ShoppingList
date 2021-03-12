@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.rv_image.view.*
 
-class ImageAdapter(var images: List<Image>): RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+class ImageAdapter(private var images: List<Image>): RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
     inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private var selectedImagePos:Int = 0

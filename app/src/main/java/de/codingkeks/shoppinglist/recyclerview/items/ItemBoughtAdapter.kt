@@ -24,8 +24,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.rv_item_bought.view.*
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
-class ItemBoughtAdapter(var items: List<Item>, var spPos: Int, var listId: String, var itemsFull: ArrayList<Item> = ArrayList<Item>(items))
+class ItemBoughtAdapter(var items: List<Item>, var spPos: Int, private var listId: String, var itemsFull: ArrayList<Item> = ArrayList(items))
     : RecyclerView.Adapter<ItemBoughtAdapter.ItemViewHolder>(), Filterable {
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -46,7 +48,7 @@ class ItemBoughtAdapter(var items: List<Item>, var spPos: Int, var listId: Strin
         holder.itemView.btnItemOptionsBought.setOnClickListener {
             val popupMenu = PopupMenu(holder.itemView.context, holder.itemView.btnItemOptionsBought)
             popupMenu.menuInflater.inflate(R.menu.popup_item_bought_options, popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+            popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_bought -> {
                         val docRef = FirebaseFirestore.getInstance().document("lists/${listId}/items/${items[position].itemId}")
@@ -87,18 +89,28 @@ class ItemBoughtAdapter(var items: List<Item>, var spPos: Int, var listId: Strin
                                 docRefItems.update(itemData).addOnSuccessListener {
                                     when (spPos) { //position 0: Latest; 1: A-Z; 2: Z-A
                                         0 -> {
-                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase() }
+                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase(
+                                                Locale.ROOT) }
                                             (items as ArrayList<Item>).sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
                                         }
                                         1 -> {
-                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase() }
+                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase(
+                                                Locale.ROOT
+                                            )
+                                            }
                                             (items as ArrayList<Item>).sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
                                         }
                                         2 -> {
-                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase() }
+                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase(
+                                                Locale.ROOT
+                                            )
+                                            }
                                         }
                                         3 -> {
-                                            (items as ArrayList<Item>).sortByDescending { it.name.toLowerCase() }
+                                            (items as ArrayList<Item>).sortByDescending { it.name.toLowerCase(
+                                                Locale.ROOT
+                                            )
+                                            }
                                         }
                                     }
                                     updateList()
@@ -153,7 +165,7 @@ class ItemBoughtAdapter(var items: List<Item>, var spPos: Int, var listId: Strin
                     }
                 }
                 true
-            })
+            }
             popupMenu.show()
         }
     }
@@ -167,16 +179,17 @@ class ItemBoughtAdapter(var items: List<Item>, var spPos: Int, var listId: Strin
     }
 
     private var filter: Filter = object: Filter() {
+        @SuppressLint("SimpleDateFormat")
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            var filteredList: ArrayList<Item> = ArrayList<Item>()
+            val filteredList: ArrayList<Item> = ArrayList()
 
             if (constraint == null || constraint.isEmpty()) {
                 filteredList.addAll(itemsFull)
             } else {
-                var filterPattern: String = constraint.toString().toLowerCase().trim()
+                val filterPattern: String = constraint.toString().toLowerCase(Locale.ROOT).trim()
 
                 itemsFull.forEach {
-                    if (it.name.toLowerCase().contains(filterPattern)) {
+                    if (it.name.toLowerCase(Locale.ROOT).contains(filterPattern)) {
                         filteredList.add(it)
                     }
                 }
@@ -184,22 +197,22 @@ class ItemBoughtAdapter(var items: List<Item>, var spPos: Int, var listId: Strin
 
             when (spPos) { //position 0: Latest; 1: A-Z; 2: Z-A
                 0 -> {
-                    filteredList.sortBy { it.name.toLowerCase() }
+                    filteredList.sortBy { it.name.toLowerCase(Locale.ROOT) }
                     filteredList.sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
                 }
                 1 -> {
-                    filteredList.sortBy { it.name.toLowerCase() }
+                    filteredList.sortBy { it.name.toLowerCase(Locale.ROOT) }
                     filteredList.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
                 }
                 2 -> {
-                    filteredList.sortBy { it.name.toLowerCase() }
+                    filteredList.sortBy { it.name.toLowerCase(Locale.ROOT) }
                 }
                 3 -> {
-                    filteredList.sortByDescending { it.name.toLowerCase() }
+                    filteredList.sortByDescending { it.name.toLowerCase(Locale.ROOT) }
                 }
             }
 
-            var filterResults: FilterResults = FilterResults()
+            val filterResults = FilterResults()
             filterResults.values = filteredList
             return filterResults
         }
@@ -214,7 +227,7 @@ class ItemBoughtAdapter(var items: List<Item>, var spPos: Int, var listId: Strin
     }
 
     fun updateList() {
-        itemsFull = ArrayList<Item>(items)
+        itemsFull = ArrayList(items)
     }
 
     fun updateSpinnerPos(spPos: Int) {

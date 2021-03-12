@@ -17,7 +17,6 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,11 +35,10 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "lists_settings")
+private const val RC_ADD_NEW_LIST = 0
 
 class ShoppingListsFragment : Fragment() {
 
-    private lateinit var shoppingListsViewModel: ShoppingListsViewModel
-    private val RC_ADD_NEW_LIST = 0
     private var shoppingList: MutableList<ShoppingList> = mutableListOf()
     private lateinit var adapter: ListAdapter
     private lateinit var registration: ListenerRegistration
@@ -51,13 +49,7 @@ class ShoppingListsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_onCreateView()_Start")
-        shoppingListsViewModel =
-            ViewModelProviders.of(this).get(ShoppingListsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_shoppinglists, container, false)
-        /*val textView: TextView = root.findViewById(R.id.tv_userName)
-        shoppingListsViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })*/
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_onCreateView()_End")
         return root
     }
@@ -187,7 +179,7 @@ class ShoppingListsFragment : Fragment() {
             val user = FirebaseAuth.getInstance().currentUser!!
             val colRefLists = FirebaseFirestore.getInstance().collection("lists")
             members.add(user.uid)
-            var listData = hashMapOf(
+            val listData = hashMapOf(
                 "name" to listName,
                 "icon_id" to listIcon,
                 "description" to "",
@@ -219,14 +211,14 @@ class ShoppingListsFragment : Fragment() {
             val position = read("spinnerPos")
             when (position) { //position 0: Favorites; 1: A-Z; 2: Z-A
                 0 -> {
-                    shoppingList.sortBy { it.name.toLowerCase() }
+                    shoppingList.sortBy { it.name.toLowerCase(Locale.ROOT) }
                     shoppingList.sortByDescending { it.isFavorite }
                 }
                 1 -> {
-                    shoppingList.sortBy { it.name.toLowerCase() }
+                    shoppingList.sortBy { it.name.toLowerCase(Locale.ROOT) }
                 }
                 2 -> {
-                    shoppingList.sortByDescending { it.name.toLowerCase() }
+                    shoppingList.sortByDescending { it.name.toLowerCase(Locale.ROOT) }
                 }
             }
             adapter.updateSpinnerPos(position)

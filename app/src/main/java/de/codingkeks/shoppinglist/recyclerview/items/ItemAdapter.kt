@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var itemsFull: ArrayList<Item> = ArrayList<Item>(items))
+class ItemAdapter(var items: List<Item>, var spPos: Int, private var listId: String, var itemsFull: ArrayList<Item> = ArrayList(items))
     : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>(), Filterable {
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -48,7 +48,7 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
         holder.itemView.btnItemOptions.setOnClickListener {
             val popupMenu = PopupMenu(holder.itemView.context, holder.itemView.btnItemOptions)
             popupMenu.menuInflater.inflate(R.menu.popup_item_options, popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+            popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_bought -> {
                         val uid = FirebaseAuth.getInstance().currentUser!!.uid
@@ -84,7 +84,7 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
                         alertBuilder.setPositiveButton(R.string.change) { _, _->
                             val user = FirebaseAuth.getInstance().currentUser!!
                             val docRefUser = FirebaseFirestore.getInstance().document("users/${user.uid}")
-                            docRefUser.get().addOnSuccessListener { dSnap ->
+                            docRefUser.get().addOnSuccessListener {
                                 val itemData = hashMapOf(
                                     "name" to textInputEditText.text.toString(),
                                     "quantity" to numberInputPicker.value.toLong(),
@@ -98,18 +98,30 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
                                 docRefItems.update(itemData).addOnSuccessListener {
                                     when (spPos) { //position 0: Latest; 1: A-Z; 2: Z-A
                                         0 -> {
-                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase() }
+                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase(
+                                                Locale.ROOT
+                                            )
+                                            }
                                             (items as ArrayList<Item>).sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
                                         }
                                         1 -> {
-                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase() }
+                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase(
+                                                Locale.ROOT
+                                            )
+                                            }
                                             (items as ArrayList<Item>).sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
                                         }
                                         2 -> {
-                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase() }
+                                            (items as ArrayList<Item>).sortBy { it.name.toLowerCase(
+                                                Locale.ROOT
+                                            )
+                                            }
                                         }
                                         3 -> {
-                                            (items as ArrayList<Item>).sortByDescending { it.name.toLowerCase() }
+                                            (items as ArrayList<Item>).sortByDescending { it.name.toLowerCase(
+                                                Locale.ROOT
+                                            )
+                                            }
                                         }
                                     }
                                     updateList()
@@ -164,7 +176,7 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
                     }
                 }
                 true
-            })
+            }
             popupMenu.show()
         }
     }
@@ -178,16 +190,17 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
     }
 
     private var filter: Filter = object: Filter() {
+        @SuppressLint("SimpleDateFormat")
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            var filteredList: ArrayList<Item> = ArrayList<Item>()
+            val filteredList: ArrayList<Item> = ArrayList()
 
             if (constraint == null || constraint.isEmpty()) {
                 filteredList.addAll(itemsFull)
             } else {
-                var filterPattern: String = constraint.toString().toLowerCase().trim()
+                val filterPattern: String = constraint.toString().toLowerCase(Locale.ROOT).trim()
 
                 itemsFull.forEach {
-                    if (it.name.toLowerCase().contains(filterPattern)) {
+                    if (it.name.toLowerCase(Locale.ROOT).contains(filterPattern)) {
                         filteredList.add(it)
                     }
                 }
@@ -195,22 +208,22 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
 
             when (spPos) { //position 0: Latest; 1: A-Z; 2: Z-A
                 0 -> {
-                    filteredList.sortBy { it.name.toLowerCase() }
+                    filteredList.sortBy { it.name.toLowerCase(Locale.ROOT) }
                     filteredList.sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
                 }
                 1 -> {
-                    filteredList.sortBy { it.name.toLowerCase() }
+                    filteredList.sortBy { it.name.toLowerCase(Locale.ROOT) }
                     filteredList.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.addedTime) }
                 }
                 2 -> {
-                    filteredList.sortBy { it.name.toLowerCase() }
+                    filteredList.sortBy { it.name.toLowerCase(Locale.ROOT) }
                 }
                 3 -> {
-                    filteredList.sortByDescending { it.name.toLowerCase() }
+                    filteredList.sortByDescending { it.name.toLowerCase(Locale.ROOT) }
                 }
             }
 
-            var filterResults: FilterResults = FilterResults()
+            val filterResults = FilterResults()
             filterResults.values = filteredList
             return filterResults
         }
@@ -225,7 +238,7 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, var listId: String, var
     }
 
     fun updateList() {
-        itemsFull = ArrayList<Item>(items)
+        itemsFull = ArrayList(items)
     }
 
     fun updateSpinnerPos(spPos: Int) {

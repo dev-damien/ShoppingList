@@ -23,8 +23,8 @@ import de.codingkeks.shoppinglist.ui.shoppinglists.items.ItemsFragment
 private const val RC_MEMBER = 99
 
 class ItemsActivity : AppCompatActivity() {
-    lateinit var viewPager: ViewPager
-    lateinit var tabLayout: TabLayout
+    private lateinit var viewPager: ViewPager
+    private lateinit var tabLayout: TabLayout
     private lateinit var registration: ListenerRegistration
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -67,8 +67,8 @@ class ItemsActivity : AppCompatActivity() {
                                         }
                                     onBackPressed()
                                 } else {
-                                    deleteItemsCollection(listId, uid)
-                                    deleteListDocument(listId, uid)
+                                    deleteItemsCollection(listId)
+                                    deleteListDocument(listId)
                                     onBackPressed()
                                 }
                             }
@@ -82,10 +82,9 @@ class ItemsActivity : AppCompatActivity() {
                     .setTitle(R.string.delete_group)
                     .setMessage(R.string.delete_list)
                     .setPositiveButton(R.string.emailVerificationDelete) { _, _ ->
-                        val uid = FirebaseAuth.getInstance().currentUser!!.uid
                         val listId = intent.getStringExtra("listId") ?: return@setPositiveButton
-                        deleteItemsCollection(listId, uid)
-                        deleteListDocument(listId, uid)
+                        deleteItemsCollection(listId)
+                        deleteListDocument(listId)
                         onBackPressed()
                     }
                     .setNegativeButton(R.string.cancel, null)
@@ -182,7 +181,7 @@ class ItemsActivity : AppCompatActivity() {
     }
 
     private fun setUpViewPager(viewPager: ViewPager) {
-        var adapter: FragmentPagerAdapterItems = FragmentPagerAdapterItems(supportFragmentManager)
+        val adapter = FragmentPagerAdapterItems(supportFragmentManager)
 
         adapter.addFragment(ItemsFragment(), getString(R.string.items_tab_title))
         adapter.addFragment(ItemsBoughtFragment(), getString(R.string.items_bought_tab_title))
@@ -195,7 +194,7 @@ class ItemsActivity : AppCompatActivity() {
         return true
     }
 
-    private fun deleteItemsCollection(listId: String, uid: String) {
+    private fun deleteItemsCollection(listId: String) {
         FirebaseFirestore.getInstance().collection("lists/$listId/items")
             .get().addOnSuccessListener { qSnap ->
                 qSnap.forEach { qdSnap ->
@@ -204,7 +203,7 @@ class ItemsActivity : AppCompatActivity() {
             }
     }
 
-    private fun deleteListDocument(listId: String, uid: String) {
+    private fun deleteListDocument(listId: String) {
         FirebaseFirestore.getInstance().collection("users")
             .whereArrayContains("favorites", listId)
             .get().addOnSuccessListener { qSnap ->

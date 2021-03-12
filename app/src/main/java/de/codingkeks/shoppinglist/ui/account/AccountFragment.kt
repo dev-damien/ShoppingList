@@ -31,28 +31,15 @@ private const val RC_CHANGE_IMAGE = 420
 
 class AccountFragment : Fragment() {
 
-    private lateinit var accountViewModel: AccountViewModel
-    private val mapper = null
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d(MainActivity.TAG, "AccountFragment_onCreateView()_Start")
-        /*
-        accountViewModel =
-            ViewModelProviders.of(this).get(AccountViewModel::class.java)
-        */
+        Log.d(TAG, "AccountFragment_onCreateView()_Start")
         val root = inflater.inflate(R.layout.fragment_account, container, false)
-        /*
-        val textView: TextView = root.findViewById(R.id.tv_userName)
-        accountViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-         */
-        Log.d(MainActivity.TAG, "AccountFragment_onCreateView()_End")
+        Log.d(TAG, "AccountFragment_onCreateView()_End")
         return root
     }
 
     override fun onStart() {
-        Log.d(MainActivity.TAG, "AccountFragment_onStart()_Start")
+        Log.d(TAG, "AccountFragment_onStart()_Start")
         super.onStart()
         val fb = FirebaseAuth.getInstance()
         val user = fb.currentUser!!
@@ -67,7 +54,7 @@ class AccountFragment : Fragment() {
         val uidUser = user.uid
         val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
         userRef.get().addOnSuccessListener { documentSnapshot ->
-            tv_userName.text = documentSnapshot.get("username") as String? ?: "Loading Username..." //TODO stings.xml
+            tv_userName.text = documentSnapshot.get("username") as String? ?: getString(R.string.load_username)
         }
 
         buAccountLogout.setOnClickListener {
@@ -75,9 +62,9 @@ class AccountFragment : Fragment() {
                 .signOut(requireContext())
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Log.d(MainActivity.TAG, "user has been logged out")
+                        Log.d(TAG, "user has been logged out")
                         FirebaseAuth.getInstance().signOut()
-                        val intent: Intent = Intent(context, MainActivity::class.java)
+                        val intent = Intent(context, MainActivity::class.java)
                         startActivity(intent)
                         activity?.finishAffinity()
                     }
@@ -90,8 +77,7 @@ class AccountFragment : Fragment() {
                 .setMessage(R.string.deleteAccount)
                 .setPositiveButton(R.string.yes){_, _->
                     if (user.providerData[1].providerId == EmailAuthProvider.PROVIDER_ID) {
-                        val intent: Intent =
-                            Intent(requireContext(), ReauthenticateActivity::class.java)
+                        val intent = Intent(requireContext(), ReauthenticateActivity::class.java)
                         startActivityForResult(intent, RC_REAUTH_USER)
                     } else {
                         val providers = arrayListOf(
@@ -117,7 +103,7 @@ class AccountFragment : Fragment() {
             fb.sendPasswordResetEmail(eMail)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Log.d(MainActivity.TAG, "password reset eMail sent")
+                        Log.d(TAG, "password reset eMail sent")
                     }
                 }
         }
@@ -130,7 +116,7 @@ class AccountFragment : Fragment() {
             editAccountImage()
         }
 
-        Log.d(MainActivity.TAG, "AccountFragment_onStart()_End")
+        Log.d(TAG, "AccountFragment_onStart()_End")
     }
 
 
@@ -139,9 +125,8 @@ class AccountFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_REAUTH_USER && resultCode == Activity.RESULT_OK) {
             val user = FirebaseAuth.getInstance().currentUser!!
-            var password: String = data!!.getStringExtra("password")
+            val password: String = data!!.getStringExtra("password")!!
             val credential = EmailAuthProvider.getCredential(user.email.toString(), password)
-            password = ""
             val uid = user.uid
             val docRefUser = FirebaseFirestore.getInstance().document("users/$uid")
             docRefUser.delete().addOnSuccessListener { Log.d(TAG, "Database Data deleted") }
@@ -165,8 +150,8 @@ class AccountFragment : Fragment() {
                     user.delete()
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                Log.d(MainActivity.TAG, "user account deleted")
-                                val intent: Intent = Intent(context, MainActivity::class.java)
+                                Log.d(TAG, "user account deleted")
+                                val intent = Intent(context, MainActivity::class.java)
                                 startActivity(intent)
                                 activity?.finishAffinity()
                             }
@@ -192,8 +177,8 @@ class AccountFragment : Fragment() {
                         user.delete()
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
-                                    Log.d(MainActivity.TAG, "user account deleted")
-                                    val intent: Intent = Intent(context, MainActivity::class.java)
+                                    Log.d(TAG, "user account deleted")
+                                    val intent = Intent(context, MainActivity::class.java)
                                     startActivity(intent)
                                     activity?.finishAffinity()
                                 }
@@ -223,7 +208,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun editAccountImage(){
-        Log.d(MainActivity.TAG, "Image view to change account image has been clicked")
+        Log.d(TAG, "Image view to change account image has been clicked")
         //TODO pass the right images as an arrayList to the ImagePickerActivity;
         //just a testing arrayList with random images
         val images = arrayListOf(

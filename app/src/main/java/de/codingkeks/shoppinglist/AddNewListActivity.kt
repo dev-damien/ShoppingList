@@ -8,12 +8,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_add_new_list.*
 
+private const val RC_IMAGEPICKER = 1
+private const val RC_MEMBER = 99
+
 class AddNewListActivity : AppCompatActivity() {
 
-    val RC_IMAGEPICKER = 1
-    val RC_MEMBER = 99
-    var selectedImage: Int = R.drawable.ic_menu_shoppinglists
-    var isFav = false
+    private var selectedImage: Int = R.drawable.ic_menu_shoppinglists
+    private var isFav = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

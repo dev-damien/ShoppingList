@@ -99,4 +99,5 @@
     <string name="add_member">Teilnehmer hinzufügen</string>
     <string name="enter_name">Du musst einen Namen eingeben</string>
     <string name="create_list">Einkauszettel erstellen</string>
+    <string name="load_username">Lädt Namen...</string>
 </resources>

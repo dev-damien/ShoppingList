@@ -1,19 +1,19 @@
 package de.codingkeks.shoppinglist
 
 import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import de.codingkeks.shoppinglist.recyclerview.images.Image
 import de.codingkeks.shoppinglist.recyclerview.images.ImageAdapter
-import de.codingkeks.shoppinglist.ui.imagePicker.DynamicGridLayoutManager
 import kotlinx.android.synthetic.main.activity_image_picker.*
+
+private const val TAG = MainActivity.TAG
 
 class ImagePickerActivity : AppCompatActivity() {
 
-    private val TAG = MainActivity.TAG
     private lateinit var images: MutableList<Image>
     private val numberOfColumns = 4 //number of columns for the image picker selection
 

@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 class DynamicGridLayoutManager : GridLayoutManager {
 
-    private var columnWidth = 0;
-    private var columnWidthChanged = true;
+    private var columnWidth = 0
+    private var columnWidthChanged = true
 
     constructor(context: Context, columnWidth: Int) : super(context, 1) {
         setColumnWidth(columnWidth)
@@ -22,7 +22,7 @@ class DynamicGridLayoutManager : GridLayoutManager {
     override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
         super.onLayoutChildren(recycler, state)
         if (!columnWidthChanged || columnWidth <= 0) return
-        val totalSpace = if (orientation == VERTICAL){
+        val totalSpace = if (orientation == VERTICAL) {
             width - paddingRight - paddingLeft
         } else{
             height - paddingTop - paddingBottom

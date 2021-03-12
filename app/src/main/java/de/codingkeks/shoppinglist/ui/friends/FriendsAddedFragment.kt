@@ -15,7 +15,6 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,13 +31,13 @@ import kotlinx.android.synthetic.main.fragment_friends_requests.*
 import kotlinx.android.synthetic.main.fragment_shoppinglists.*
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.util.*
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "friends_settings")
 
 class FriendsAddedFragment : Fragment() {
 
-    private lateinit var friendsViewModel: FriendsViewModel
-    var friendList: MutableList<Friend> = mutableListOf()
+    private var friendList: MutableList<Friend> = mutableListOf()
     private lateinit var adapter: FriendAdapter
     private lateinit var registration: ListenerRegistration
 
@@ -48,14 +47,7 @@ class FriendsAddedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         Log.d(MainActivity.TAG, "FriendsFragment()_onCreateView()_Start")
-        friendsViewModel =
-            ViewModelProviders.of(this).get(FriendsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_friends_added, container, false)
-        /*val textView: TextView = root.findViewById(R.id.text_slideshow)
-        friendsViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })*/
-
         Log.d(MainActivity.TAG, "FriendsFragment()_onCreateView()_End")
         return root
     }
@@ -98,7 +90,7 @@ class FriendsAddedFragment : Fragment() {
                 Log.w(MainActivity.TAG, "Data of user doc (in friends): null")
                 return@addSnapshotListener
             }
-            val friendIds = userDocSnap.get("friends") as ArrayList<String> //get all IDs of the friends
+            val friendIds = userDocSnap.get("friends") as ArrayList<*> //get all IDs of the friends
             if (friendIds.isEmpty()) {
                 tvNoFriends.text =
                     getString(R.string.friend_requests_no_friends)
@@ -174,10 +166,10 @@ class FriendsAddedFragment : Fragment() {
             val position = read("spinnerPos")
             when (position) { //0: A-Z; 1: Z-A
                 0 -> {
-                    friendList.sortBy { it.name.toLowerCase() }
+                    friendList.sortBy { it.name.toLowerCase(Locale.ROOT) }
                 }
                 1 -> {
-                    friendList.sortByDescending { it.name.toLowerCase() }
+                    friendList.sortByDescending { it.name.toLowerCase(Locale.ROOT) }
                 }
             }
             adapter.updateSpinnerPos(position)

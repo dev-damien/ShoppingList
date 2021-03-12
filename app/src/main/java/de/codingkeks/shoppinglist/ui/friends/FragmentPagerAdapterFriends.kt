@@ -7,8 +7,8 @@ import androidx.fragment.app.FragmentPagerAdapter
 class FragmentPagerAdapterFriends(fragmentManager: FragmentManager) :
     FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    private var fragmentList: ArrayList<Fragment> = ArrayList<Fragment>()
-    private var titleList: ArrayList<String> = ArrayList<String>()
+    private var fragmentList: ArrayList<Fragment> = ArrayList()
+    private var titleList: ArrayList<String> = ArrayList()
 
     override fun getCount(): Int {
         return fragmentList.size
@@ -22,7 +22,7 @@ class FragmentPagerAdapterFriends(fragmentManager: FragmentManager) :
         return titleList[position]
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return titleList[position]
     }
 

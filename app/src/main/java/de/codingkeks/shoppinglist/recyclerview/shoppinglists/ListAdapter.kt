@@ -15,8 +15,10 @@ import de.codingkeks.shoppinglist.ItemsActivity
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.rv_list.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
-class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: ArrayList<ShoppingList> = ArrayList<ShoppingList>(lists))
+class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: ArrayList<ShoppingList> = ArrayList(lists))
     : RecyclerView.Adapter<ListAdapter.ListViewHolder>(), Filterable {
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -33,7 +35,7 @@ class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: 
             if (lists[position].isFavorite) ivListFav.setImageResource(R.drawable.ic_friends_star)
             else ivListFav.setImageResource(R.drawable.ic_friends_star_border)
 
-            ivListFav.setOnClickListener() {
+            ivListFav.setOnClickListener {
                 val user = FirebaseAuth.getInstance().currentUser!!
                 val docRefUser = FirebaseFirestore.getInstance().document("users/${user.uid}")
 
@@ -46,14 +48,17 @@ class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: 
                 }
                 when (spPos) { //position 0: Favorites; 1: A-Z; 2: Z-A
                     0 -> {
-                        (lists as ArrayList<ShoppingList>).sortBy { it.name.toLowerCase() }
+                        (lists as ArrayList<ShoppingList>).sortBy { it.name.toLowerCase(Locale.ROOT) }
                         (lists as ArrayList<ShoppingList>).sortByDescending { it.isFavorite }
                     }
                     1 -> {
-                        (lists as ArrayList<ShoppingList>).sortBy { it.name.toLowerCase() }
+                        (lists as ArrayList<ShoppingList>).sortBy { it.name.toLowerCase(Locale.ROOT) }
                     }
                     2 -> {
-                        (lists as ArrayList<ShoppingList>).sortByDescending { it.name.toLowerCase() }
+                        (lists as ArrayList<ShoppingList>).sortByDescending { it.name.toLowerCase(
+                            Locale.ROOT
+                        )
+                        }
                     }
                 }
                 notifyDataSetChanged()
@@ -78,15 +83,15 @@ class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: 
 
     private var filter: Filter = object: Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            var filteredList: ArrayList<ShoppingList> = ArrayList<ShoppingList>()
+            val filteredList: ArrayList<ShoppingList> = ArrayList()
 
             if (constraint == null || constraint.isEmpty()) {
                 filteredList.addAll(listsFull)
             } else {
-                var filterPattern: String = constraint.toString().toLowerCase().trim()
+                val filterPattern: String = constraint.toString().toLowerCase(Locale.ROOT).trim()
 
                 listsFull.forEach {
-                    if (it.name.toLowerCase().contains(filterPattern)) {
+                    if (it.name.toLowerCase(Locale.ROOT).contains(filterPattern)) {
                         filteredList.add(it)
                     }
                 }
@@ -94,18 +99,18 @@ class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: 
 
             when (spPos) { //position 0: Favorites; 1: A-Z; 2: Z-A
                 0 -> {
-                    filteredList.sortBy { it.name.toLowerCase() }
+                    filteredList.sortBy { it.name.toLowerCase(Locale.ROOT) }
                     filteredList.sortByDescending { it.isFavorite }
                 }
                 1 -> {
-                    filteredList.sortBy { it.name.toLowerCase() }
+                    filteredList.sortBy { it.name.toLowerCase(Locale.ROOT) }
                 }
                 2 -> {
-                    filteredList.sortByDescending { it.name.toLowerCase() }
+                    filteredList.sortByDescending { it.name.toLowerCase(Locale.ROOT) }
                 }
             }
 
-            var filterResults: FilterResults = FilterResults()
+            val filterResults = FilterResults()
             filterResults.values = filteredList
             return filterResults
         }
@@ -120,7 +125,7 @@ class ListAdapter(var lists: List<ShoppingList>, var spPos: Int, var listsFull: 
     }
 
     fun updateList() {
-        listsFull = ArrayList<ShoppingList>(lists)
+        listsFull = ArrayList(lists)
     }
 
     fun updateSpinnerPos(spPos: Int) {

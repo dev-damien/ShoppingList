@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.fragment_items_bought.*
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.util.*
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "items_bought_settings")
 
@@ -126,12 +127,13 @@ class ItemsBoughtFragment : Fragment() {
         registration.remove()
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun sortingItems() {
         lifecycleScope.launch {
             val position = read("spinnerPos")
             when (position) { //position 0: Latest; 1: A-Z; 2: Z-A
                 0 -> {
-                    items.sortBy { it.name.toLowerCase() }
+                    items.sortBy { it.name.toLowerCase(Locale.ROOT) }
                     try {
                         items.sortByDescending { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
                     } catch (ex: Exception) {
@@ -139,7 +141,7 @@ class ItemsBoughtFragment : Fragment() {
                     }
                 }
                 1 -> {
-                    items.sortBy { it.name.toLowerCase() }
+                    items.sortBy { it.name.toLowerCase(Locale.ROOT) }
                     try {
                         items.sortBy { SimpleDateFormat("dd.MM.yyyy HH:mm").parse(it.boughtAt) }
                     } catch (ex: Exception) {
@@ -147,10 +149,10 @@ class ItemsBoughtFragment : Fragment() {
                     }
                 }
                 2 -> {
-                    items.sortBy { it.name.toLowerCase() }
+                    items.sortBy { it.name.toLowerCase(Locale.ROOT) }
                 }
                 3 -> {
-                    items.sortByDescending { it.name.toLowerCase() }
+                    items.sortByDescending { it.name.toLowerCase(Locale.ROOT) }
                 }
             }
             adapter.notifyDataSetChanged()

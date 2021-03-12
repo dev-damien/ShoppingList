@@ -3,7 +3,6 @@ package de.codingkeks.shoppinglist.recyclerview.friendRequests
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -11,7 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.rv_friend_request.view.*
 
-class FriendRequestAdapter(var friendRequests: List<FriendRequest>):
+class FriendRequestAdapter(private var friendRequests: List<FriendRequest>):
     RecyclerView.Adapter<FriendRequestAdapter.FriendRequestViewHolder>() {
 
     inner class FriendRequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

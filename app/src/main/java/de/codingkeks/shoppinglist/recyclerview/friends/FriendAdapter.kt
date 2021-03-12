@@ -16,9 +16,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import kotlinx.android.synthetic.main.rv_friend.view.*
-import kotlinx.android.synthetic.main.rv_item.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
-class FriendAdapter(var friends: List<Friend>, var spPos: Int, var listsFull: ArrayList<Friend> = ArrayList<Friend>(friends)): RecyclerView.Adapter<FriendAdapter.FriendViewHolder>(), Filterable {
+class FriendAdapter(var friends: List<Friend>, var spPos: Int, var listsFull: ArrayList<Friend> = ArrayList(friends)): RecyclerView.Adapter<FriendAdapter.FriendViewHolder>(), Filterable {
     inner class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
@@ -85,15 +86,15 @@ class FriendAdapter(var friends: List<Friend>, var spPos: Int, var listsFull: Ar
 
     private var filter: Filter = object: Filter() {
         override fun performFiltering(constraint: CharSequence?): FilterResults {
-            var filteredList: ArrayList<Friend> = ArrayList<Friend>()
+            val filteredList: ArrayList<Friend> = ArrayList()
 
             if (constraint == null || constraint.isEmpty()) {
                 filteredList.addAll(listsFull)
             } else {
-                var filterPattern: String = constraint.toString().toLowerCase().trim()
+                val filterPattern: String = constraint.toString().toLowerCase(Locale.ROOT).trim()
 
                 listsFull.forEach {
-                    if (it.name.toLowerCase().contains(filterPattern)) {
+                    if (it.name.toLowerCase(Locale.ROOT).contains(filterPattern)) {
                         filteredList.add(it)
                     }
                 }
@@ -101,14 +102,14 @@ class FriendAdapter(var friends: List<Friend>, var spPos: Int, var listsFull: Ar
 
             when (spPos) {
                 0 -> {
-                    filteredList.sortBy { it.name.toLowerCase() }
+                    filteredList.sortBy { it.name.toLowerCase(Locale.ROOT) }
                 }
                 1 -> {
-                    filteredList.sortByDescending { it.name.toLowerCase() }
+                    filteredList.sortByDescending { it.name.toLowerCase(Locale.ROOT) }
                 }
             }
 
-            var filterResults: FilterResults = FilterResults()
+            val filterResults = FilterResults()
             filterResults.values = filteredList
             return filterResults
         }

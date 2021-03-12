@@ -21,8 +21,6 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -41,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    var firstLogin = true
+    private var firstLogin = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "MainActivity_onCreate()_Start")
@@ -104,8 +102,6 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_AUTH) {
-            val response = IdpResponse.fromResultIntent(data)
-
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
                 emailVerified()
@@ -219,9 +215,9 @@ class MainActivity : AppCompatActivity() {
                 "icon_id" to defaultIconId
             )
         )
-            .addOnSuccessListener(OnSuccessListener<Void>() {
+            .addOnSuccessListener {
                 Log.d(TAG, "User Document created")
-            })
+            }
             .addOnFailureListener {
                 Log.d(TAG, "put data in userDoc failed")
             }
@@ -262,7 +258,7 @@ class MainActivity : AppCompatActivity() {
                 if (it.documents.size >= 1) {
                     val username2 = it.documents[0].get("username") as String?
                     numberOfUsername = username2?.substring(username2.lastIndexOf("#") + 1)?.toInt()
-                    if (numberOfUsername != null) numberOfUsername++ ?: 1
+                    if (numberOfUsername != null) numberOfUsername++ else numberOfUsername = 1
                 }
 
                 val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
@@ -279,7 +275,7 @@ class MainActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().useAppLanguage()
                 user.sendEmailVerification().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Log.d(MainActivity.TAG, "Email sent.")
+                        Log.d(TAG, "Email sent.")
                     }
                 }
                 firstLogin = false
@@ -296,10 +292,10 @@ class MainActivity : AppCompatActivity() {
                     user.delete()
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                Log.d(MainActivity.TAG, "user account deleted")
-                                val intent: Intent = Intent(this, MainActivity::class.java)
+                                Log.d(TAG, "user account deleted")
+                                val intent = Intent(this, MainActivity::class.java)
                                 startActivity(intent)
-                                this?.finishAffinity()
+                                this.finishAffinity()
                             }
                         }
                 }
@@ -307,7 +303,7 @@ class MainActivity : AppCompatActivity() {
                     FirebaseAuth.getInstance().useAppLanguage()
                     user.sendEmailVerification().addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Log.d(MainActivity.TAG, "Email sent.")
+                            Log.d(TAG, "Email sent.")
                         }
                     }
                     emailVerified()

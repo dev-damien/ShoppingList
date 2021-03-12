@@ -25,12 +25,14 @@ import de.codingkeks.shoppinglist.recyclerview.members.MemberAdapter
 import kotlinx.android.synthetic.main.activity_member_management.*
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "members_settings")
 
 class MemberManagementActivity : AppCompatActivity() {
 
-    var memberList: MutableList<Member> = mutableListOf()
+    private var memberList: MutableList<Member> = mutableListOf()
     private lateinit var adapter: MemberAdapter
     private lateinit var registration: ListenerRegistration
 
@@ -149,7 +151,6 @@ class MemberManagementActivity : AppCompatActivity() {
 
         registration = FirebaseFirestore.getInstance().document("lists/${intent.getStringExtra("listId")}")
             .addSnapshotListener { dSnap, _ ->
-                val uid = FirebaseAuth.getInstance().currentUser!!.uid
                 if (dSnap != null) {
                     var isMember = dSnap.get("members") ?: return@addSnapshotListener
                     isMember = isMember as ArrayList<*>
@@ -172,10 +173,10 @@ class MemberManagementActivity : AppCompatActivity() {
             val position = read("spinnerPos")
             when (position) { //0: A-Z; 1: Z-A
                 0 -> {
-                    memberList.sortBy { it.name.toLowerCase() }
+                    memberList.sortBy { it.name.toLowerCase(Locale.ROOT) }
                 }
                 1 -> {
-                    memberList.sortByDescending { it.name.toLowerCase() }
+                    memberList.sortByDescending { it.name.toLowerCase(Locale.ROOT) }
                 }
             }
             memberList.sortByDescending { it.isMember }
