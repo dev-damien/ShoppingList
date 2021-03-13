@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.recyclerview.members.Member
 import de.codingkeks.shoppinglist.recyclerview.members.MemberAdapter
+import de.codingkeks.shoppinglist.utility.ImageMapper
 import kotlinx.android.synthetic.main.activity_member_management.*
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -35,6 +36,8 @@ class MemberManagementActivity : AppCompatActivity() {
     private var memberList: MutableList<Member> = mutableListOf()
     private lateinit var adapter: MemberAdapter
     private lateinit var registration: ListenerRegistration
+
+    private val mapper = ImageMapper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +71,7 @@ class MemberManagementActivity : AppCompatActivity() {
                                 memberList.add(
                                     Member(
                                         it.get("username").toString(),
-                                        (it.get("icon_id") as Long).toInt(),
+                                        mapper.download((it.get("icon_id") as Long).toInt()),
                                         it.id,
                                         true
                                     )
@@ -111,7 +114,7 @@ class MemberManagementActivity : AppCompatActivity() {
                         friendsDocs.forEach {
                             val newMember = Member(
                                 it.get("username").toString(),
-                                (it.get("icon_id") as Long).toInt(),
+                                mapper.download((it.get("icon_id") as Long).toInt()),
                                 it.id,
                                 true
                             )

@@ -16,6 +16,7 @@ import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.friendRequests.FriendRequest
 import de.codingkeks.shoppinglist.recyclerview.friendRequests.FriendRequestAdapter
+import de.codingkeks.shoppinglist.utility.ImageMapper
 import kotlinx.android.synthetic.main.fragment_friends_added.*
 import kotlinx.android.synthetic.main.fragment_friends_requests.*
 import kotlinx.android.synthetic.main.fragment_items.*
@@ -25,6 +26,8 @@ class FriendsRequestsFragment : Fragment() {
     private var friendRequestsList: MutableList<FriendRequest> = mutableListOf()
     private lateinit var adapter: FriendRequestAdapter
     private lateinit var registration: ListenerRegistration
+
+    private val mapper = ImageMapper()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,7 +82,7 @@ class FriendsRequestsFragment : Fragment() {
                         friendRequestsList.add(
                             FriendRequest(
                                 userRequestDoc.getString("username")!!,
-                                (userRequestDoc.getLong("icon_id") as Long).toInt(),
+                                mapper.download((userRequestDoc.getLong("icon_id") as Long).toInt()),
                                 userRequestDoc.id
                             )
                         )

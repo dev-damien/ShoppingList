@@ -29,6 +29,7 @@ import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ListAdapter
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ShoppingList
+import de.codingkeks.shoppinglist.utility.ImageMapper
 import kotlinx.android.synthetic.main.fragment_shoppinglists.*
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -42,6 +43,8 @@ class ShoppingListsFragment : Fragment() {
     private var shoppingList: MutableList<ShoppingList> = mutableListOf()
     private lateinit var adapter: ListAdapter
     private lateinit var registration: ListenerRegistration
+
+    private val mapper = ImageMapper()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,7 +84,7 @@ class ShoppingListsFragment : Fragment() {
                         shoppingList.add(
                             ShoppingList(
                                 it.getString("name") ?: "Error 69",
-                                (it.get("icon_id") as Long).toInt(),
+                                mapper.download((it.get("icon_id") as Long).toInt()),
                                 arrayFavorites.contains(it.id),
                                 it.id
                             )
@@ -189,7 +192,7 @@ class ShoppingListsFragment : Fragment() {
             members.add(user.uid)
             val listData = hashMapOf(
                 "name" to listName,
-                "icon_id" to listIcon,
+                "icon_id" to mapper.upload(listIcon),
                 "description" to "",
                 "members" to members
             )

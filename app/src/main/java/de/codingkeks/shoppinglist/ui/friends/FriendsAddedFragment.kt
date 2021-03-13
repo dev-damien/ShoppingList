@@ -1,3 +1,4 @@
+
 package de.codingkeks.shoppinglist.ui.friends
 
 import android.content.Context
@@ -26,6 +27,7 @@ import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.friends.Friend
 import de.codingkeks.shoppinglist.recyclerview.friends.FriendAdapter
+import de.codingkeks.shoppinglist.utility.ImageMapper
 import kotlinx.android.synthetic.main.fragment_friends_added.*
 import kotlinx.android.synthetic.main.fragment_friends_requests.*
 import kotlinx.android.synthetic.main.fragment_shoppinglists.*
@@ -40,6 +42,8 @@ class FriendsAddedFragment : Fragment() {
     private var friendList: MutableList<Friend> = mutableListOf()
     private lateinit var adapter: FriendAdapter
     private lateinit var registration: ListenerRegistration
+
+    private val mapper = ImageMapper()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -111,7 +115,7 @@ class FriendsAddedFragment : Fragment() {
                         friendList.add(
                             Friend(
                                 friend.getString("username")!!,
-                                (friend.getLong("icon_id") as Long).toInt(),
+                                mapper.download((friend.getLong("icon_id") as Long).toInt()),
                                 friend.id
                             )
                         )

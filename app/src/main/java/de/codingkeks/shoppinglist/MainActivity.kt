@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import de.codingkeks.shoppinglist.utility.ImageMapper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var firstLogin = true
+    private val mapper = ImageMapper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "MainActivity_onCreate()_Start")
@@ -156,7 +158,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayUserInformation() {
-        Log.d(TAG, "MainActivity_displayUserInformation()_Start")
+        Log.d(TAG, "display user information in navBar")
         val fb = FirebaseAuth.getInstance()
         val user = fb.currentUser
         val tvEmail = nav_view.getHeaderView(0).findViewById<TextView>(R.id.tvEmail)
@@ -166,10 +168,8 @@ class MainActivity : AppCompatActivity() {
         val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
         userRef.get().addOnSuccessListener { documentSnapshot ->
             tvName.text = documentSnapshot.get("username") as String? ?: "Loading Username..."
+            ivNavUserIcon.setImageResource(mapper.download((documentSnapshot.get("icon_id") as Long).toInt()))
         }
-
-        //TODO user Icon
-        Log.d(TAG, "MainActivity_displayUserInformation()_End")
     }
 
     /**
