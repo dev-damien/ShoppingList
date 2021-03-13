@@ -56,6 +56,7 @@ class ItemsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_items, container, false)
     }
 
+
     @SuppressLint("SimpleDateFormat")
     override fun onStart() {
         super.onStart()
@@ -66,12 +67,14 @@ class ItemsFragment : Fragment() {
         adapter = ItemAdapter(items, spItems.selectedItemPosition, listId)
         rvItems.adapter = adapter
         rvItems.layoutManager = LinearLayoutManager(requireContext())
-        rvItems.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
+        if (rvItems.itemDecorationCount <= 0) {
+            rvItems.addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
             )
-        )
+        }
 
         val colRefItems = FirebaseFirestore.getInstance().collection("lists/${listId}/items")
         registration = colRefItems.addSnapshotListener { qSnap, _ ->

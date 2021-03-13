@@ -75,12 +75,15 @@ class FriendsAddedFragment : Fragment() {
         adapter = FriendAdapter(friendList, spFriends.selectedItemPosition)
         rvFriends.adapter = adapter
         rvFriends.layoutManager = LinearLayoutManager(requireContext())
-        rvFriends.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
+
+        if (rvFriends.itemDecorationCount <= 0) {
+            rvFriends.addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
             )
-        )
+        }
 
         val user = FirebaseAuth.getInstance().currentUser!!
         val db = FirebaseFirestore.getInstance()

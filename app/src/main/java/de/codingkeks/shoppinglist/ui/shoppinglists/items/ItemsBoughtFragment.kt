@@ -57,12 +57,14 @@ class ItemsBoughtFragment : Fragment() {
         adapter = ItemBoughtAdapter(items, spItemsBought.selectedItemPosition, listId)
         rvItemsBought.adapter = adapter
         rvItemsBought.layoutManager = LinearLayoutManager(requireContext())
-        rvItemsBought.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
+        if (rvItemsBought.itemDecorationCount <= 0) {
+            rvItemsBought.addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
             )
-        )
+        }
 
         val colRefItems = FirebaseFirestore.getInstance().collection("lists/${listId}/items")
         registration = colRefItems.addSnapshotListener { qSnap, _ ->

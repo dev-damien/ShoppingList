@@ -30,6 +30,7 @@ import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ListAdapter
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ShoppingList
 import de.codingkeks.shoppinglist.utility.ImageMapper
+import kotlinx.android.synthetic.main.fragment_items.*
 import kotlinx.android.synthetic.main.fragment_shoppinglists.*
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -66,12 +67,15 @@ class ShoppingListsFragment : Fragment() {
         adapter = ListAdapter(shoppingList, spLists.selectedItemPosition)
         rvLists.adapter = adapter
         rvLists.layoutManager = LinearLayoutManager(requireContext())
-        rvLists.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
+
+        if (rvLists.itemDecorationCount <= 0) {
+            rvLists.addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
             )
-        )
+        }
 
         val user = FirebaseAuth.getInstance().currentUser!!
         val docRef = FirebaseFirestore.getInstance().collection("lists")

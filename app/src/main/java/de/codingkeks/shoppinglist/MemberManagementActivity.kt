@@ -52,12 +52,14 @@ class MemberManagementActivity : AppCompatActivity() {
         adapter = MemberAdapter(memberList, spMembers.selectedItemPosition)
         rvMembers.adapter = adapter
         rvMembers.layoutManager = LinearLayoutManager(this)
-        rvMembers.addItemDecoration(
-            DividerItemDecoration(
-                this,
-                DividerItemDecoration.VERTICAL
+        if (rvMembers.itemDecorationCount <= 0) {
+            rvMembers.addItemDecoration(
+                DividerItemDecoration(
+                    this,
+                    DividerItemDecoration.VERTICAL
+                )
             )
-        )
+        }
 
         if (intent.hasExtra("listId")) {
             FirebaseFirestore.getInstance().document("lists/${intent.getStringExtra("listId")}")

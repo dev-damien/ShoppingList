@@ -43,12 +43,15 @@ class FriendsRequestsFragment : Fragment() {
         adapter = FriendRequestAdapter(friendRequestsList)
         rvFriendRequests.adapter = adapter
         rvFriendRequests.layoutManager = LinearLayoutManager(requireContext())
-        rvFriendRequests.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
+
+        if (rvFriendRequests.itemDecorationCount <= 0) {
+            rvFriendRequests.addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
             )
-        )
+        }
 
         val user = FirebaseAuth.getInstance().currentUser!!
         val db = FirebaseFirestore.getInstance()

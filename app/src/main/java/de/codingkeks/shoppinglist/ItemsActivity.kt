@@ -19,6 +19,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.FragmentPagerAdapterItems
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.ItemsBoughtFragment
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.ItemsFragment
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 private const val RC_MEMBER = 99
 
