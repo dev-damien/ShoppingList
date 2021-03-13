@@ -201,12 +201,12 @@ class ShoppingListsFragment : Fragment() {
                             FirebaseFirestore.getInstance().document("users/${user.uid}")
                         docRefUser.update("favorites", FieldValue.arrayUnion(it.id))
                     }
+                    adapter.updateList()
+                    sortingShoppingList()
                 }
                 .addOnFailureListener {
                     throw Exception("error when adding the listID to the favs")
                 }
-            adapter.updateList()
-            sortingShoppingList()
         } catch (ex: Exception) {
             Log.wtf(MainActivity.TAG, "create new group failed")
         }

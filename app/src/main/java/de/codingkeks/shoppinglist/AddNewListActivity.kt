@@ -68,8 +68,11 @@ class AddNewListActivity : AppCompatActivity() {
         }
 
         buAddMember.setOnClickListener {
-            val intent = Intent(this, MemberManagementActivity::class.java)
-            startActivityForResult(intent, RC_MEMBER)
+            Intent(this, MemberManagementActivity::class.java).apply {
+                if (intent.hasExtra("memberData"))
+                    putExtra("alreadyAddedMember", intent.getStringArrayListExtra("memberData"))
+                startActivityForResult(this, RC_MEMBER)
+            }
         }
     }
 

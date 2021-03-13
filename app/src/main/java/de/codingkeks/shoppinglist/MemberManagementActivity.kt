@@ -80,6 +80,27 @@ class MemberManagementActivity : AppCompatActivity() {
                 }
         }
 
+        if (intent.hasExtra("alreadyAddedMember")) {
+            val newMemberData = intent.getStringArrayListExtra("alreadyAddedMember") as MutableList<String>
+            FirebaseFirestore.getInstance().collection("users")
+                .whereIn(FieldPath.documentId(), newMemberData)
+                .get().addOnSuccessListener { memberDocs ->
+                    memberList.clear()
+                    memberDocs.forEach {
+                        memberList.add(
+                            Member(
+                                it.get("username").toString(),
+                                (it.get("icon_id") as Long).toInt(),
+                                it.id,
+                                true
+                            )
+                        )
+                    }
+                    adapter.updateList()
+                    sortingMembersList()
+                }
+        }
+
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
         FirebaseFirestore.getInstance().document("users/$uid")
             .get().addOnSuccessListener { dSnapFriends ->
