@@ -105,6 +105,7 @@
     <string name="enter_name">You have to enter a name</string>
     <string name="create_list">Create Shopping List</string>
     <string name="load_username">Loading Username...</string>
+    <string name="manage_member_fab_description" translatable="false">Button to confirm the Member changes</string>
     <string-array name="sortingItem">
         <item>Latest</item>
         <item>Oldest</item>

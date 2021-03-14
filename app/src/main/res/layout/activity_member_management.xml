@@ -47,7 +47,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:clickable="true"
-        android:contentDescription="Button to confirm the Member changes"
+        android:contentDescription="@string/manage_member_fab_description"
         android:focusable="true"
         android:src="@drawable/ic_accept"
         app:backgroundTint="@color/colorPrimary"

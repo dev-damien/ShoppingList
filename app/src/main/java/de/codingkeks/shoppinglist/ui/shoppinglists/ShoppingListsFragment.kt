@@ -60,6 +60,7 @@ class ShoppingListsFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
         svLists.clearFocus()
         svLists.setQuery("", false)
 
