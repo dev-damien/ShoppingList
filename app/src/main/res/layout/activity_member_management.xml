@@ -49,7 +49,7 @@
         android:clickable="true"
         android:contentDescription="Button to confirm the Member changes"
         android:focusable="true"
-        android:src="@android:drawable/ic_input_add"
+        android:src="@drawable/ic_accept"
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

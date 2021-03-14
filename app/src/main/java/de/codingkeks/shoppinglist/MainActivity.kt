@@ -212,7 +212,7 @@ class MainActivity : AppCompatActivity() {
         docRef.set(
             mapOf(
                 "username" to "",
-                "icon_id" to defaultIconId
+                "icon_id" to mapper.upload(defaultIconId)
             )
         )
             .addOnSuccessListener {

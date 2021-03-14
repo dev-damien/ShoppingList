@@ -59,7 +59,6 @@ class ShoppingListsFragment : Fragment() {
     }
 
     override fun onStart() {
-        Log.d(MainActivity.TAG, "ShoppingListsFragment()_onStart()_Start")
         super.onStart()
         svLists.clearFocus()
         svLists.setQuery("", false)
