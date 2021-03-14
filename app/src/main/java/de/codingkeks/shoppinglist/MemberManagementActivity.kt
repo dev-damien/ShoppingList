@@ -86,30 +86,34 @@ class MemberManagementActivity : AppCompatActivity() {
         }
 
         if (intent.hasExtra("alreadyAddedMember")) {
-            val newMemberData = intent.getStringArrayListExtra("alreadyAddedMember") as MutableList<String>
-            FirebaseFirestore.getInstance().collection("users")
-                .whereIn(FieldPath.documentId(), newMemberData)
-                .get().addOnSuccessListener { memberDocs ->
-                    memberList.clear()
-                    memberDocs.forEach {
-                        memberList.add(
-                            Member(
-                                it.get("username").toString(),
-                                (it.get("icon_id") as Long).toInt(),
-                                it.id,
-                                true
+            val newMemberData =
+                intent.getStringArrayListExtra("alreadyAddedMember") as MutableList<String>
+            if (newMemberData.isNotEmpty()) {
+                FirebaseFirestore.getInstance().collection("users")
+                    .whereIn(FieldPath.documentId(), newMemberData)
+                    .get().addOnSuccessListener { memberDocs ->
+                        memberList.clear()
+                        memberDocs.forEach {
+                            memberList.add(
+                                Member(
+                                    it.get("username").toString(),
+                                    (it.get("icon_id") as Long).toInt(),
+                                    it.id,
+                                    true
+                                )
                             )
-                        )
+                        }
+                        adapter.updateList()
+                        sortingMembersList()
                     }
-                    adapter.updateList()
-                    sortingMembersList()
-                }
+            }
         }
 
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
         FirebaseFirestore.getInstance().document("users/$uid")
             .get().addOnSuccessListener { dSnapFriends ->
                 val friendIds = dSnapFriends.get("friends") as ArrayList<*>
+                if (friendIds.isEmpty()) return@addOnSuccessListener
                 FirebaseFirestore.getInstance().collection("users")
                     .whereIn(FieldPath.documentId(), friendIds)
                     .get().addOnSuccessListener { friendsDocs ->
@@ -175,17 +179,18 @@ class MemberManagementActivity : AppCompatActivity() {
             spMembers.setSelection(read("spinnerPos"))
         }
 
-        registration = FirebaseFirestore.getInstance().document("lists/${intent.getStringExtra("listId")}")
-            .addSnapshotListener { dSnap, _ ->
-                if (dSnap != null) {
-                    var isMember = dSnap.get("members") ?: return@addSnapshotListener
-                    isMember = isMember as ArrayList<*>
-                    if (!isMember.contains(uid)) {
-                        setResult(12)
-                        finish()
+        registration =
+            FirebaseFirestore.getInstance().document("lists/${intent.getStringExtra("listId")}")
+                .addSnapshotListener { dSnap, _ ->
+                    if (dSnap != null) {
+                        var isMember = dSnap.get("members") ?: return@addSnapshotListener
+                        isMember = isMember as ArrayList<*>
+                        if (!isMember.contains(uid)) {
+                            setResult(12)
+                            finish()
+                        }
                     }
                 }
-            }
     }
 
     override fun onStop() {
