@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/TextStatic"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".ui.account.AccountFragment">
+
+    <ImageView
+        android:id="@+id/ivAccountImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/account_image_description"
+        android:src="@drawable/ic_account_image"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvAccountName"
+        style="@style/TextStatic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/account_name"
+        app:layout_constraintBottom_toTopOf="@+id/tv_userName"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <TextView
+        android:id="@+id/tv_userName"
+        style="@style/TextDynamic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:textColor="@color/grey_staticText"
+        android:textSize="20sp"
+        app:autoSizeMaxTextSize="20sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/tvAccountEmail"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/tvAccountName" />
+
+    <TextView
+        android:id="@+id/tvAccountEmail"
+        style="@style/TextStatic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/account_email"
+        app:layout_constraintBottom_toTopOf="@+id/tv_userEmail"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_userName" />
+
+    <TextView
+        android:id="@+id/tv_userEmail"
+        style="@style/TextDynamic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:lines="1"
+        android:textColor="@color/grey_staticText"
+        android:textSize="20sp"
+        app:autoSizeMaxTextSize="20sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/tvAccountID"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/tvAccountEmail" />
+
+    <TextView
+        android:id="@+id/tvAccountID"
+        style="@style/TextStatic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/account_id"
+        app:layout_constraintBottom_toTopOf="@+id/tv_userID"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_userEmail" />
+
+    <TextView
+        android:id="@+id/tv_userID"
+        style="@style/TextDynamic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:textColor="@color/grey_staticText"
+        android:textSize="20sp"
+        app:autoSizeMaxTextSize="20sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/tvAccountID" />
+
+    <Button
+        android:id="@+id/buAccountLogout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/account_logout"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/buResetPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline10"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buResetPassword"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/account_reset_password"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/buDeleteAccount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline10"
+        app:layout_constraintTop_toBottomOf="@+id/buAccountLogout" />
+
+    <Button
+        android:id="@+id/buDeleteAccount"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/account_delete_account"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline10"
+        app:layout_constraintTop_toBottomOf="@+id/buResetPassword" />
+
+    <ImageView
+        android:id="@+id/ivAccount_editImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/account_image_edit_description"
+        app:layout_constraintEnd_toEndOf="@+id/ivAccountImage"
+        app:layout_constraintTop_toTopOf="@+id/ivAccountImage"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.12" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.7" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
