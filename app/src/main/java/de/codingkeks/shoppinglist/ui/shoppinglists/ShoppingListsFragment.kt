@@ -30,7 +30,6 @@ import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ListAdapter
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ShoppingList
 import de.codingkeks.shoppinglist.utility.ImageMapper
-import kotlinx.android.synthetic.main.fragment_items.*
 import kotlinx.android.synthetic.main.fragment_shoppinglists.*
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -202,11 +201,13 @@ class ShoppingListsFragment : Fragment() {
             )
             colRefLists
                 .add(listData)
-                .addOnSuccessListener {
+                .addOnSuccessListener { dSnap ->
                     if (isFav) {
                         val docRefUser =
                             FirebaseFirestore.getInstance().document("users/${user.uid}")
-                        docRefUser.update("favorites", FieldValue.arrayUnion(it.id))
+                        docRefUser.update("favorites", FieldValue.arrayUnion(dSnap.id)).addOnSuccessListener {
+                            dSnap.update("description", "fav").addOnSuccessListener { dSnap.update("description", "") }
+                        }
                     }
                     adapter.updateList()
                     sortingShoppingList()
