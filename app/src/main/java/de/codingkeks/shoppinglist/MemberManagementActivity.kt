@@ -98,7 +98,7 @@ class MemberManagementActivity : AppCompatActivity() {
                             memberList.add(
                                 Member(
                                     it.get("username").toString(),
-                                    (it.get("icon_id") as Long).toInt(),
+                                    mapper.download((it.get("icon_id") as Long).toInt()),
                                     it.id,
                                     true
                                 )
@@ -108,7 +108,11 @@ class MemberManagementActivity : AppCompatActivity() {
                         sortingMembersList()
                         addingFriends()
                     }
-            }
+            } else addingFriends()
+        }
+
+        if (!intent.hasExtra("alreadyAddedMember") && !intent.hasExtra("listId")) {
+            addingFriends()
         }
 
         spMembers.onItemSelectedListener =
