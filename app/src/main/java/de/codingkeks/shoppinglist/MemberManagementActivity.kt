@@ -81,6 +81,7 @@ class MemberManagementActivity : AppCompatActivity() {
                             }
                             adapter.updateList()
                             sortingMembersList()
+                            addingFriends()
                         }
                 }
         }
@@ -105,34 +106,10 @@ class MemberManagementActivity : AppCompatActivity() {
                         }
                         adapter.updateList()
                         sortingMembersList()
+                        addingFriends()
                     }
             }
         }
-
-        val uid = FirebaseAuth.getInstance().currentUser!!.uid
-        FirebaseFirestore.getInstance().document("users/$uid")
-            .get().addOnSuccessListener { dSnapFriends ->
-                val friendIds = dSnapFriends.get("friends") as ArrayList<*>
-                if (friendIds.isEmpty()) return@addOnSuccessListener
-                FirebaseFirestore.getInstance().collection("users")
-                    .whereIn(FieldPath.documentId(), friendIds)
-                    .get().addOnSuccessListener { friendsDocs ->
-                        friendsDocs.forEach {
-                            val newMember = Member(
-                                it.get("username").toString(),
-                                mapper.download((it.get("icon_id") as Long).toInt()),
-                                it.id,
-                                true
-                            )
-                            if (!memberList.contains(newMember)) {
-                                newMember.isMember = false
-                                memberList.add(newMember)
-                            }
-                        }
-                        adapter.updateList()
-                        sortingMembersList()
-                    }
-            }
 
         spMembers.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -179,6 +156,7 @@ class MemberManagementActivity : AppCompatActivity() {
             spMembers.setSelection(read("spinnerPos"))
         }
 
+        val uid = FirebaseAuth.getInstance().currentUser!!.uid
         registration =
             FirebaseFirestore.getInstance().document("lists/${intent.getStringExtra("listId")}")
                 .addSnapshotListener { dSnap, _ ->
@@ -233,5 +211,32 @@ class MemberManagementActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    private fun addingFriends() {
+        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+        FirebaseFirestore.getInstance().document("users/$uid")
+            .get().addOnSuccessListener { dSnapFriends ->
+                val friendIds = dSnapFriends.get("friends") as ArrayList<*>
+                if (friendIds.isEmpty()) return@addOnSuccessListener
+                FirebaseFirestore.getInstance().collection("users")
+                    .whereIn(FieldPath.documentId(), friendIds)
+                    .get().addOnSuccessListener { friendsDocs ->
+                        friendsDocs.forEach {
+                            val newMember = Member(
+                                it.get("username").toString(),
+                                mapper.download((it.get("icon_id") as Long).toInt()),
+                                it.id,
+                                true
+                            )
+                            if (!memberList.contains(newMember)) {
+                                newMember.isMember = false
+                                memberList.add(newMember)
+                            }
+                        }
+                        adapter.updateList()
+                        sortingMembersList()
+                    }
+            }
     }
 }

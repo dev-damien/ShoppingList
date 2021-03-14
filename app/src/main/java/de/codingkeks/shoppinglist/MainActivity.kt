@@ -20,8 +20,6 @@ import de.codingkeks.shoppinglist.utility.ImageMapper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
-private const val defaultIconId = R.drawable.ic_account_image
-
 class MainActivity : AppCompatActivity() {
 
     companion object {
@@ -75,8 +73,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
-        val res = navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-        return res
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     private fun displayUserInformation() {

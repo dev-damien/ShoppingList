@@ -95,6 +95,7 @@ class ItemsFragment : Fragment() {
                     )
                 }
             }
+            adapter.updateList()
             sortingItems()
         }
 
@@ -169,6 +170,7 @@ class ItemsFragment : Fragment() {
                             )
                             val docRefItems = colRefItems.document()
                             docRefItems.set(itemData).addOnSuccessListener {
+                                adapter.updateList()
                                 sortingItems()
                             }
                         }
@@ -235,7 +237,6 @@ class ItemsFragment : Fragment() {
                     items.sortByDescending { it.name.toLowerCase(Locale.ROOT) }
                 }
             }
-            adapter.updateList()
             adapter.updateSpinnerPos(position)
             adapter.notifyDataSetChanged()
         }
