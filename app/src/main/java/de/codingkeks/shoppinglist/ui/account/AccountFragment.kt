@@ -19,7 +19,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import de.codingkeks.shoppinglist.ImagePickerActivity
-import de.codingkeks.shoppinglist.MainActivity
+import de.codingkeks.shoppinglist.LoginActivity
 import de.codingkeks.shoppinglist.MainActivity.Companion.TAG
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.ReauthenticateActivity
@@ -34,7 +34,11 @@ class AccountFragment : Fragment() {
 
     private val mapper = ImageMapper()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         Log.d(TAG, "AccountFragment_onCreateView()_Start")
         val root = inflater.inflate(R.layout.fragment_account, container, false)
         Log.d(TAG, "AccountFragment_onCreateView()_End")
@@ -48,6 +52,7 @@ class AccountFragment : Fragment() {
         val user = fb.currentUser!!
         FirebaseFirestore.getInstance().document("users/${user.uid}").get()
             .addOnSuccessListener {
+                if (it.get("icon_id") == null) return@addOnSuccessListener
                 val image = (it.getLong("icon_id") as Long).toInt()
                 ivAccountImage.setImageResource(mapper.download(image))
             }
@@ -57,7 +62,8 @@ class AccountFragment : Fragment() {
         val uidUser = user.uid
         val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
         userRef.get().addOnSuccessListener { documentSnapshot ->
-            tv_userName.text = documentSnapshot.get("username") as String? ?: getString(R.string.load_username)
+            tv_userName.text =
+                documentSnapshot.get("username") as String? ?: getString(R.string.load_username)
         }
 
         buAccountLogout.setOnClickListener {
@@ -67,9 +73,9 @@ class AccountFragment : Fragment() {
                     if (task.isSuccessful) {
                         Log.d(TAG, "user has been logged out")
                         FirebaseAuth.getInstance().signOut()
-                        val intent = Intent(context, MainActivity::class.java)
+                        val intent = Intent(context, LoginActivity::class.java)
                         startActivity(intent)
-                        activity?.finishAffinity()
+                        activity?.finish()
                     }
                 }
         }
@@ -78,7 +84,7 @@ class AccountFragment : Fragment() {
             AlertDialog.Builder(ContextThemeWrapper(context, R.style.AlertDialogTheme))
                 .setTitle(R.string.deleteTitle)
                 .setMessage(R.string.deleteAccount)
-                .setPositiveButton(R.string.yes){_, _->
+                .setPositiveButton(R.string.yes) { _, _ ->
                     if (user.providerData[1].providerId == EmailAuthProvider.PROVIDER_ID) {
                         val intent = Intent(requireContext(), ReauthenticateActivity::class.java)
                         startActivityForResult(intent, RC_REAUTH_USER)
@@ -96,19 +102,23 @@ class AccountFragment : Fragment() {
                         )
                     }
                 }
-                .setNegativeButton(R.string.no){_, _->}
+                .setNegativeButton(R.string.no) { _, _ -> }
                 .show()
         }
 
         buResetPassword.setOnClickListener {
-            val eMail = user.email!!
-            fb.useAppLanguage()
-            fb.sendPasswordResetEmail(eMail)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "password reset eMail sent")
+            if (user.providerData[1].providerId == EmailAuthProvider.PROVIDER_ID) {
+                val eMail = user.email!!
+                fb.useAppLanguage()
+                fb.sendPasswordResetEmail(eMail)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "password reset eMail sent")
+                        }
                     }
-                }
+            } else {
+                Toast.makeText(context, R.string.google_password_reset, Toast.LENGTH_LONG).show()
+            }
         }
 
         ivAccountImage.setOnClickListener {
@@ -123,42 +133,17 @@ class AccountFragment : Fragment() {
     }
 
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_REAUTH_USER && resultCode == Activity.RESULT_OK) {
             val user = FirebaseAuth.getInstance().currentUser!!
             val password: String = data!!.getStringExtra("password")!!
             val credential = EmailAuthProvider.getCredential(user.email.toString(), password)
-            val uid = user.uid
-            val docRefUser = FirebaseFirestore.getInstance().document("users/$uid")
-            docRefUser.delete().addOnSuccessListener { Log.d(TAG, "Database Data deleted") }
-            FirebaseFirestore.getInstance().collection("users")
-                .whereArrayContains("friends", uid)
-                .get().addOnSuccessListener { qSnap ->
-                    qSnap.forEach { qdSnap ->
-                        qdSnap.reference.update("friends", FieldValue.arrayRemove(uid))
-                    }
-                }
-            FirebaseFirestore.getInstance().collection("lists")
-                .whereArrayContains("members", uid)
-                .get().addOnSuccessListener { qSnap ->
-                    qSnap.forEach { qdSnap ->
-                        qdSnap.reference.update("members", FieldValue.arrayRemove(uid))
-                    }
-                }
+
             user.reauthenticate(credential)
                 .addOnSuccessListener {
                     Log.d(TAG, "User re-authenticated.")
-                    user.delete()
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Log.d(TAG, "user account deleted")
-                                val intent = Intent(context, MainActivity::class.java)
-                                startActivity(intent)
-                                activity?.finishAffinity()
-                            }
-                        }
+                    deleteAccount()
                 }
                 .addOnFailureListener {
                     Log.d(TAG, "PW wrong")
@@ -174,18 +159,7 @@ class AccountFragment : Fragment() {
                 user.reauthenticate(credential)
                     .addOnSuccessListener {
                         Log.d(TAG, "User re-authenticated.")
-                        val uid = user.uid
-                        val docRef = FirebaseFirestore.getInstance().document("users/$uid")
-                        docRef.delete().addOnSuccessListener { Log.d(TAG, "Database Data deleted") }
-                        user.delete()
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    Log.d(TAG, "user account deleted")
-                                    val intent = Intent(context, MainActivity::class.java)
-                                    startActivity(intent)
-                                    activity?.finishAffinity()
-                                }
-                            }
+                        deleteAccount()
                     }
                     .addOnFailureListener {
                         Log.d(TAG, "PW wrong 1")
@@ -198,7 +172,7 @@ class AccountFragment : Fragment() {
         }
         if (requestCode == RC_CHANGE_IMAGE) {
             if (resultCode == Activity.RESULT_OK && data != null) {
-                if (data.hasExtra("image")){
+                if (data.hasExtra("image")) {
                     //set selected image to new account image
                     val selectedImage = data.getIntExtra("image", -1)
                     ivAccountImage.setImageResource(selectedImage)
@@ -210,7 +184,7 @@ class AccountFragment : Fragment() {
         }
     }
 
-    private fun editAccountImage(){
+    private fun editAccountImage() {
         Log.d(TAG, "Image view to change account image has been clicked")
         //TODO pass the right images as an arrayList to the ImagePickerActivity;
         //just a testing arrayList with random images
@@ -231,4 +205,36 @@ class AccountFragment : Fragment() {
         }
     }
 
+    private fun deleteAccount() {
+        val user = FirebaseAuth.getInstance().currentUser!!
+        val uid = user.uid
+
+        val docRef = FirebaseFirestore.getInstance().document("users/$uid")
+        docRef.delete().addOnSuccessListener {
+            Log.d(TAG, "Database Data deleted")
+            FirebaseFirestore.getInstance().collection("users")
+                .whereArrayContains("friends", uid)
+                .get().addOnSuccessListener { qSnap ->
+                    qSnap.forEach { qdSnap ->
+                        qdSnap.reference.update("friends", FieldValue.arrayRemove(uid))
+                    }
+                    FirebaseFirestore.getInstance().collection("lists")
+                        .whereArrayContains("members", uid)
+                        .get().addOnSuccessListener { qSnap ->
+                            qSnap.forEach { qdSnap ->
+                                qdSnap.reference.update("members", FieldValue.arrayRemove(uid))
+                            }
+                            user.delete()
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Log.d(TAG, "user account deleted")
+                                        val intent = Intent(context, LoginActivity::class.java)
+                                        startActivity(intent)
+                                        activity?.finish()
+                                    }
+                                }
+                        }
+                }
+        }
+    }
 }
