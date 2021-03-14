@@ -33,11 +33,21 @@ class LoginActivity : AppCompatActivity() {
         if (fb.currentUser == null) {
             login()
         } else if (!fb.currentUser!!.isEmailVerified) {
-            emailVerified() // TODO DataStore first login
+            emailVerified()
         } else {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            this.finish()
+            val uidUser = FirebaseAuth.getInstance().currentUser!!.uid
+            val docRef = FirebaseFirestore.getInstance().document("users/$uidUser")
+            docRef.get()
+                .addOnSuccessListener { docSnap ->
+                    if (!docSnap.exists()) {
+                        createUserDoc()
+                    }
+                    if (docSnap.exists()) {
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        this.finish()
+                    }
+                }
         }
     }
 
@@ -76,18 +86,19 @@ class LoginActivity : AppCompatActivity() {
         if (requestCode == RC_AUTH) {
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
-                val uidUser = FirebaseAuth.getInstance().currentUser!!.uid
-
-                val docRef = FirebaseFirestore.getInstance().document("users/$uidUser")
-                docRef.get()
-                    .addOnSuccessListener { docSnap ->
-                        if (!docSnap.exists()) {
-                            createUserDoc()
+                if (!FirebaseAuth.getInstance().currentUser!!.isEmailVerified) {
+                    FirebaseAuth.getInstance().useAppLanguage()
+                    FirebaseAuth.getInstance().currentUser!!.sendEmailVerification()
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d(MainActivity.TAG, "Email sent.")
+                            }
                         }
-                        val intent = Intent(this, LoginActivity::class.java)
-                        startActivity(intent)
-                        this.finishAffinity()
-                    }
+                }
+
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                this.finishAffinity()
             } else {
                 Toast.makeText(this, R.string.login_failed, Toast.LENGTH_SHORT).show()
                 login()
@@ -117,11 +128,11 @@ class LoginActivity : AppCompatActivity() {
                 Log.d(MainActivity.TAG, "put data in userDoc failed")
             }
 
-        findingUsername()
-
         docRef.update("friends", FieldValue.arrayUnion())
         docRef.update("favorites", FieldValue.arrayUnion())
         docRef.update("friendRequests", FieldValue.arrayUnion())
+
+        findingUsername()
     }
 
     private fun findingUsername() {
@@ -153,23 +164,17 @@ class LoginActivity : AppCompatActivity() {
 
                 val userRef = FirebaseFirestore.getInstance().document("users/$uidUser")
                 username += "$numberOfUsername"
-                userRef.update("username", username)
+                userRef.update("username", username).addOnSuccessListener {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    this.finish()
+                }
             }
     }
 
     private fun emailVerified() {
         val user = FirebaseAuth.getInstance().currentUser!!
         val intent = Intent(this, LoginActivity::class.java)
-
-        /*if (firstLogin) {
-            FirebaseAuth.getInstance().useAppLanguage()
-            user.sendEmailVerification().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(MainActivity.TAG, "Email sent.")
-                }
-            }
-            firstLogin = false
-        }*/
 
         AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
             .setTitle(R.string.emailVerificationTitle)
