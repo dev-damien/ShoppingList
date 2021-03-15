@@ -5,6 +5,29 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorText">#</item>
+        <item name="colorButton">#</item>
+        <item name="colorButtonText">#</item>
+        <item name="colorFab">#</item>
+        <item name="colorFabImage">#</item>
+        <item name="colorBackground">#</item>
+        <item name="colorNavBarLeft">#</item>
+        <item name="colorNavBarMid">#</item>
+        <item name="colorNavBarRight">#</item>
+        <item name="colorImageView">#</item>
+        <item name="colorAlertDialog">#</item>
+        <item name="colorAlertDialogText">#</item>
+        <item name="colorToast">#</item>
+        <item name="colorToastText">#</item>
+
+
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#000000</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">#000000</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
