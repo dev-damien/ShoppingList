@@ -2,10 +2,10 @@ package de.codingkeks.shoppinglist
 
 import android.app.Activity
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import de.codingkeks.shoppinglist.utility.ThemeSetter
 import kotlinx.android.synthetic.main.activity_reauthenticate.*
 
-class ReauthenticateActivity : AppCompatActivity()  {
+class ReauthenticateActivity : ThemeSetter()  {
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)

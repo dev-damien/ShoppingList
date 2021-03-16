@@ -4,15 +4,15 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import de.codingkeks.shoppinglist.recyclerview.images.Image
 import de.codingkeks.shoppinglist.recyclerview.images.ImageAdapter
+import de.codingkeks.shoppinglist.utility.ThemeSetter
 import kotlinx.android.synthetic.main.activity_image_picker.*
 
 private const val TAG = MainActivity.TAG
 
-class ImagePickerActivity : AppCompatActivity() {
+class ImagePickerActivity : ThemeSetter() {
 
     private lateinit var images: MutableList<Image>
     private val numberOfColumns = 4 //number of columns for the image picker selection
@@ -23,6 +23,7 @@ class ImagePickerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_image_picker)
 
         title = getString(R.string.image_picker_title)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (intent.hasExtra("images")){
             Log.d(TAG, "intent has an extra")
@@ -61,5 +62,10 @@ class ImagePickerActivity : AppCompatActivity() {
         Log.d(TAG, "adapter set")
         rvImages.layoutManager = GridLayoutManager(this, numberOfColumns)
         Log.d(TAG, "pick image Start End")
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

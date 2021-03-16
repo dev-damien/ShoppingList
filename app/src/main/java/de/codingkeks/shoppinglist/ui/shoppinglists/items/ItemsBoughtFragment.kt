@@ -1,7 +1,6 @@
 package de.codingkeks.shoppinglist.ui.shoppinglists.items
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,11 +9,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.SearchView
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -25,13 +19,11 @@ import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.items.Item
 import de.codingkeks.shoppinglist.recyclerview.items.ItemBoughtAdapter
+import de.codingkeks.shoppinglist.utility.DataStoreUtility
 import kotlinx.android.synthetic.main.fragment_items_bought.*
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "items_bought_settings")
 
 class ItemsBoughtFragment : Fragment() {
 
@@ -97,7 +89,7 @@ class ItemsBoughtFragment : Fragment() {
                 id: Long
             ) {
                 lifecycleScope.launch {
-                    save("spinnerPos", position)
+                    DataStoreUtility.saveInt("itemBoughtSpinnerPos", position, requireContext())
                     sortingItems()
                 }
             }
@@ -120,7 +112,7 @@ class ItemsBoughtFragment : Fragment() {
         })
 
         lifecycleScope.launch {
-            spItemsBought.setSelection(read("spinnerPos"))
+            spItemsBought.setSelection(DataStoreUtility.readInt("itemBoughtSpinnerPos", requireContext()))
         }
     }
 
@@ -132,7 +124,7 @@ class ItemsBoughtFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     fun sortingItems() {
         lifecycleScope.launch {
-            val position = read("spinnerPos")
+            val position = DataStoreUtility.readInt("itemBoughtSpinnerPos", requireContext())
             when (position) { //position 0: Latest; 1: A-Z; 2: Z-A
                 0 -> {
                     items.sortBy { it.name.toLowerCase(Locale.ROOT) }
@@ -160,18 +152,5 @@ class ItemsBoughtFragment : Fragment() {
             adapter.notifyDataSetChanged()
             adapter.updateSpinnerPos(position)
         }
-    }
-
-    private suspend fun save(key: String, value: Int) {
-        val dataStoreKey = intPreferencesKey(key)
-        requireContext().dataStore.edit { settings ->
-            settings[dataStoreKey] = value
-        }
-    }
-
-    private suspend fun read(key: String): Int {
-        val dataStoreKey = intPreferencesKey(key)
-        val preferences = requireContext().dataStore.data.first()
-        return preferences[dataStoreKey] ?: 0
     }
 }

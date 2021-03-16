@@ -10,18 +10,18 @@ import android.util.Log
 import android.view.ContextThemeWrapper
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import de.codingkeks.shoppinglist.utility.ImageMapper
+import de.codingkeks.shoppinglist.utility.ThemeSetter
 
 private const val RC_AUTH = 69
 private const val defaultIconId = R.drawable.ic_account_image
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : ThemeSetter() {
 
     private val mapper = ImageMapper()
 

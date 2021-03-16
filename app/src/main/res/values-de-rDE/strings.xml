@@ -101,4 +101,9 @@
     <string name="create_list">Einkauszettel erstellen</string>
     <string name="load_username">Lädt Namen...</string>
     <string name="google_password_reset">Sie benutzen einen Google Account. Sie können ihr Passwort nicht zurücksetzen.</string>
+    <string name="theme">Theme:</string>
+    <string-array name="themes">
+        <item>Hell</item>
+        <item>Dunkel</item>
+    </string-array>
 </resources>
