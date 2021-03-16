@@ -23,11 +23,12 @@
 
     <Button
         android:id="@+id/buAddNewList_Done"
-        android:background="?attr/colorButton"
-        android:textColor="?attr/colorButtonText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?attr/colorButton"
+        android:padding="3dp"
         android:text="@string/create"
+        android:textColor="?attr/colorButtonText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/buAddMember"
@@ -72,11 +73,12 @@
 
     <Button
         android:id="@+id/buAddMember"
-        android:background="?attr/colorButton"
-        android:textColor="?attr/colorButtonText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?attr/colorButton"
+        android:padding="3dp"
         android:text="@string/add_member"
+        android:textColor="?attr/colorButtonText"
         app:layout_constraintEnd_toStartOf="@+id/buAddNewList_Done"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorText">#000000</item>
+        <item name="colorText">#bbbbbb</item>
         <item name="colorButton">#9967f0</item>
         <item name="colorButtonText">#000000</item>
         <item name="colorFab">#35204f</item>
@@ -19,11 +19,19 @@
         <item name="colorAlertDialogText">#000000</item>
         <item name="colorToast">#987654</item>
         <item name="colorToastText">#000000</item>
-        <item name="colorRV">#192837</item>
-        <item name="colorRVItem">#926532</item>
+        <item name="colorRVBackground">#192837</item>
+        <item name="colorRVItemText">#424242</item>
+        <item name="colorRVItemBackground">#926532</item>
+        <item name="colorBackgroundLogin">#991166</item>
+        <item name="colorBackgroundNavBar">#13f792</item>
+        <item name="colorNavHeaderText">#000000</item>
 
     </style>
-
+<!--
+    <style name="buttonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">?attr/colorBackground</item>
+    </style>
+-->
     <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#000000</item>

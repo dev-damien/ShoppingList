@@ -17,6 +17,10 @@
     <attr name="colorAlertDialogText" format="color" />
     <attr name="colorToast" format="color" />
     <attr name="colorToastText" format="color" />
-    <attr name="colorRVItem" format="color" />
-    <attr name="colorRV" format="color" />
+    <attr name="colorRVItemBackground" format="color" />
+    <attr name="colorRVBackground" format="color" />
+    <attr name="colorRVItemText" format="color" />
+    <attr name="colorBackgroundLogin" format="color" />
+    <attr name="colorBackgroundNavBar" format="color" />
+    <attr name="colorNavHeaderText" format="color" />
 </resources>
