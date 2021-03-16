@@ -5,21 +5,22 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorText">#</item>
-        <item name="colorButton">#</item>
-        <item name="colorButtonText">#</item>
-        <item name="colorFab">#</item>
-        <item name="colorFabImage">#</item>
-        <item name="colorBackground">#</item>
-        <item name="colorNavBarLeft">#</item>
-        <item name="colorNavBarMid">#</item>
-        <item name="colorNavBarRight">#</item>
-        <item name="colorImageView">#</item>
-        <item name="colorAlertDialog">#</item>
-        <item name="colorAlertDialogText">#</item>
-        <item name="colorToast">#</item>
-        <item name="colorToastText">#</item>
-
+        <item name="colorText">#000000</item>
+        <item name="colorButton">#9967f0</item>
+        <item name="colorButtonText">#000000</item>
+        <item name="colorFab">#35204f</item>
+        <item name="colorFabImage">#000000</item>
+        <item name="colorBackground">#cda3ff</item>
+        <item name="colorNavBarLeft">@color/colorPrimaryDark</item>
+        <item name="colorNavBarMid">@color/colorPrimary</item>
+        <item name="colorNavBarRight">@color/colorAccent</item>
+        <item name="colorImageView">#000000</item>
+        <item name="colorAlertDialog">#666666</item>
+        <item name="colorAlertDialogText">#000000</item>
+        <item name="colorToast">#987654</item>
+        <item name="colorToastText">#000000</item>
+        <item name="colorRV">#192837</item>
+        <item name="colorRVItem">#926532</item>
 
     </style>
 

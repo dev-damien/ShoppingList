@@ -32,6 +32,8 @@
 
     <Button
         android:id="@+id/buOK"
+        android:background="?attr/colorButton"
+        android:textColor="?attr/colorButtonText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="OK"
