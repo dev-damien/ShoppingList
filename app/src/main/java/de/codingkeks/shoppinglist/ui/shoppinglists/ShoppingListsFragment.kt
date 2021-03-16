@@ -1,7 +1,6 @@
 package de.codingkeks.shoppinglist.ui.shoppinglists
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,11 +10,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.SearchView
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -29,13 +23,12 @@ import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ListAdapter
 import de.codingkeks.shoppinglist.recyclerview.shoppinglists.ShoppingList
+import de.codingkeks.shoppinglist.utility.DataStoreUtility
 import de.codingkeks.shoppinglist.utility.ImageMapper
 import kotlinx.android.synthetic.main.fragment_shoppinglists.*
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.*
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "lists_settings")
 private const val RC_ADD_NEW_LIST = 0
 
 class ShoppingListsFragment : Fragment() {
@@ -106,7 +99,7 @@ class ShoppingListsFragment : Fragment() {
                 id: Long
             ) {
                 lifecycleScope.launch {
-                    save("spinnerPos", position)
+                    DataStoreUtility.saveInt("listSpinnerPos", position, requireContext())
                     sortingShoppingList()
                 }
             }
@@ -135,7 +128,7 @@ class ShoppingListsFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            spLists.setSelection(read("spinnerPos"))
+            spLists.setSelection(DataStoreUtility.readInt("listSpinnerPos", requireContext()))
         }
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_onStart()_End")
     }
@@ -224,7 +217,7 @@ class ShoppingListsFragment : Fragment() {
     fun sortingShoppingList() {
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_sortingShoppingList_Start")
         lifecycleScope.launch {
-            val position = read("spinnerPos")
+            val position = DataStoreUtility.readInt("listSpinnerPos", requireContext())
             when (position) { //position 0: Favorites; 1: A-Z; 2: Z-A
                 0 -> {
                     shoppingList.sortBy { it.name.toLowerCase(Locale.ROOT) }
@@ -241,18 +234,5 @@ class ShoppingListsFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
         Log.d(MainActivity.TAG, "ShoppingListsFragment()_sortingShoppingList_End")
-    }
-
-    private suspend fun save(key: String, value: Int) {
-        val dataStoreKey = intPreferencesKey(key)
-        requireContext().dataStore.edit { settings ->
-            settings[dataStoreKey] = value
-        }
-    }
-
-    private suspend fun read(key: String): Int {
-        val dataStoreKey = intPreferencesKey(key)
-        val preferences = requireContext().dataStore.data.first()
-        return preferences[dataStoreKey] ?: 0
     }
 }

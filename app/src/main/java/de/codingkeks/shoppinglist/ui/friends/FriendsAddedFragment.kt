@@ -1,7 +1,6 @@
 
 package de.codingkeks.shoppinglist.ui.friends
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,11 +9,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.SearchView
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -27,15 +21,13 @@ import de.codingkeks.shoppinglist.MainActivity
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.friends.Friend
 import de.codingkeks.shoppinglist.recyclerview.friends.FriendAdapter
+import de.codingkeks.shoppinglist.utility.DataStoreUtility
 import de.codingkeks.shoppinglist.utility.ImageMapper
 import kotlinx.android.synthetic.main.fragment_friends_added.*
 import kotlinx.android.synthetic.main.fragment_friends_requests.*
 import kotlinx.android.synthetic.main.fragment_shoppinglists.*
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.*
-
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "friends_settings")
 
 class FriendsAddedFragment : Fragment() {
 
@@ -140,7 +132,7 @@ class FriendsAddedFragment : Fragment() {
                     id: Long
                 ) {
                     lifecycleScope.launch {
-                        save("spinnerPos", position)
+                        DataStoreUtility.saveInt("friendSpinnerPos", position, requireContext())
                         sortingFriendsList()
                     }
                 }
@@ -163,14 +155,14 @@ class FriendsAddedFragment : Fragment() {
             })
 
         lifecycleScope.launch {
-            spFriends.setSelection(read("spinnerPos"))
+            spFriends.setSelection(DataStoreUtility.readInt("friendSpinnerPos", requireContext()))
         }
         Log.d(MainActivity.TAG, "FriendsFragment()_onCreate()_End")
     }
 
     fun sortingFriendsList() {
         lifecycleScope.launch {
-            val position = read("spinnerPos")
+            val position = DataStoreUtility.readInt("friendSpinnerPos", requireContext())
             when (position) { //0: A-Z; 1: Z-A
                 0 -> {
                     friendList.sortBy { it.name.toLowerCase(Locale.ROOT) }
@@ -182,18 +174,5 @@ class FriendsAddedFragment : Fragment() {
             adapter.updateSpinnerPos(position)
             adapter.notifyDataSetChanged()
         }
-    }
-
-    private suspend fun save(key: String, value: Int) {
-        val dataStoreKey = intPreferencesKey(key)
-        requireContext().dataStore.edit { settings ->
-            settings[dataStoreKey] = value
-        }
-    }
-
-    private suspend fun read(key: String): Int {
-        val dataStoreKey = intPreferencesKey(key)
-        val preferences = requireContext().dataStore.data.first()
-        return preferences[dataStoreKey] ?: 0
     }
 }

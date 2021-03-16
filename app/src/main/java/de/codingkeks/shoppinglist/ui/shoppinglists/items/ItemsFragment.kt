@@ -18,11 +18,6 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -35,13 +30,11 @@ import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.R
 import de.codingkeks.shoppinglist.recyclerview.items.Item
 import de.codingkeks.shoppinglist.recyclerview.items.ItemAdapter
+import de.codingkeks.shoppinglist.utility.DataStoreUtility
 import kotlinx.android.synthetic.main.fragment_items.*
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "item_settings")
 
 class ItemsFragment : Fragment() {
 
@@ -107,7 +100,7 @@ class ItemsFragment : Fragment() {
                 id: Long
             ) {
                 lifecycleScope.launch {
-                    save("spinnerPos", position)
+                    DataStoreUtility.saveInt("itemSpinnerPos", position, requireContext())
                     sortingItems()
                 }
             }
@@ -130,7 +123,7 @@ class ItemsFragment : Fragment() {
         })
 
         lifecycleScope.launch {
-            spItems.setSelection(read("spinnerPos"))
+            spItems.setSelection(DataStoreUtility.readInt("itemSpinnerPos", requireContext()))
         }
 
         fabAddNewItem.setOnClickListener {
@@ -220,7 +213,7 @@ class ItemsFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     fun sortingItems() {
         lifecycleScope.launch {
-            val position: Int = read("spinnerPos")
+            val position: Int = DataStoreUtility.readInt("itemSpinnerPos", requireContext())
             when (position) { //position 0: Latest; 1: A-Z; 2: Z-A
                 0 -> {
                     items.sortBy { it.name.toLowerCase(Locale.ROOT) }
@@ -297,17 +290,4 @@ class ItemsFragment : Fragment() {
     private fun Int.toDp(context: Context):Int = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), context.resources.displayMetrics
     ).toInt()
-
-    private suspend fun save(key: String, value: Int) {
-        val dataStoreKey = intPreferencesKey(key)
-        requireContext().dataStore.edit { settings ->
-            settings[dataStoreKey] = value
-        }
-    }
-
-    private suspend fun read(key: String): Int {
-        val dataStoreKey = intPreferencesKey(key)
-        val preferences = requireContext().dataStore.data.first()
-        return preferences[dataStoreKey] ?: 0
-    }
 }

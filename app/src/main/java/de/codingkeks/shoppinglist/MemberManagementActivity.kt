@@ -1,18 +1,12 @@
 package de.codingkeks.shoppinglist
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,14 +16,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.recyclerview.members.Member
 import de.codingkeks.shoppinglist.recyclerview.members.MemberAdapter
+import de.codingkeks.shoppinglist.utility.DataStoreUtility
 import de.codingkeks.shoppinglist.utility.ImageMapper
 import kotlinx.android.synthetic.main.activity_member_management.*
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
-
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "members_settings")
 
 class MemberManagementActivity : AppCompatActivity() {
 
@@ -124,7 +116,7 @@ class MemberManagementActivity : AppCompatActivity() {
                     id: Long
                 ) {
                     lifecycleScope.launch {
-                        save("spinnerPos", position)
+                        DataStoreUtility.saveInt("memberSpinnerPos", position, this@MemberManagementActivity)
                         sortingMembersList()
                     }
                 }
@@ -157,7 +149,7 @@ class MemberManagementActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            spMembers.setSelection(read("spinnerPos"))
+            spMembers.setSelection(DataStoreUtility.readInt("memberSpinnerPos", this@MemberManagementActivity))
         }
 
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
@@ -183,7 +175,7 @@ class MemberManagementActivity : AppCompatActivity() {
     fun sortingMembersList() {
         lifecycleScope.launch {
             val uid = FirebaseAuth.getInstance().currentUser!!.uid
-            val position = read("spinnerPos")
+            val position = DataStoreUtility.readInt("memberSpinnerPos", this@MemberManagementActivity)
             when (position) { //0: A-Z; 1: Z-A
                 0 -> {
                     memberList.sortBy { it.name.toLowerCase(Locale.ROOT) }
@@ -197,19 +189,6 @@ class MemberManagementActivity : AppCompatActivity() {
             adapter.updateSpinnerPos(position)
             adapter.notifyDataSetChanged()
         }
-    }
-
-    private suspend fun save(key: String, value: Int) {
-        val dataStoreKey = intPreferencesKey(key)
-        dataStore.edit { settings ->
-            settings[dataStoreKey] = value
-        }
-    }
-
-    private suspend fun read(key: String): Int {
-        val dataStoreKey = intPreferencesKey(key)
-        val preferences = dataStore.data.first()
-        return preferences[dataStoreKey] ?: 0
     }
 
     override fun onSupportNavigateUp(): Boolean {
