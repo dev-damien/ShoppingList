@@ -6,7 +6,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.SearchView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,12 +17,13 @@ import de.codingkeks.shoppinglist.recyclerview.members.Member
 import de.codingkeks.shoppinglist.recyclerview.members.MemberAdapter
 import de.codingkeks.shoppinglist.utility.DataStoreUtility
 import de.codingkeks.shoppinglist.utility.ImageMapper
+import de.codingkeks.shoppinglist.utility.ThemeSetter
 import kotlinx.android.synthetic.main.activity_member_management.*
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MemberManagementActivity : AppCompatActivity() {
+class MemberManagementActivity : ThemeSetter() {
 
     private var memberList: MutableList<Member> = mutableListOf()
     private lateinit var adapter: MemberAdapter

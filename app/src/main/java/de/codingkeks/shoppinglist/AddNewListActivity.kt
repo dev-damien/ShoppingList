@@ -7,13 +7,13 @@ import android.text.InputFilter
 import android.text.InputType
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import de.codingkeks.shoppinglist.utility.ThemeSetter
 import kotlinx.android.synthetic.main.activity_add_new_list.*
 
 private const val RC_IMAGEPICKER = 1
 private const val RC_MEMBER = 99
 
-class AddNewListActivity : AppCompatActivity() {
+class AddNewListActivity : ThemeSetter() {
 
     private var selectedImage: Int = R.drawable.ic_menu_shoppinglists
     private var isFav = false

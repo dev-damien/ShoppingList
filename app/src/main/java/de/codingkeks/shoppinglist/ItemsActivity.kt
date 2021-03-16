@@ -8,7 +8,6 @@ import android.view.ContextThemeWrapper
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -19,11 +18,12 @@ import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.FragmentPagerAdapterItems
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.ItemsBoughtFragment
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.ItemsFragment
+import de.codingkeks.shoppinglist.utility.ThemeSetter
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 private const val RC_MEMBER = 99
 
-class ItemsActivity : AppCompatActivity() {
+class ItemsActivity : ThemeSetter() {
     private lateinit var viewPager: ViewPager
     private lateinit var tabLayout: TabLayout
     private lateinit var registration: ListenerRegistration
