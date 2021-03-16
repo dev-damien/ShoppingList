@@ -9,7 +9,7 @@
 
     <EditText
         android:id="@+id/etAddNewList_nameInput"
-        android:textColor="?attr/colorText"
+        style="@style/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -23,9 +23,9 @@
 
     <Button
         android:id="@+id/buAddNewList_Done"
+        style="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/colorButton"
         android:padding="3dp"
         android:text="@string/create"
         android:textColor="?attr/colorButtonText"
@@ -36,7 +36,7 @@
 
     <ImageView
         android:id="@+id/ivAddNewList_icon"
-        app:tint="?attr/colorImageView"
+        style="@style/image"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/add_new_list_icon_description"
@@ -49,7 +49,7 @@
 
     <ImageView
         android:id="@+id/ivAddNewList_editIcon"
-        app:tint="?attr/colorImageView"
+        style="@style/image"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
@@ -61,7 +61,7 @@
 
     <ImageView
         android:id="@+id/ivAddNewList_isFav"
-        app:tint="?attr/colorImageView"
+        style="@style/image"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="5dp"
@@ -73,9 +73,9 @@
 
     <Button
         android:id="@+id/buAddMember"
+        style="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/colorButton"
         android:padding="3dp"
         android:text="@string/add_member"
         android:textColor="?attr/colorButtonText"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    android:background="?attr/colorRVItemBackground"
+    style="@style/rvItem"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -9,6 +9,7 @@
 
     <ImageView
         android:id="@+id/ivFriendImage"
+        style="@style/rvItemImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:contentDescription="@string/friends_image_description"
@@ -19,6 +20,7 @@
 
     <TextView
         android:id="@+id/tvFriendName"
+        style="@style/rvItemText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:lines="1"
@@ -36,6 +38,7 @@
 
     <ImageButton
         android:id="@+id/buFriendOptions"
+        style="@style/rvItemOptions"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#00FFFFFF"

@@ -23,4 +23,6 @@
     <attr name="colorBackgroundLogin" format="color" />
     <attr name="colorBackgroundNavBar" format="color" />
     <attr name="colorNavHeaderText" format="color" />
+    <attr name="colorRVItemImage" format="color" />
+    <attr name="colorRVItemOptions" format="color" />
 </resources>

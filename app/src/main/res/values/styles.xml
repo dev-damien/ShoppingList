@@ -24,20 +24,81 @@
         <item name="colorRVItemBackground">#926532</item>
         <item name="colorBackgroundLogin">#991166</item>
         <item name="colorBackgroundNavBar">#13f792</item>
-        <item name="colorNavHeaderText">#000000</item>
+        <item name="colorNavHeaderText">#f982f3</item>
+        <item name="colorRVItemImage">#f982f3</item>
+        <item name="colorRVItemOptions">#e871af</item>
 
     </style>
-<!--
-    <style name="buttonStyle" parent="Widget.AppCompat.Button">
-        <item name="android:background">?attr/colorBackground</item>
-    </style>
--->
+
     <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#000000</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">#000000</item>
+        <item name="colorText">#bbbbbb</item>
+        <item name="colorButton">#9967f0</item>
+        <item name="colorButtonText">#000000</item>
+        <item name="colorFab">#35204f</item>
+        <item name="colorFabImage">#000000</item>
+        <item name="colorBackground">#cda3ff</item>
+        <item name="colorNavBarLeft">@color/colorPrimaryDark</item>
+        <item name="colorNavBarMid">@color/colorPrimary</item>
+        <item name="colorNavBarRight">@color/colorAccent</item>
+        <item name="colorImageView">#000000</item>
+        <item name="colorAlertDialog">#666666</item>
+        <item name="colorAlertDialogText">#000000</item>
+        <item name="colorToast">#987654</item>
+        <item name="colorToastText">#000000</item>
+        <item name="colorRVBackground">#192837</item>
+        <item name="colorRVItemText">#f982f3</item>
+        <item name="colorRVItemBackground">#926532</item>
+        <item name="colorBackgroundLogin">#991166</item>
+        <item name="colorBackgroundNavBar">#583426</item>
+        <item name="colorNavHeaderText">#000000</item>
+        <item name="colorRVItemImage">#f982f3</item>
+        <item name="colorRVItemOptions">#e871af</item>
+
     </style>
+    
+    <!-- create style for all elements -->
+    <style name="button" parent="Widget.AppCompat.Button">
+        <item name="android:background">?attr/colorBackgroundNavBar</item>
+        <item name="android:textColor">?attr/colorButtonText</item>
+    </style>
+    
+    <style name="fab">
+        <item name="android:background">?attr/colorFab</item>
+        <item name="android:tint">?attr/colorFabImage</item>
+    </style>
+
+    <style name="textView">
+        <item name="android:color">?attr/colorText</item>
+    </style>
+
+    <style name="navBar">
+        <item name="android:background">?attr/colorBackgroundNavBar</item>
+    </style>
+
+    <style name="rvItem">
+        <item name="android:background">?attr/colorRVItemBackground</item>
+    </style>
+
+    <style name="rvItemText">
+        <item name="android:textColor">?attr/colorRVItemText</item>
+    </style>
+
+    <style name="rvItemImage">
+        <item name="android:tint">?attr/colorRVItemImage</item>
+    </style>
+
+    <style name="rvItemOptions">
+        <item name="tint">?attr/colorRVItemOptions</item>
+    </style>
+
+    <style name="image">
+        <item name="tint">?attr/colorImageView</item>
+    </style>
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
