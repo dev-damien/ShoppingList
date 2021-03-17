@@ -48,18 +48,24 @@ class AddNewListActivity : ThemeSetter() {
 
         ivAddNewList_editIcon.setOnClickListener {
             Log.d(MainActivity.TAG, "Image view to change image has been clicked")
-            //TODO pass the right images as an arrayList to the ImagePickerActivity;
-            //just a testing arrayList with random images
             val images = arrayListOf(
-                R.drawable.ic_menu_settings,
-                R.drawable.ic_menu_home,
-                R.drawable.common_google_signin_btn_icon_dark_focused,
-                R.drawable.ic_account_image,
-                R.drawable.ic_friends_person_add,
-                R.drawable.ic_launcher_background,
-                R.drawable.ic_menu_friends,
-                R.drawable.ic_friends_star_border,
-                R.drawable.ic_menu_account
+                R.drawable.ic_pets,
+                R.drawable.ic_sick,
+                R.drawable.ic_drink,
+                R.drawable.ic_baseline_icecream_24,
+                R.drawable.ic_flatware,
+                R.drawable.ic_fastfood,
+                R.drawable.ic_family,
+                R.drawable.ic_android,
+                R.drawable.ic_duo,
+                R.drawable.ic_beer,
+                R.drawable.ic_outdoor_grill,
+                R.drawable.ic_school,
+                R.drawable.ic_esports,
+                R.drawable.ic_travel,
+                R.drawable.ic_cake,
+                R.drawable.ic_clean,
+                R.drawable.ic_bike
             )
             Intent(this, ImagePickerActivity::class.java).also {
                 it.putExtra("images", images)
@@ -77,7 +83,6 @@ class AddNewListActivity : ThemeSetter() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.d(MainActivity.TAG, "AddNewListActivity_onActivityResult()_Start")
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_IMAGEPICKER) {
@@ -93,7 +98,6 @@ class AddNewListActivity : ThemeSetter() {
                 intent.putExtra("memberData", data.getStringArrayListExtra("newMemberData"))
             }
         }
-        Log.d(MainActivity.TAG, "AddNewListActivity_onActivityResult()_End")
     }
 
     override fun onSupportNavigateUp(): Boolean {

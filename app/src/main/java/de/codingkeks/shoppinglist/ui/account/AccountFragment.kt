@@ -36,14 +36,11 @@ class AccountFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d(TAG, "AccountFragment_onCreateView()_Start")
         val root = inflater.inflate(R.layout.fragment_account, container, false)
-        Log.d(TAG, "AccountFragment_onCreateView()_End")
         return root
     }
 
     override fun onStart() {
-        Log.d(TAG, "AccountFragment_onStart()_Start")
         super.onStart()
         val fb = FirebaseAuth.getInstance()
         val user = fb.currentUser!!
@@ -125,8 +122,6 @@ class AccountFragment : Fragment() {
         ivAccount_editImage.setOnClickListener {
             editAccountImage()
         }
-
-        Log.d(TAG, "AccountFragment_onStart()_End")
     }
 
 
@@ -186,15 +181,24 @@ class AccountFragment : Fragment() {
         //TODO pass the right images as an arrayList to the ImagePickerActivity;
         //just a testing arrayList with random images
         val images = arrayListOf(
-            R.drawable.ic_menu_settings,
-            R.drawable.ic_menu_home,
-            R.drawable.common_google_signin_btn_icon_dark_focused,
             R.drawable.ic_account_image,
-            R.drawable.ic_friends_person_add,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_menu_friends,
-            R.drawable.ic_friends_star_border,
-            R.drawable.ic_menu_account
+            R.drawable.ic_pregnant_woman,
+            R.drawable.ic_male,
+            R.drawable.ic_female,
+            R.drawable.ic_transgender,
+            R.drawable.ic_accessible,
+            R.drawable.ic_catching_pokemon,
+            R.drawable.ic_child,
+            R.drawable.ic_theater_mask,
+            R.drawable.ic_support_agent,
+            R.drawable.ic_hiking,
+            R.drawable.ic_neutral,
+            R.drawable.ic_very_satisfied,
+            R.drawable.ic_very_dissatisfied,
+            R.drawable.ic_self_improvement,
+            R.drawable.ic_elderly,
+            R.drawable.ic_flutter_dash,
+            R.drawable.ic_nature_people
         )
         Intent(context, ImagePickerActivity::class.java).also {
             it.putExtra("images", images)

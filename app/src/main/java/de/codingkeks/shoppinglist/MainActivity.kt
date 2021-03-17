@@ -31,7 +31,6 @@ class MainActivity : ThemeSetter() {
     private lateinit var registration: ListenerRegistration
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "MainActivity_onCreate()_Start")
         setActionBar(null)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

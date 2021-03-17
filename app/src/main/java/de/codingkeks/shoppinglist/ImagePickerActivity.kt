@@ -18,7 +18,6 @@ class ImagePickerActivity : ThemeSetter() {
     private val numberOfColumns = 4 //number of columns for the image picker selection
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "pick image onCreate Start")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_picker)
 
@@ -52,16 +51,13 @@ class ImagePickerActivity : ThemeSetter() {
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
-        Log.d(TAG, "pick image onCreate End")
     }
 
     override fun onStart() {
-        Log.d(TAG, "pick image onStart Start")
         super.onStart()
         rvImages.adapter = ImageAdapter(images)
         Log.d(TAG, "adapter set")
         rvImages.layoutManager = GridLayoutManager(this, numberOfColumns)
-        Log.d(TAG, "pick image Start End")
     }
 
     override fun onSupportNavigateUp(): Boolean {
