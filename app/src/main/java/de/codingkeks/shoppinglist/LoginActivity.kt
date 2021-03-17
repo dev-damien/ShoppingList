@@ -26,7 +26,7 @@ class LoginActivity : ThemeSetter() {
     private val mapper = ImageMapper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setActionBar(null)
+        supportActionBar?.hide()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
