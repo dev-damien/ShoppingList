@@ -71,7 +71,6 @@ class ItemsActivity : ThemeSetter() {
                                 } else {
                                     registration.remove()
                                     deleteItemsCollection(listId)
-                                    deleteListDocument(listId)
                                     onBackPressed()
                                 }
                             }
@@ -88,7 +87,6 @@ class ItemsActivity : ThemeSetter() {
                         registration.remove()
                         val listId = intent.getStringExtra("listId") ?: return@setPositiveButton
                         deleteItemsCollection(listId)
-                        deleteListDocument(listId)
                         onBackPressed()
                     }
                     .setNegativeButton(R.string.cancel, null)
@@ -204,6 +202,8 @@ class ItemsActivity : ThemeSetter() {
                 qSnap.forEach { qdSnap ->
                     qdSnap.reference.delete()
                 }
+            }.addOnSuccessListener {
+                deleteListDocument(listId)
             }
     }
 
