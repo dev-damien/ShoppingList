@@ -9,6 +9,7 @@
 
     <ImageView
         android:id="@+id/ivListFav"
+        style="@style/rvItemImage"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:contentDescription="@string/lists_image_fav_description"
@@ -19,6 +20,7 @@
 
     <ImageView
         android:id="@+id/ivListImage"
+        style="@style/rvItemImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:contentDescription="@string/lists_image_description"
@@ -29,6 +31,7 @@
 
     <TextView
         android:id="@+id/tvListName"
+        style="@style/rvItemText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:maxLines="2"

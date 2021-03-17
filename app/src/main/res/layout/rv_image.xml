@@ -9,6 +9,7 @@
 
     <ImageView
         android:id="@+id/ivImage"
+        style="@style/rvItemImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/friends_image_description"

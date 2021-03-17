@@ -27,7 +27,8 @@
         <item name="colorNavHeaderText">#f982f3</item>
         <item name="colorRVItemImage">#f982f3</item>
         <item name="colorRVItemOptions">#e871af</item>
-
+        <item name="colorNavBarHeaderImage">#ffee99</item>
+        <item name="colorNavBarHeaderText">#babe69</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -54,9 +55,11 @@
         <item name="colorRVItemBackground">#926532</item>
         <item name="colorBackgroundLogin">#991166</item>
         <item name="colorBackgroundNavBar">#583426</item>
-        <item name="colorNavHeaderText">#000000</item>
+        <item name="colorNavHeaderText">#cafeba</item>
         <item name="colorRVItemImage">#f982f3</item>
         <item name="colorRVItemOptions">#e871af</item>
+        <item name="colorNavBarHeaderImage">#ffee99</item>
+        <item name="colorNavBarHeaderText">#babe69</item>
 
     </style>
     
@@ -97,6 +100,14 @@
 
     <style name="image">
         <item name="tint">?attr/colorImageView</item>
+    </style>
+
+    <style name="navBarHeaderImage">
+        <item name="tint">?attr/colorNavBarHeaderImage</item>
+    </style>
+
+    <style name="navBarHeaderText">
+        <item name="android:textColor">?attr/colorNavBarHeaderText</item>
     </style>
 
 

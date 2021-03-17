@@ -9,6 +9,7 @@
 
     <ImageView
         android:id="@+id/ivFriendRequestImage"
+        style="@style/rvItemImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:contentDescription="@string/friends_image_description"
@@ -19,6 +20,7 @@
 
     <TextView
         android:id="@+id/tvFriendRequestName"
+        style="@style/rvItemText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
