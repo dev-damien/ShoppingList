@@ -18,11 +18,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import de.codingkeks.shoppinglist.ImagePickerActivity
-import de.codingkeks.shoppinglist.LoginActivity
+import de.codingkeks.shoppinglist.*
 import de.codingkeks.shoppinglist.MainActivity.Companion.TAG
-import de.codingkeks.shoppinglist.R
-import de.codingkeks.shoppinglist.ReauthenticateActivity
 import de.codingkeks.shoppinglist.utility.ImageMapper
 import kotlinx.android.synthetic.main.fragment_account.*
 
@@ -217,13 +214,21 @@ class AccountFragment : Fragment() {
                 .get().addOnSuccessListener { qSnap ->
                     qSnap.forEach { qdSnap ->
                         qdSnap.reference.update("friends", FieldValue.arrayRemove(uid))
+                        //TODO friend Requests löschen
                     }
                     FirebaseFirestore.getInstance().collection("lists")
                         .whereArrayContains("members", uid)
                         .get().addOnSuccessListener { qSnap ->
                             qSnap.forEach { qdSnap ->
                                 qdSnap.reference.update("members", FieldValue.arrayRemove(uid))
+                                val membersList = qdSnap.get("members") as ArrayList<*>
+                                Log.d(TAG, membersList.size.toString() + ": " + membersList.toString())
+                                if (membersList.size == 0 || (membersList.size == 1 && membersList[0].equals(uid))) {
+                                    deleteItemsCollection(qdSnap.id)
+                                    qdSnap.reference.delete()
+                                }
                             }
+                        }.addOnSuccessListener {
                             user.delete()
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
@@ -237,4 +242,16 @@ class AccountFragment : Fragment() {
                 }
         }
     }
+
+    private fun deleteItemsCollection(listId: String) {
+        FirebaseFirestore.getInstance().collection("lists/$listId/items")
+            .get().addOnSuccessListener { qSnap ->
+                Log.d(TAG, "Succes 1")
+                qSnap.forEach { qdSnap ->
+                    qdSnap.reference.delete()
+                }
+                Log.d(TAG, "Succes 2")
+            }
+    }
+
 }
