@@ -2,7 +2,6 @@ package de.codingkeks.shoppinglist.ui.settings
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,10 +17,7 @@ import kotlinx.coroutines.launch
 class SettingsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d(MainActivity.TAG, "SettingsFragment()_onCreateView()_Start")
-        val root = inflater.inflate(R.layout.fragment_settings, container, false)
-        Log.d(MainActivity.TAG, "SettingsFragment()_onCreateView()_End")
-        return root
+        return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
     override fun onStart() {

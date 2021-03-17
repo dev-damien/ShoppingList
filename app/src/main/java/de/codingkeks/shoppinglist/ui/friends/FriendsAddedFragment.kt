@@ -42,17 +42,9 @@ class FriendsAddedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d(MainActivity.TAG, "FriendsFragment()_onCreateView()_Start")
-        val root = inflater.inflate(R.layout.fragment_friends_added, container, false)
-        Log.d(MainActivity.TAG, "FriendsFragment()_onCreateView()_End")
-        return root
+        return inflater.inflate(R.layout.fragment_friends_added, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(MainActivity.TAG, "FriendsFragment()_onCreate()_Start")
-        super.onCreate(savedInstanceState)
-        Log.d(MainActivity.TAG, "FriendsFragment()_onCreate()_Start")
-    }
 
     override fun onStop() {
         super.onStop()
@@ -157,7 +149,6 @@ class FriendsAddedFragment : Fragment() {
         lifecycleScope.launch {
             spFriends.setSelection(DataStoreUtility.readInt("friendSpinnerPos", requireContext()))
         }
-        Log.d(MainActivity.TAG, "FriendsFragment()_onCreate()_End")
     }
 
     fun sortingFriendsList() {

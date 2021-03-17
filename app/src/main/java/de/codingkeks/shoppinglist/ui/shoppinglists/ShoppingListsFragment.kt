@@ -44,10 +44,7 @@ class ShoppingListsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d(MainActivity.TAG, "ShoppingListsFragment()_onCreateView()_Start")
-        val root = inflater.inflate(R.layout.fragment_shoppinglists, container, false)
-        Log.d(MainActivity.TAG, "ShoppingListsFragment()_onCreateView()_End")
-        return root
+        return inflater.inflate(R.layout.fragment_shoppinglists, container, false)
     }
 
     override fun onStart() {
@@ -130,7 +127,6 @@ class ShoppingListsFragment : Fragment() {
         lifecycleScope.launch {
             spLists.setSelection(DataStoreUtility.readInt("listSpinnerPos", requireContext()))
         }
-        Log.d(MainActivity.TAG, "ShoppingListsFragment()_onStart()_End")
     }
 
     override fun onStop() {
@@ -139,7 +135,6 @@ class ShoppingListsFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.d(MainActivity.TAG, "ShoppingListsFragment()_onActivityResult()_Start")
         super.onActivityResult(requestCode, resultCode, data)
         //data to create a new list
         if (requestCode == RC_ADD_NEW_LIST) {
@@ -167,7 +162,6 @@ class ShoppingListsFragment : Fragment() {
                 else createNewGroup(listName, listIcon, isFav, arrayListOf())
             }
         }
-        Log.d(MainActivity.TAG, "ShoppingListsFragment()_onActivityResult()_End")
     }
 
     /**
@@ -181,7 +175,6 @@ class ShoppingListsFragment : Fragment() {
         isFav: Boolean,
         members: ArrayList<String>
     ) {
-        Log.d(MainActivity.TAG, "ShoppingListsFragment()_createNewGroup_Start")
         try {
             val user = FirebaseAuth.getInstance().currentUser!!
             val colRefLists = FirebaseFirestore.getInstance().collection("lists")
@@ -211,11 +204,9 @@ class ShoppingListsFragment : Fragment() {
         } catch (ex: Exception) {
             Log.wtf(MainActivity.TAG, "create new group failed")
         }
-        Log.d(MainActivity.TAG, "ShoppingListsFragment()_createNewGroup_End")
     }
 
     fun sortingShoppingList() {
-        Log.d(MainActivity.TAG, "ShoppingListsFragment()_sortingShoppingList_Start")
         lifecycleScope.launch {
             val position = DataStoreUtility.readInt("listSpinnerPos", requireContext())
             when (position) { //position 0: Favorites; 1: A-Z; 2: Z-A
@@ -233,6 +224,5 @@ class ShoppingListsFragment : Fragment() {
             adapter.updateSpinnerPos(position)
             adapter.notifyDataSetChanged()
         }
-        Log.d(MainActivity.TAG, "ShoppingListsFragment()_sortingShoppingList_End")
     }
 }
