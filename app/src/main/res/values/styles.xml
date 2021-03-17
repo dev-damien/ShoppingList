@@ -96,6 +96,7 @@
 
     <style name="rvItemOptions">
         <item name="tint">?attr/colorRVItemOptions</item>
+        <item name="android:background">?attr/colorRVItemBackground</item>
     </style>
 
     <style name="image">
