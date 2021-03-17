@@ -8,8 +8,44 @@ class ImageMapper {
     //Map which maps all resource ids to database ids
     private val app2database: HashMap<Int, Int> = hashMapOf(
         //TODO add all the images (account, group)
+        //user icons
         R.drawable.ic_account_image to 0,
-        R.drawable.ic_pregnant_woman to 1
+        R.drawable.ic_pregnant_woman to 1,
+        R.drawable.ic_male to 2,
+        R.drawable.ic_female to 3,
+        R.drawable.ic_transgender to 4,
+        R.drawable.ic_accessible to 5,
+        R.drawable.ic_catching_pokemon to 6,
+        R.drawable.ic_child to 7,
+        R.drawable.ic_theater_mask to 8,
+        R.drawable.ic_support_agent to 9,
+        R.drawable.ic_hiking to 9,
+        R.drawable.ic_neutral to 10,
+        R.drawable.ic_very_satisfied to 11,
+        R.drawable.ic_very_dissatisfied to 12,
+        R.drawable.ic_self_improvement to 13,
+        R.drawable.ic_elderly to 20,
+        R.drawable.ic_flutter_dash to 24,
+        R.drawable.ic_nature_people to 16,
+
+        //list icons
+        R.drawable.ic_pets to 100,
+        R.drawable.ic_sick to 15,
+        R.drawable.ic_drink to 17,
+        R.drawable.ic_baseline_icecream_24 to 18,
+        R.drawable.ic_flatware to 19,
+        R.drawable.ic_fastfood to 21,
+        R.drawable.ic_family to 22,
+        R.drawable.ic_android to 23,
+        R.drawable.ic_duo to 25,
+        R.drawable.ic_beer to 26,
+        R.drawable.ic_outdoor_grill to 27,
+        R.drawable.ic_school to 28,
+        R.drawable.ic_esports to 29,
+        R.drawable.ic_travel to 30,
+        R.drawable.ic_cake to 31,
+        R.drawable.ic_clean to 32,
+        R.drawable.ic_bike to 33
     )
 
     //reversed Map

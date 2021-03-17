@@ -27,4 +27,6 @@
     <attr name="colorRVItemOptions" format="color" />
     <attr name="colorNavBarHeaderImage" format="color" />
     <attr name="colorNavBarHeaderText" format="color" />
+    <attr name="colorNavBarText" format="color" />
+    <attr name="colorNavBarIcon" format="color"/>
 </resources>

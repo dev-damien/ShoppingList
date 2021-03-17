@@ -29,6 +29,12 @@
         <item name="colorRVItemOptions">#e871af</item>
         <item name="colorNavBarHeaderImage">#ffee99</item>
         <item name="colorNavBarHeaderText">#babe69</item>
+        <item name="colorNavBarText">#987642</item>
+        <item name="colorNavBarIcon">#532468</item>
+
+        <!-- color of popup in right top -->
+        <item name="android:itemBackground">#f982f3</item>
+        <item name="android:textColor">#ffee99</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -60,7 +66,12 @@
         <item name="colorRVItemOptions">#e871af</item>
         <item name="colorNavBarHeaderImage">#ffee99</item>
         <item name="colorNavBarHeaderText">#babe69</item>
+        <item name="colorNavBarText">#987642</item>
+        <item name="colorNavBarIcon">#532468</item>
 
+        <!-- color of popup in right top AND for Login-->
+        <item name="android:itemBackground">#f982f3</item>
+        <item name="android:textColor">#000000</item>
     </style>
     
     <!-- create style for all elements -->
@@ -80,6 +91,8 @@
 
     <style name="navBar">
         <item name="android:background">?attr/colorBackgroundNavBar</item>
+        <item name="itemTextColor">?attr/colorNavBarText</item>
+        <item name="itemIconTint">?attr/colorNavBarIcon</item>
     </style>
 
     <style name="rvItem">
