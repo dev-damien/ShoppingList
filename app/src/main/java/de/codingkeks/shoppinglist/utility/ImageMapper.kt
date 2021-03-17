@@ -1,13 +1,11 @@
 package de.codingkeks.shoppinglist.utility
 
 import de.codingkeks.shoppinglist.R
-import kotlinx.android.synthetic.main.fragment_account.*
 
 class ImageMapper {
 
     //Map which maps all resource ids to database ids
     private val app2database: HashMap<Int, Int> = hashMapOf(
-        //TODO add all the images (account, group)
         //user icons
         R.drawable.ic_account_image to 0,
         R.drawable.ic_pregnant_woman to 1,
@@ -24,28 +22,29 @@ class ImageMapper {
         R.drawable.ic_very_satisfied to 11,
         R.drawable.ic_very_dissatisfied to 12,
         R.drawable.ic_self_improvement to 13,
-        R.drawable.ic_elderly to 20,
-        R.drawable.ic_flutter_dash to 24,
+        R.drawable.ic_elderly to 14,
+        R.drawable.ic_flutter_dash to 15,
         R.drawable.ic_nature_people to 16,
+        R.drawable.ic_wolly to 17,
 
         //list icons
         R.drawable.ic_pets to 100,
-        R.drawable.ic_sick to 15,
-        R.drawable.ic_drink to 17,
-        R.drawable.ic_baseline_icecream_24 to 18,
-        R.drawable.ic_flatware to 19,
-        R.drawable.ic_fastfood to 21,
-        R.drawable.ic_family to 22,
-        R.drawable.ic_android to 23,
-        R.drawable.ic_duo to 25,
-        R.drawable.ic_beer to 26,
-        R.drawable.ic_outdoor_grill to 27,
-        R.drawable.ic_school to 28,
-        R.drawable.ic_esports to 29,
-        R.drawable.ic_travel to 30,
-        R.drawable.ic_cake to 31,
-        R.drawable.ic_clean to 32,
-        R.drawable.ic_bike to 33
+        R.drawable.ic_sick to 101,
+        R.drawable.ic_drink to 102,
+        R.drawable.ic_baseline_icecream_24 to 103,
+        R.drawable.ic_flatware to 104,
+        R.drawable.ic_fastfood to 105,
+        R.drawable.ic_family to 106,
+        R.drawable.ic_android to 107,
+        R.drawable.ic_duo to 108,
+        R.drawable.ic_beer to 109,
+        R.drawable.ic_outdoor_grill to 110,
+        R.drawable.ic_school to 111,
+        R.drawable.ic_esports to 112,
+        R.drawable.ic_travel to 113,
+        R.drawable.ic_cake to 114,
+        R.drawable.ic_clean to 115,
+        R.drawable.ic_bike to 116
     )
 
     //reversed Map
