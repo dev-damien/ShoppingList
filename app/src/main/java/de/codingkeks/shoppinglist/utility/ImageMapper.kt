@@ -25,7 +25,6 @@ class ImageMapper {
         R.drawable.ic_elderly to 14,
         R.drawable.ic_flutter_dash to 15,
         R.drawable.ic_nature_people to 16,
-        R.drawable.ic_wolly to 17,
 
         //list icons
         R.drawable.ic_pets to 100,
@@ -35,16 +34,19 @@ class ImageMapper {
         R.drawable.ic_flatware to 104,
         R.drawable.ic_fastfood to 105,
         R.drawable.ic_family to 106,
-        R.drawable.ic_android to 107,
-        R.drawable.ic_duo to 108,
-        R.drawable.ic_beer to 109,
-        R.drawable.ic_outdoor_grill to 110,
-        R.drawable.ic_school to 111,
-        R.drawable.ic_esports to 112,
-        R.drawable.ic_travel to 113,
-        R.drawable.ic_cake to 114,
-        R.drawable.ic_clean to 115,
-        R.drawable.ic_bike to 116
+        R.drawable.ic_duo to 107,
+        R.drawable.ic_beer to 108,
+        R.drawable.ic_outdoor_grill to 109,
+        R.drawable.ic_school to 110,
+        R.drawable.ic_esports to 111,
+        R.drawable.ic_travel to 112,
+        R.drawable.ic_cake to 113,
+        R.drawable.ic_clean to 114,
+        R.drawable.ic_bike to 115,
+
+        //private user icon
+        R.drawable.ic_wolly to 201,
+        R.drawable.ic_android to 202
     )
 
     //reversed Map
