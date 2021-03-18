@@ -156,7 +156,7 @@
         android:contentDescription="@string/account_image_edit_description"
         app:layout_constraintEnd_toEndOf="@+id/ivAccountImage"
         app:layout_constraintTop_toTopOf="@+id/ivAccountImage"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+        app:srcCompat="@drawable/ic_edit_pencil" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"

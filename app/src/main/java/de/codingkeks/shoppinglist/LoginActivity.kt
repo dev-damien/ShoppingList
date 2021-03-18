@@ -7,10 +7,10 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
-import android.view.ContextThemeWrapper
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.firebase.ui.auth.AuthUI
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -72,6 +72,8 @@ class LoginActivity : ThemeSetter() {
                     AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
+                        .setLogo(R.drawable.ic_shopping_list_app_icon)
+                        .setTheme(R.style.AppTheme)
                         .setIsSmartLockEnabled(false, true)
                         .build(),
                     RC_AUTH
@@ -177,7 +179,7 @@ class LoginActivity : ThemeSetter() {
         val user = FirebaseAuth.getInstance().currentUser!!
         val intent = Intent(this, LoginActivity::class.java)
 
-        AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogTheme))
+        MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
             .setTitle(R.string.emailVerificationTitle)
             .setMessage(R.string.emailVerificationBody)
             .setCancelable(false)
@@ -209,6 +211,7 @@ class LoginActivity : ThemeSetter() {
                     this.finish()
                 }
             }
+            .create()
             .show()
     }
 

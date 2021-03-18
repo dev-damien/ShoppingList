@@ -11,6 +11,9 @@ class ReauthenticateActivity : ThemeSetter()  {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_reauthenticate)
 
+            title = getString(R.string.account_delete_account)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
             buOK.setOnClickListener {
                 var password: String = editTextPassword.text.toString()
 
@@ -24,4 +27,8 @@ class ReauthenticateActivity : ThemeSetter()  {
             }
         }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
 }

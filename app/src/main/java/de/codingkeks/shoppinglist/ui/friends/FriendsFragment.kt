@@ -1,7 +1,6 @@
 package de.codingkeks.shoppinglist.ui.friends
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -9,7 +8,6 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.util.TypedValue
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -71,7 +70,7 @@ class FriendsFragment : Fragment() {
         //add a new friend
         fabAddFriend.setOnClickListener {
             val alertBuilder =
-                AlertDialog.Builder(ContextThemeWrapper(context, R.style.AlertDialogTheme2))
+                MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme2)
             alertBuilder.setTitle(getString(R.string.addFriendDialogTitle))
             val alertLayout = getEditTextLayout(requireContext())
             alertBuilder.setView(alertLayout)

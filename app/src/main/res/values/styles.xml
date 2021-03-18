@@ -5,6 +5,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:editTextColor">@color/pure_black</item>
+        <item name="android:textColorHint">#686868</item>
 
         <item name="colorText">@color/pure_black</item>
         <item name="colorButton">@color/colorPrimary</item>
@@ -45,26 +47,28 @@
         <item name="colorPrimary">@color/darkColorPrimary</item>
         <item name="colorPrimaryDark">@color/darkColorPrimaryDark</item>
         <item name="colorAccent">@color/darkColorAccent</item>
+        <item name="android:editTextColor">@color/pure_white</item>
+        <item name="android:textColorHint">#686868</item>
 
         <item name="colorText">@color/pure_white</item>
         <item name="colorButton">@color/darkColorPrimary</item>
         <item name="colorButtonText">@color/pure_white</item>
         <item name="colorFab">@color/darkColorAccent</item>
         <item name="colorFabImage">@color/pure_white</item>
-        <item name="colorBackground">@color/darkColorAccentLighter</item>
-        <item name="colorNavBarLeft">@color/darkColorPrimary</item>
-        <item name="colorNavBarMid">@color/darkColorAccent</item>
-        <item name="colorNavBarRight">@color/darkColorAccentLighter</item>
+        <item name="colorBackground">@color/backgroundGrey</item>
+        <item name="colorNavBarLeft">@color/darkColorPrimaryDarker</item>
+        <item name="colorNavBarMid">@color/darkColorAccentLighter</item>
+        <item name="colorNavBarRight">@color/darkColorAccent</item>
         <item name="colorImageView">@color/pure_white</item>
         <item name="colorAlertDialog">@color/light_grey</item>
         <item name="colorAlertDialogText">@color/pure_white</item>
         <item name="colorToast">@color/light_grey</item>
         <item name="colorToastText">@color/pure_white</item>
-        <item name="colorRVBackground">@color/darkColorAccentLighter</item>
+        <item name="colorRVBackground">@color/backgroundGrey</item>
         <item name="colorRVItemText">@color/pure_white</item>
-        <item name="colorRVItemBackground">@color/darkColorAccentLighter</item>
+        <item name="colorRVItemBackground">@color/backgroundGrey</item>
         <item name="colorBackgroundLogin">@color/darkColorPrimary</item>
-        <item name="colorBackgroundNavBar">@color/darkColorAccentLighter</item>
+        <item name="colorBackgroundNavBar">@color/backgroundGrey</item>
         <item name="colorNavHeaderText">@color/pure_white</item>
         <item name="colorRVItemImage">@color/pure_white</item>
         <item name="colorRVItemOptions">@color/pure_white</item>
@@ -81,8 +85,9 @@
 
     <!-- create style for all elements -->
     <style name="button" parent="Widget.AppCompat.Button">
-        <item name="android:background">?attr/colorButton</item>
+        <item name="android:background">@drawable/custom_rounded_corners</item>
         <item name="android:textColor">?attr/colorButtonText</item>
+        <item name="android:layout_margin">5dp</item>
     </style>
     
     <style name="fab">
@@ -146,7 +151,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorSurface">?attr/colorBackground</item>
+        <item name="android:background">?attr/colorBackground</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="materialAlertDialogTitleTextStyle">@style/TitleTextStyle</item>
         <item name="materialAlertDialogBodyTextStyle">@style/BodyTextStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
@@ -154,23 +162,34 @@
         <item name="buttonBarNeutralButtonStyle">@style/NegativeButtonStyle</item>
     </style>
     <style name="TitleTextStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
-        <item name="android:textColor">#000000</item>
+        <item name="android:textColor">?attr/colorText</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
     </style>
     <style name="BodyTextStyle" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
-        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColor">?attr/colorText</item>
+        <item name="android:textSize">16sp</item>
     </style>
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">#FF0000</item>
+        <item name="android:textColor">#D00000</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
     <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/colorText</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
     <style name="NeutralButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">#000000</item>
+        <item name="android:textColor">?attr/colorText</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="AlertDialogTheme2" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+    <style name="AlertDialogTheme2" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorSurface">?attr/colorBackground</item>
+        <item name="android:background">?attr/colorBackground</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="materialAlertDialogTitleTextStyle">@style/TitleTextStyle2</item>
         <item name="materialAlertDialogBodyTextStyle">@style/BodyTextStyle2</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle2</item>
@@ -178,20 +197,28 @@
         <item name="buttonBarNeutralButtonStyle">@style/NegativeButtonStyle2</item>
     </style>
     <style name="TitleTextStyle2" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
-        <item name="android:textColor">#000000</item>
+        <item name="android:textColor">?attr/colorText</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
     </style>
     <style name="BodyTextStyle2" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
-        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColor">?attr/colorText</item>
+        <item name="android:textSize">16sp</item>
     </style>
     <style name="PositiveButtonStyle2" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">#00FF00</item>
+        <item name="android:textColor">#00AA00</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
     <style name="NegativeButtonStyle2" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">#000000</item>
+        <item name="android:textColor">?attr/colorText</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
     <style name="NeutralButtonStyle2" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">#000000</item>
+        <item name="android:textColor">?attr/colorText</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

@@ -4,15 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -75,7 +74,7 @@ class AccountFragment : Fragment() {
         }
 
         buDeleteAccount.setOnClickListener {
-            AlertDialog.Builder(ContextThemeWrapper(context, R.style.AlertDialogTheme))
+            MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
                 .setTitle(R.string.deleteTitle)
                 .setMessage(R.string.deleteAccount)
                 .setPositiveButton(R.string.yes) { _, _ ->
@@ -90,6 +89,8 @@ class AccountFragment : Fragment() {
                             AuthUI.getInstance()
                                 .createSignInIntentBuilder()
                                 .setAvailableProviders(providers)
+                                .setLogo(R.drawable.ic_shopping_list_app_icon)
+                                .setTheme(R.style.AppTheme)
                                 .setIsSmartLockEnabled(false, true)
                                 .build(),
                             RC_DELETE_ACC
@@ -97,6 +98,7 @@ class AccountFragment : Fragment() {
                     }
                 }
                 .setNegativeButton(R.string.no) { _, _ -> }
+                .create()
                 .show()
         }
 

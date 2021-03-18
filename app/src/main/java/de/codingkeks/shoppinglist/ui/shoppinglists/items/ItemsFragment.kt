@@ -2,14 +2,12 @@ package de.codingkeks.shoppinglist.ui.shoppinglists.items
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.TypedValue
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -127,9 +126,8 @@ class ItemsFragment : Fragment() {
         }
 
         fabAddNewItem.setOnClickListener {
-            val alertBuilder = AlertDialog.Builder(
-                ContextThemeWrapper(requireContext(), R.style.AlertDialogTheme2)
-            )
+            val alertBuilder = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme2)
+
             alertBuilder.setTitle(R.string.addItem)
             val alertLayout = getEditTextLayout(requireContext())
             alertBuilder.setView(alertLayout)
@@ -265,9 +263,8 @@ class ItemsFragment : Fragment() {
         textInputEditText.filters = arrayOf(*textInputEditText.filters, InputFilter.LengthFilter(30))
         textInputLayout.addView(textInputEditText, 0)
 
-        val textView = TextView(context)
+        val textView = TextView(context, null, 0, R.style.textView)
         textView.text = getString(R.string.quantity) + ":"
-        textView.setTextColor(Color.parseColor("#000000"))
         textView.textSize = 16f
         textInputLayout.addView(textView, 1)
 

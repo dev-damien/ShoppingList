@@ -8,11 +8,12 @@
     <color name="colorAccentLighter">#EBF7E3</color>
 
     <!-- colors for dark theme -->
-    <color name="darkColorPrimary">#3D691E</color>#
-    <color name="darkColorPrimaryDarker">#0E1807</color>
-    <color name="darkColorPrimaryDark">#101F06</color>
-    <color name="darkColorAccent">#538F28</color>
-    <color name="darkColorAccentLighter">#84CD4F</color>
+    <color name="darkColorPrimary">#151515</color>#
+    <color name="darkColorPrimaryDarker">#101010</color>
+    <color name="darkColorPrimaryDark">#050505</color>
+    <color name="darkColorAccent">#505050</color>
+    <color name="darkColorAccentLighter">#303030</color>
+    <color name="backgroundGrey">#303030</color>
 
     <!-- colors for everything -->
     <color name="pure_white">#FFFFFF</color>
