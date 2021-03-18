@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <!-- colors for light theme -->
+    <color name="colorPrimary">#66B032</color>#
+    <color name="colorPrimaryDarker">#375F1B</color>
+    <color name="colorPrimaryDark">#1B3409</color>
+    <color name="colorAccent">#9BD770</color>
+    <color name="colorAccentLighter">#EBF7E3</color>
 
-    <color name="grey_staticText">#383838</color>
+    <!-- colors for dark theme -->
+    <color name="darkColorPrimary">#3D691E</color>#
+    <color name="darkColorPrimaryDarker">#0E1807</color>
+    <color name="darkColorPrimaryDark">#101F06</color>
+    <color name="darkColorAccent">#538F28</color>
+    <color name="darkColorAccentLighter">#84CD4F</color>
+
+    <!-- colors for everything -->
+    <color name="pure_white">#FFFFFF</color>
+    <color name="pure_black">#000000</color>
+    <color name="dark_grey">#383838</color>
+    <color name="light_grey">#D3D3D3</color>
 </resources>

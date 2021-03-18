@@ -4,7 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/TextStatic"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
@@ -12,6 +11,7 @@
 
     <ImageView
         android:id="@+id/ivAccountImage"
+        style="@style/image"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/account_image_description"
@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/tvAccountName"
-        style="@style/TextStatic"
+        style="@style/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/account_name"
@@ -36,12 +36,11 @@
 
     <TextView
         android:id="@+id/tv_userName"
-        style="@style/TextDynamic"
+        style="@style/textView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center_vertical"
         android:lines="1"
-        android:textColor="@color/grey_staticText"
         android:textSize="20sp"
         app:autoSizeMaxTextSize="20sp"
         app:autoSizeMinTextSize="12sp"
@@ -54,7 +53,7 @@
 
     <TextView
         android:id="@+id/tvAccountEmail"
-        style="@style/TextStatic"
+        style="@style/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/account_email"
@@ -66,12 +65,11 @@
 
     <TextView
         android:id="@+id/tv_userEmail"
-        style="@style/TextDynamic"
+        style="@style/textView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="center_horizontal|center_vertical"
+        android:gravity="center_vertical"
         android:lines="1"
-        android:textColor="@color/grey_staticText"
         android:textSize="20sp"
         app:autoSizeMaxTextSize="20sp"
         app:autoSizeMinTextSize="12sp"
@@ -84,7 +82,7 @@
 
     <TextView
         android:id="@+id/tvAccountID"
-        style="@style/TextStatic"
+        style="@style/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/account_id"
@@ -96,12 +94,11 @@
 
     <TextView
         android:id="@+id/tv_userID"
-        style="@style/TextDynamic"
+        style="@style/textView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center_vertical"
         android:lines="1"
-        android:textColor="@color/grey_staticText"
         android:textSize="20sp"
         app:autoSizeMaxTextSize="20sp"
         app:autoSizeMinTextSize="12sp"
@@ -114,8 +111,7 @@
 
     <Button
         android:id="@+id/buAccountLogout"
-        android:background="?attr/colorButton"
-        android:textColor="?attr/colorButtonText"
+        style="@style/button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/account_logout"
@@ -128,8 +124,7 @@
 
     <Button
         android:id="@+id/buResetPassword"
-        android:background="?attr/colorButton"
-        android:textColor="?attr/colorButtonText"
+        style="@style/button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/account_reset_password"
@@ -142,8 +137,7 @@
 
     <Button
         android:id="@+id/buDeleteAccount"
-        android:background="?attr/colorButton"
-        android:textColor="?attr/colorButtonText"
+        style="@style/button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/account_delete_account"
@@ -156,6 +150,7 @@
 
     <ImageView
         android:id="@+id/ivAccount_editImage"
+        style="@style/image"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:contentDescription="@string/account_image_edit_description"
