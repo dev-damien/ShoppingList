@@ -13,10 +13,9 @@ open class ThemeSetter: AppCompatActivity() {
             when (DataStoreUtility.readInt("theme", this@ThemeSetter)) { //0: Light, 1: Dark
                 0 -> {
                     setTheme(R.style.AppTheme)
-                    theme.applyStyle(R.style.AppTheme, true)
                 }
                 1 -> {
-                    theme.applyStyle(R.style.AppThemeDark, true)
+                    setTheme(R.style.AppThemeDark)
                 }
             }
         }

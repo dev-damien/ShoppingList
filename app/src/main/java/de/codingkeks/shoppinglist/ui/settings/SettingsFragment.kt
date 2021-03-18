@@ -2,6 +2,7 @@ package de.codingkeks.shoppinglist.ui.settings
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,24 +33,17 @@ class SettingsFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
+                Log.d(MainActivity.TAG, "isSpinnerInitial: $isSpinnerInitial")
                 if (isSpinnerInitial) {
                     isSpinnerInitial = false
                     return
                 }
                 lifecycleScope.launch {
                     DataStoreUtility.saveInt("theme", position, requireContext())
-                }
-                when (position) {
-                    0 -> {
-                        requireContext().setTheme(R.style.AppTheme)
+                    Intent(requireContext(), MainActivity::class.java).let {
+                        startActivity(it)
+                        activity?.finishAffinity()
                     }
-                    1 -> {
-                        requireContext().setTheme(R.style.AppThemeDark)
-                    }
-                }
-                Intent(requireContext(), MainActivity::class.java).let {
-                    startActivity(it)
-                    activity?.finishAffinity()
                 }
             }
 

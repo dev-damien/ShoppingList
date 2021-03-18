@@ -32,7 +32,6 @@ class MainActivity : ThemeSetter() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         supportActionBar?.hide()
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
