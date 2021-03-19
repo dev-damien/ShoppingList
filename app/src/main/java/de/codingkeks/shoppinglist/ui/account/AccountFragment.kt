@@ -29,14 +29,14 @@ private const val RC_CHANGE_IMAGE = 420
 class AccountFragment : Fragment() {
 
     private val mapper = ImageMapper()
+    private  var selectedImage: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_account, container, false)
-        return root
+        return inflater.inflate(R.layout.fragment_account, container, false)
     }
 
     override fun onStart() {
@@ -46,8 +46,8 @@ class AccountFragment : Fragment() {
         FirebaseFirestore.getInstance().document("users/${user.uid}").get()
             .addOnSuccessListener {
                 if (it.get("icon_id") == null) return@addOnSuccessListener
-                val image = (it.getLong("icon_id") as Long).toInt()
-                ivAccountImage.setImageResource(mapper.download(image))
+                selectedImage = mapper.download((it.getLong("icon_id") as Long).toInt())
+                ivAccountImage.setImageResource((selectedImage))
             }
         tv_userEmail.text = user.email
         tv_userID.text = user.uid
@@ -168,7 +168,7 @@ class AccountFragment : Fragment() {
             if (resultCode == Activity.RESULT_OK && data != null) {
                 if (data.hasExtra("image")) {
                     //set selected image to new account image
-                    val selectedImage = data.getIntExtra("image", -1)
+                    selectedImage = data.getIntExtra("image", -1)
                     ivAccountImage.setImageResource(selectedImage)
                     val user = FirebaseAuth.getInstance().currentUser!!
                     FirebaseFirestore.getInstance().document("users/${user.uid}")
@@ -180,29 +180,9 @@ class AccountFragment : Fragment() {
 
     private fun editAccountImage() {
         Log.d(TAG, "Image view to change account image has been clicked")
-        //just a testing arrayList with random images
-        val images = arrayListOf(
-            R.drawable.ic_account_image,
-            R.drawable.ic_pregnant_woman,
-            R.drawable.ic_male,
-            R.drawable.ic_female,
-            R.drawable.ic_transgender,
-            R.drawable.ic_accessible,
-            R.drawable.ic_catching_pokemon,
-            R.drawable.ic_child,
-            R.drawable.ic_theater_mask,
-            R.drawable.ic_support_agent,
-            R.drawable.ic_hiking,
-            R.drawable.ic_neutral,
-            R.drawable.ic_very_satisfied,
-            R.drawable.ic_very_dissatisfied,
-            R.drawable.ic_self_improvement,
-            R.drawable.ic_elderly,
-            R.drawable.ic_flutter_dash,
-            R.drawable.ic_nature_people
-        )
         Intent(context, ImagePickerActivity::class.java).also {
-            it.putExtra("images", images)
+            it.putExtra("images", ImageMapper.imagesUser)
+            it.putExtra("selected", selectedImage)
             startActivityForResult(it, RC_CHANGE_IMAGE)
         }
     }

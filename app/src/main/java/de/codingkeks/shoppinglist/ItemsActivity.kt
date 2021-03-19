@@ -160,28 +160,10 @@ class ItemsActivity : ThemeSetter() {
                 })
                 true
             }
+            //TODO selected item passen
             R.id.action_icon -> {
-                val images = arrayListOf(
-                    R.drawable.ic_pets,
-                    R.drawable.ic_sick,
-                    R.drawable.ic_drink,
-                    R.drawable.ic_baseline_icecream_24,
-                    R.drawable.ic_flatware,
-                    R.drawable.ic_fastfood,
-                    R.drawable.ic_family,
-                    R.drawable.ic_android,
-                    R.drawable.ic_duo,
-                    R.drawable.ic_beer,
-                    R.drawable.ic_outdoor_grill,
-                    R.drawable.ic_school,
-                    R.drawable.ic_esports,
-                    R.drawable.ic_travel,
-                    R.drawable.ic_cake,
-                    R.drawable.ic_clean,
-                    R.drawable.ic_bike
-                )
                 Intent(this, ImagePickerActivity::class.java).also {
-                    it.putExtra("images", images)
+                    it.putExtra("images", ImageMapper.imagesList)
                     startActivityForResult(it, RC_CHANGE_ICON)
                 }
                 true

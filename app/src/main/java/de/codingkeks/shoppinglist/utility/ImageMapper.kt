@@ -4,6 +4,50 @@ import de.codingkeks.shoppinglist.R
 
 class ImageMapper {
 
+    companion object{
+        val imagesList = arrayListOf(
+            R.drawable.ic_menu_shoppinglists,
+            R.drawable.ic_pets,
+            R.drawable.ic_sick,
+            R.drawable.ic_drink,
+            R.drawable.ic_baseline_icecream_24,
+            R.drawable.ic_flatware,
+            R.drawable.ic_fastfood,
+            R.drawable.ic_family,
+            R.drawable.ic_android,
+            R.drawable.ic_duo,
+            R.drawable.ic_beer,
+            R.drawable.ic_outdoor_grill,
+            R.drawable.ic_school,
+            R.drawable.ic_esports,
+            R.drawable.ic_travel,
+            R.drawable.ic_cake,
+            R.drawable.ic_clean,
+            R.drawable.ic_bike
+        )
+
+        val imagesUser = arrayListOf(
+            R.drawable.ic_account_image,
+            R.drawable.ic_pregnant_woman,
+            R.drawable.ic_male,
+            R.drawable.ic_female,
+            R.drawable.ic_transgender,
+            R.drawable.ic_accessible,
+            R.drawable.ic_catching_pokemon,
+            R.drawable.ic_child,
+            R.drawable.ic_theater_mask,
+            R.drawable.ic_support_agent,
+            R.drawable.ic_hiking,
+            R.drawable.ic_neutral,
+            R.drawable.ic_very_satisfied,
+            R.drawable.ic_very_dissatisfied,
+            R.drawable.ic_self_improvement,
+            R.drawable.ic_elderly,
+            R.drawable.ic_flutter_dash,
+            R.drawable.ic_nature_people
+        )
+    }
+
     //Map which maps all resource ids to database ids
     private val app2database: HashMap<Int, Int> = hashMapOf(
         //user icons
@@ -43,6 +87,7 @@ class ImageMapper {
         R.drawable.ic_cake to 113,
         R.drawable.ic_clean to 114,
         R.drawable.ic_bike to 115,
+        R.drawable.ic_menu_shoppinglists to 116,
 
         //private user icon
         R.drawable.ic_wolly to 201,

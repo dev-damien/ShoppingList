@@ -24,26 +24,31 @@ class ImagePickerActivity : ThemeSetter() {
         title = getString(R.string.image_picker_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        if (intent.hasExtra("images")){
+        val selected = intent.getIntExtra("selected", R.drawable.ic_no_image_found)
+
+        if (intent.hasExtra("images")) {
             Log.d(TAG, "intent has an extra")
             val imagesInt = intent.getIntegerArrayListExtra("images")
             if (imagesInt != null && imagesInt.isNotEmpty()) {
                 Log.d(TAG, "not null and not empty")
                 images = mutableListOf()
                 imagesInt.forEach {
-                    Log.d(TAG, it.toString())
-                    images.add(Image(it, images.size==0)) //only first element gets isSelected = true
+                    images.add(
+                        Image(
+                            it,
+                            it == selected //.toInt bei it?
+                        )
+                    )
                 }
             }
-        }
-        else{
+        } else {
             Toast.makeText(this, "An Exception occurred", Toast.LENGTH_LONG).show()
         }
 
         buSelect.setOnClickListener {
             var image = R.drawable.ic_menu_shoppinglists
-            images.forEach{
-                if (it.isSelected){
+            images.forEach {
+                if (it.isSelected) {
                     image = it.src
                 }
             }

@@ -7,6 +7,7 @@ import android.text.InputFilter
 import android.text.InputType
 import android.util.Log
 import android.widget.Toast
+import de.codingkeks.shoppinglist.utility.ImageMapper
 import de.codingkeks.shoppinglist.utility.ThemeSetter
 import kotlinx.android.synthetic.main.activity_add_new_list.*
 
@@ -15,7 +16,8 @@ private const val RC_MEMBER = 99
 
 class AddNewListActivity : ThemeSetter() {
 
-    private var selectedImage: Int = R.drawable.ic_menu_shoppinglists
+    private val defaultImage = R.drawable.ic_menu_shoppinglists
+    private var selectedImage: Int = defaultImage
     private var isFav = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,27 +50,9 @@ class AddNewListActivity : ThemeSetter() {
 
         ivAddNewList_editIcon.setOnClickListener {
             Log.d(MainActivity.TAG, "Image view to change image has been clicked")
-            val images = arrayListOf(
-                R.drawable.ic_pets,
-                R.drawable.ic_sick,
-                R.drawable.ic_drink,
-                R.drawable.ic_baseline_icecream_24,
-                R.drawable.ic_flatware,
-                R.drawable.ic_fastfood,
-                R.drawable.ic_family,
-                R.drawable.ic_android,
-                R.drawable.ic_duo,
-                R.drawable.ic_beer,
-                R.drawable.ic_outdoor_grill,
-                R.drawable.ic_school,
-                R.drawable.ic_esports,
-                R.drawable.ic_travel,
-                R.drawable.ic_cake,
-                R.drawable.ic_clean,
-                R.drawable.ic_bike
-            )
             Intent(this, ImagePickerActivity::class.java).also {
-                it.putExtra("images", images)
+                it.putExtra("images", ImageMapper.imagesList)
+                it.putExtra("selected", selectedImage)
                 startActivityForResult(it, RC_IMAGEPICKER)
             }
         }
