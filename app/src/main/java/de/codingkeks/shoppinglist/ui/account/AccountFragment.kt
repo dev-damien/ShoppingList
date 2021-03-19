@@ -180,7 +180,6 @@ class AccountFragment : Fragment() {
 
     private fun editAccountImage() {
         Log.d(TAG, "Image view to change account image has been clicked")
-        //TODO pass the right images as an arrayList to the ImagePickerActivity;
         //just a testing arrayList with random images
         val images = arrayListOf(
             R.drawable.ic_account_image,
@@ -223,8 +222,8 @@ class AccountFragment : Fragment() {
                     }
                     FirebaseFirestore.getInstance().collection("users")
                         .whereArrayContains("friendRequests", uid)
-                        .get().addOnSuccessListener { qSnap ->
-                            qSnap.forEach { qdSnap ->
+                        .get().addOnSuccessListener { qSnapRequest ->
+                            qSnapRequest.forEach { qdSnap ->
                                 qdSnap.reference.update("friendRequests", FieldValue.arrayRemove(uid))
                             }
                         }.addOnSuccessListener {
