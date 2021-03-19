@@ -29,7 +29,7 @@ private const val RC_CHANGE_IMAGE = 420
 class AccountFragment : Fragment() {
 
     private val mapper = ImageMapper()
-    private  var selectedImage: Int = 0
+    private  var selectedImage: Int = -1
 
     override fun onCreateView(
         inflater: LayoutInflater,
