@@ -44,6 +44,7 @@ class ItemsActivity : ThemeSetter() {
     private lateinit var tabLayout: TabLayout
     private lateinit var registration: ListenerRegistration
     private val mapper = ImageMapper()
+    private var selectedImage = -1
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.popup_list_options, menu)
@@ -160,10 +161,10 @@ class ItemsActivity : ThemeSetter() {
                 })
                 true
             }
-            //TODO selected item passen
             R.id.action_icon -> {
                 Intent(this, ImagePickerActivity::class.java).also {
                     it.putExtra("images", ImageMapper.imagesList)
+                    it.putExtra("selected", selectedImage)
                     startActivityForResult(it, RC_CHANGE_ICON)
                 }
                 true
@@ -316,6 +317,7 @@ class ItemsActivity : ThemeSetter() {
             .document("lists/${intent.getStringExtra("listId")}")
             .get().addOnSuccessListener {
                 val item = menu?.findItem(R.id.action_icon)
+                selectedImage = mapper.download((it.get("icon_id") as Long).toInt())
                 item?.setIcon(mapper.download((it.get("icon_id") as Long).toInt()))
             }
         return super.onPrepareOptionsMenu(menu)
