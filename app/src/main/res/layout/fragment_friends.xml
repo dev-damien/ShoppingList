@@ -32,7 +32,9 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayoutFriends"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="?attr/colorTabBackground"
+            app:tabTextColor="?attr/colorText">
 
         </com.google.android.material.tabs.TabLayout>
 

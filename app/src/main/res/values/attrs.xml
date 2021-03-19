@@ -29,4 +29,5 @@
     <attr name="colorNavBarHeaderText" format="color" />
     <attr name="colorNavBarText" format="color" />
     <attr name="colorNavBarIcon" format="color"/>
+    <attr name="colorTabBackground" format="color"/>
 </resources>
