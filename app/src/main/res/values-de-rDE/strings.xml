@@ -97,7 +97,7 @@
     <string name="image_picker_title">Bild wählen</string>
     <string name="popup_member">Teilnehmer verwalten</string>
     <string name="add_member">Teilnehmer hinzufügen</string>
-    <string name="enter_name">Sie müssen einen Namen eingeben</string>
+    <string name="enter_name">Sie müssen einen Namen eingeben.</string>
     <string name="create_list">Einkauszettel erstellen</string>
     <string name="load_username">Lädt Namen...</string>
     <string name="google_password_reset">Sie benutzen einen Google Account. Sie können ihr Passwort nicht zurücksetzen.</string>
@@ -106,4 +106,6 @@
         <item>Hell</item>
         <item>Dunkel</item>
     </string-array>
+    <string name="icon">Symbol</string>
+    <string name="edit_name">Namen ändern</string>
 </resources>

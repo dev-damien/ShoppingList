@@ -1,15 +1,28 @@
 package de.codingkeks.shoppinglist
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputFilter
+import android.text.InputType
+import android.text.TextWatcher
 import android.util.Log
+import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
@@ -18,15 +31,19 @@ import com.google.firebase.firestore.ListenerRegistration
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.FragmentPagerAdapterItems
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.ItemsBoughtFragment
 import de.codingkeks.shoppinglist.ui.shoppinglists.items.ItemsFragment
+import de.codingkeks.shoppinglist.utility.ImageMapper
 import de.codingkeks.shoppinglist.utility.ThemeSetter
+import kotlinx.android.synthetic.main.activity_add_new_list.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 private const val RC_MEMBER = 99
+private const val RC_CHANGE_ICON = 101
 
 class ItemsActivity : ThemeSetter() {
     private lateinit var viewPager: ViewPager
     private lateinit var tabLayout: TabLayout
     private lateinit var registration: ListenerRegistration
+    private val mapper = ImageMapper()
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.popup_list_options, menu)
@@ -93,6 +110,82 @@ class ItemsActivity : ThemeSetter() {
                     .show()
                 true
             }
+            R.id.action_edit -> {
+                val alertBuilder = MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme2)
+                alertBuilder.setTitle(getString(R.string.edit_name))
+                val alertLayout = getEditTextLayout(this, intent?.getStringExtra("listName").toString())
+                alertBuilder.setView(alertLayout)
+
+                val textInputLayout = alertLayout.findViewWithTag<TextInputLayout>("textInputLayoutTag")
+                val textInputEditText = alertLayout.findViewWithTag<TextInputEditText>("textInputEditTextTag")
+
+                alertBuilder.setPositiveButton(R.string.popup_edit) { _, _ ->
+                    FirebaseFirestore.getInstance().document("lists/${intent.getStringExtra("listId")}")
+                        .get().addOnSuccessListener {
+                            it.reference.update("name", textInputEditText.text.toString().trim())
+                            title = textInputEditText.text.toString().trim()
+                            intent.putExtra("listName", textInputEditText.text.toString().trim())
+                        }
+                }
+                alertBuilder.setNeutralButton(R.string.cancel, null)
+                val dialog = alertBuilder.create()
+                dialog.show()
+
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = true
+
+                textInputEditText.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(p0: Editable?) {
+                    }
+
+                    override fun beforeTextChanged(
+                        p0: CharSequence?, p1: Int,
+                        p2: Int, p3: Int
+                    ) {
+                    }
+
+                    override fun onTextChanged(
+                        p0: CharSequence?, p1: Int,
+                        p2: Int, p3: Int
+                    ) {
+                        if (p0.isNullOrBlank()) {
+                            textInputLayout.error = getString(R.string.enter_name)
+                            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                                .isEnabled = false
+                        } else {
+                            textInputLayout.error = ""
+                            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                                .isEnabled = true
+                        }
+                    }
+                })
+                true
+            }
+            R.id.action_icon -> {
+                val images = arrayListOf(
+                    R.drawable.ic_pets,
+                    R.drawable.ic_sick,
+                    R.drawable.ic_drink,
+                    R.drawable.ic_baseline_icecream_24,
+                    R.drawable.ic_flatware,
+                    R.drawable.ic_fastfood,
+                    R.drawable.ic_family,
+                    R.drawable.ic_android,
+                    R.drawable.ic_duo,
+                    R.drawable.ic_beer,
+                    R.drawable.ic_outdoor_grill,
+                    R.drawable.ic_school,
+                    R.drawable.ic_esports,
+                    R.drawable.ic_travel,
+                    R.drawable.ic_cake,
+                    R.drawable.ic_clean,
+                    R.drawable.ic_bike
+                )
+                Intent(this, ImagePickerActivity::class.java).also {
+                    it.putExtra("images", images)
+                    startActivityForResult(it, RC_CHANGE_ICON)
+                }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
 
@@ -130,13 +223,14 @@ class ItemsActivity : ThemeSetter() {
 
         })
 
-        registration = FirebaseFirestore.getInstance().document("lists/${intent.getStringExtra("listId")}")
-            .addSnapshotListener { dSnap, _ ->
-                val uid = FirebaseAuth.getInstance().currentUser!!.uid
-                if (dSnap != null) {
-                    if (!(dSnap.get("members") as ArrayList<*>).contains(uid)) onBackPressed()
-                } else onBackPressed()
-            }
+        registration =
+            FirebaseFirestore.getInstance().document("lists/${intent.getStringExtra("listId")}")
+                .addSnapshotListener { dSnap, _ ->
+                    val uid = FirebaseAuth.getInstance().currentUser!!.uid
+                    if (dSnap != null) {
+                        if (!(dSnap.get("members") as ArrayList<*>).contains(uid)) onBackPressed()
+                    } else onBackPressed()
+                }
     }
 
     override fun onStop() {
@@ -146,7 +240,7 @@ class ItemsActivity : ThemeSetter() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_MEMBER ) {
+        if (requestCode == RC_MEMBER) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     val memberList = data!!.getStringArrayListExtra("newMemberData")!!
@@ -178,6 +272,19 @@ class ItemsActivity : ThemeSetter() {
                 }
             } else if (resultCode == 12) {
                 onBackPressed()
+            }
+        }
+        if (requestCode == RC_CHANGE_ICON) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                if (data.hasExtra("image")) {
+                    val selectedImage = data.getIntExtra("image", -1)
+                    FirebaseFirestore.getInstance()
+                        .document("lists/${intent.getStringExtra("listId")}")
+                        .update("icon_id", mapper.upload(selectedImage))
+                        .addOnSuccessListener {
+                            invalidateOptionsMenu()
+                        }
+                }
             }
         }
     }
@@ -221,4 +328,56 @@ class ItemsActivity : ThemeSetter() {
 
         FirebaseFirestore.getInstance().document("lists/$listId").delete()
     }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        FirebaseFirestore.getInstance()
+            .document("lists/${intent.getStringExtra("listId")}")
+            .get().addOnSuccessListener {
+                val item = menu?.findItem(R.id.action_icon)
+                item?.setIcon(mapper.download((it.get("icon_id") as Long).toInt()))
+            }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun getEditTextLayout(context: Context, listName: String): ConstraintLayout {
+        val constraintLayout = ConstraintLayout(context)
+        val layoutParams = ConstraintLayout.LayoutParams(
+            ConstraintLayout.LayoutParams.MATCH_PARENT,
+            ConstraintLayout.LayoutParams.WRAP_CONTENT
+        )
+        constraintLayout.layoutParams = layoutParams
+        constraintLayout.id = View.generateViewId()
+
+        val textInputLayout = TextInputLayout(context)
+        textInputLayout.boxBackgroundMode = TextInputLayout.BOX_BACKGROUND_OUTLINE
+        layoutParams.setMargins(
+            32.toDp(context),
+            8.toDp(context),
+            32.toDp(context),
+            8.toDp(context)
+        )
+        textInputLayout.layoutParams = layoutParams
+        textInputLayout.hint = getString(R.string.etAddNewListEnterNameHintString)
+        textInputLayout.id = View.generateViewId()
+        textInputLayout.tag = "textInputLayoutTag"
+
+        val textInputEditText = TextInputEditText(context)
+        textInputEditText.id = View.generateViewId()
+        textInputEditText.tag = "textInputEditTextTag"
+        textInputEditText.setText(listName)
+        textInputEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+        textInputEditText.filters = arrayOf(*textInputEditText.filters, InputFilter.LengthFilter(30))
+        textInputLayout.addView(textInputEditText, 0)
+
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(constraintLayout)
+
+        constraintLayout.addView(textInputLayout)
+        return constraintLayout
+    }
+
+    private fun Int.toDp(context: Context): Int = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), context.resources.displayMetrics
+    ).toInt()
 }

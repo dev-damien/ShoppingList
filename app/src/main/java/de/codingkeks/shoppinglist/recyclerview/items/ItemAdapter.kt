@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -67,9 +68,7 @@ class ItemAdapter(var items: List<Item>, var spPos: Int, private var listId: Str
                     }
                     R.id.action_edit -> {
                         val colRefItems = FirebaseFirestore.getInstance().collection("lists/${listId}/items")
-                        val alertBuilder = AlertDialog.Builder(
-                            ContextThemeWrapper(holder.itemView.context, R.style.AlertDialogTheme2)
-                        )
+                        val alertBuilder =  MaterialAlertDialogBuilder(holder.itemView.context, R.style.AlertDialogTheme2)
                         alertBuilder.setTitle(R.string.addItem)
                         val alertLayout = getEditTextLayout(holder.itemView.context, items[position].quantity, items[position].name)
                         alertBuilder.setView(alertLayout)

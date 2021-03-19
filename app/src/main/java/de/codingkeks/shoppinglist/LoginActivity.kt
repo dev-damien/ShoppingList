@@ -73,7 +73,7 @@ class LoginActivity : ThemeSetter() {
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
                         .setLogo(R.drawable.ic_shopping_list_app_icon)
-                        .setTheme(R.style.AppTheme)
+                        .setTheme(R.style.LoginTheme)
                         .setIsSmartLockEnabled(false, true)
                         .build(),
                     RC_AUTH

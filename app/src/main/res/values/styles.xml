@@ -67,7 +67,7 @@
         <item name="colorRVBackground">@color/backgroundGrey</item>
         <item name="colorRVItemText">@color/pure_white</item>
         <item name="colorRVItemBackground">@color/backgroundGrey</item>
-        <item name="colorBackgroundLogin">@color/darkColorPrimary</item>
+        <item name="colorBackgroundLogin">@color/colorPrimary</item>
         <item name="colorBackgroundNavBar">@color/backgroundGrey</item>
         <item name="colorNavHeaderText">@color/pure_white</item>
         <item name="colorRVItemImage">@color/pure_white</item>
@@ -150,6 +150,34 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="LoginTheme" parent="FirebaseUI">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimaryDarker</item>
+        <item name="colorButtonNormal">@color/colorPrimaryDarker</item>
+        <item name="colorControlNormal">@color/pure_white</item>
+        <item name="colorControlActivated">@color/pure_white</item>
+        <item name="colorControlHighlight">@color/pure_white</item>
+        <item name="android:textColor">@color/pure_white</item>
+        <item name="android:textColorPrimary">@color/pure_white</item>
+        <item name="android:textColorSecondary">@color/pure_white</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
+    </style>
+
+    <style name="FirebaseUI.Text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/pure_white</item>
+    </style>
+
+    <style name="FirebaseUI.Text.Link">
+        <item name="android:textColor">@color/pure_black</item>
+    </style>
 
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorSurface">?attr/colorBackground</item>
