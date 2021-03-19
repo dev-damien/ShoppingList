@@ -220,29 +220,36 @@ class AccountFragment : Fragment() {
                 .get().addOnSuccessListener { qSnap ->
                     qSnap.forEach { qdSnap ->
                         qdSnap.reference.update("friends", FieldValue.arrayRemove(uid))
-                        //TODO friend Requests löschen
                     }
-                    FirebaseFirestore.getInstance().collection("lists")
-                        .whereArrayContains("members", uid)
+                    FirebaseFirestore.getInstance().collection("users")
+                        .whereArrayContains("friendRequests", uid)
                         .get().addOnSuccessListener { qSnap ->
                             qSnap.forEach { qdSnap ->
-                                qdSnap.reference.update("members", FieldValue.arrayRemove(uid))
-                                val membersList = qdSnap.get("members") as ArrayList<*>
-                                Log.d(TAG, membersList.size.toString() + ": " + membersList.toString())
-                                if (membersList.size == 0 || (membersList.size == 1 && membersList[0].equals(uid))) {
-                                    deleteItemsCollection(qdSnap.id)
-                                    qdSnap.reference.delete()
-                                }
+                                qdSnap.reference.update("friendRequests", FieldValue.arrayRemove(uid))
                             }
                         }.addOnSuccessListener {
-                            user.delete()
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        Log.d(TAG, "user account deleted")
-                                        val intent = Intent(context, LoginActivity::class.java)
-                                        startActivity(intent)
-                                        activity?.finish()
+                            FirebaseFirestore.getInstance().collection("lists")
+                                .whereArrayContains("members", uid)
+                                .get().addOnSuccessListener { qSnap ->
+                                    qSnap.forEach { qdSnap ->
+                                        qdSnap.reference.update("members", FieldValue.arrayRemove(uid))
+                                        val membersList = qdSnap.get("members") as ArrayList<*>
+                                        Log.d(TAG, membersList.size.toString() + ": " + membersList.toString())
+                                        if (membersList.size == 0 || (membersList.size == 1 && membersList[0].equals(uid))) {
+                                            deleteItemsCollection(qdSnap.id)
+                                            qdSnap.reference.delete()
+                                        }
                                     }
+                                }.addOnSuccessListener {
+                                    user.delete()
+                                        .addOnCompleteListener { task ->
+                                            if (task.isSuccessful) {
+                                                Log.d(TAG, "user account deleted")
+                                                val intent = Intent(context, LoginActivity::class.java)
+                                                startActivity(intent)
+                                                activity?.finish()
+                                            }
+                                        }
                                 }
                         }
                 }
