@@ -89,8 +89,8 @@ class AccountFragment : Fragment() {
                             AuthUI.getInstance()
                                 .createSignInIntentBuilder()
                                 .setAvailableProviders(providers)
-                                .setLogo(R.drawable.ic_shopping_list_app_icon)
-                                .setTheme(R.style.AppTheme)
+                                .setLogo(R.drawable.ic_coding_keks)
+                                .setTheme(R.style.LoginTheme)
                                 .setIsSmartLockEnabled(false, true)
                                 .build(),
                             RC_DELETE_ACC
