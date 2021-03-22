@@ -18,10 +18,6 @@ class FragmentPagerAdapterItems(fragmentManager: FragmentManager) :
         return fragmentList[position]
     }
 
-    /*fun getFragmentTitle(position: Int): String{
-        return titleList[position]
-    }*/
-
     override fun getPageTitle(position: Int): CharSequence {
         return titleList[position]
     }

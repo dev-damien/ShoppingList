@@ -76,6 +76,9 @@ class MainActivity : ThemeSetter() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    /**
+     * method to display all important user information in the navBar Tab
+     */
     private fun displayUserInformation() {
         Log.d(TAG, "display user information in navBar")
         val fb = FirebaseAuth.getInstance()

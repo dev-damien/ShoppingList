@@ -224,6 +224,10 @@ class FriendsFragment : Fragment() {
         }
     }
 
+    /**
+     * method to set all important parameters of the viewPager
+     * @param viewPager the viewPager you want to set up
+     */
     private fun setUpViewPager(viewPager: ViewPager) {
         val adapter = FragmentPagerAdapterFriends(childFragmentManager)
 
@@ -237,6 +241,10 @@ class FriendsFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
+    /**
+     * method to generate the layout for an AlertDialog
+     * @param context the context
+     */
     private fun getEditTextLayout(context: Context): ConstraintLayout {
         val constraintLayout = ConstraintLayout(context)
         val layoutParams = ConstraintLayout.LayoutParams(
@@ -273,6 +281,10 @@ class FriendsFragment : Fragment() {
         return constraintLayout
     }
 
+    /**
+     * method to convert Int to Dp
+     * @param context the context
+     */
     private fun Int.toDp(context: Context): Int = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), context.resources.displayMetrics
     ).toInt()

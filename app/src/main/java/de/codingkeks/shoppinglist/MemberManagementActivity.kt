@@ -172,6 +172,9 @@ class MemberManagementActivity : ThemeSetter() {
         registration.remove()
     }
 
+    /**
+     * method to sort all members
+     */
     fun sortingMembersList() {
         lifecycleScope.launch {
             val uid = FirebaseAuth.getInstance().currentUser!!.uid
@@ -196,6 +199,9 @@ class MemberManagementActivity : ThemeSetter() {
         return true
     }
 
+    /**
+     * method to add all friends of the user to the list for the member management
+     */
     private fun addingFriends() {
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
         FirebaseFirestore.getInstance().document("users/$uid")

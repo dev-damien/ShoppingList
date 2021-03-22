@@ -272,6 +272,10 @@ class ItemsActivity : ThemeSetter() {
         }
     }
 
+    /**
+     * method to set up the viewPager
+     * @param viewPager the specific viewPager you want to set up
+     */
     private fun setUpViewPager(viewPager: ViewPager) {
         val adapter = FragmentPagerAdapterItems(supportFragmentManager)
 
@@ -286,6 +290,10 @@ class ItemsActivity : ThemeSetter() {
         return true
     }
 
+    /**
+     * method to delete a whole list -> first all items inside it, then the list document itself
+     * @param listId the id of the list you want to delete al items from
+     */
     private fun deleteItemsCollection(listId: String) {
         FirebaseFirestore.getInstance().collection("lists/$listId/items")
             .get().addOnSuccessListener { qSnap ->
@@ -297,6 +305,10 @@ class ItemsActivity : ThemeSetter() {
             }
     }
 
+    /**
+     * method to delete a list document
+     * @param listId the id of the list document you want to delete
+     */
     private fun deleteListDocument(listId: String) {
         FirebaseFirestore.getInstance().collection("users")
             .whereArrayContains("favorites", listId)
@@ -312,6 +324,10 @@ class ItemsActivity : ThemeSetter() {
         FirebaseFirestore.getInstance().document("lists/$listId").delete()
     }
 
+    /**
+     * method to set the icon of a list in the top right corner (instead of text) where you can change the icon of the list
+     * @param menu the menu to set the icon of an option
+     */
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         FirebaseFirestore.getInstance()
             .document("lists/${intent.getStringExtra("listId")}")
@@ -323,6 +339,11 @@ class ItemsActivity : ThemeSetter() {
         return super.onPrepareOptionsMenu(menu)
     }
 
+    /**
+     * method to generate the layout for an AlertDialog
+     * @param context the context
+     * @param listName the name of the list
+     */
     @SuppressLint("SetTextI18n")
     private fun getEditTextLayout(context: Context, listName: String): ConstraintLayout {
         val constraintLayout = ConstraintLayout(context)
@@ -361,6 +382,10 @@ class ItemsActivity : ThemeSetter() {
         return constraintLayout
     }
 
+    /**
+     * method to convert Int to Dp
+     * @param context the context
+     */
     private fun Int.toDp(context: Context): Int = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), context.resources.displayMetrics
     ).toInt()

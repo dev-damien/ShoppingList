@@ -122,6 +122,9 @@ class ItemsBoughtFragment : Fragment() {
     }
 
     @SuppressLint("SimpleDateFormat")
+    /**
+     * method to sort the items
+     */
     fun sortingItems() {
         lifecycleScope.launch {
             val position = DataStoreUtility.readInt("itemBoughtSpinnerPos", requireContext())

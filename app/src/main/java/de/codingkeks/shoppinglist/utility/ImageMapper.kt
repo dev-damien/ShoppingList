@@ -2,8 +2,12 @@ package de.codingkeks.shoppinglist.utility
 
 import de.codingkeks.shoppinglist.R
 
-class ImageMapper {
+class ImageMapper() {
 
+    /**
+     * @property imagesList list with all imageIDs for the shoppinglist icons
+     * @property imagesUser list with all imageIds for the user images
+     */
     companion object{
         val imagesList = arrayListOf(
             R.drawable.ic_menu_shoppinglists,
@@ -97,7 +101,7 @@ class ImageMapper {
     //reversed Map
     private var database2App: HashMap<Int, Int> = hashMapOf()
 
-    constructor(){
+    init {
         app2database.entries.forEach {
             database2App[it.value] = it.key
         }

@@ -206,6 +206,9 @@ class ShoppingListsFragment : Fragment() {
         }
     }
 
+    /**
+     * method to sort the shoppinglists
+     */
     fun sortingShoppingList() {
         lifecycleScope.launch {
             val position = DataStoreUtility.readInt("listSpinnerPos", requireContext())

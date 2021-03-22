@@ -208,6 +208,9 @@ class ItemsFragment : Fragment() {
         registration.remove()
     }
 
+    /**
+     * method to sort all items
+     */
     @SuppressLint("SimpleDateFormat")
     fun sortingItems() {
         lifecycleScope.launch {
