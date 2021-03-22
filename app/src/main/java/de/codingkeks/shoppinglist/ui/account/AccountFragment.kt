@@ -178,6 +178,9 @@ class AccountFragment : Fragment() {
         }
     }
 
+    /**
+     * method to change the selected image of the user
+     */
     private fun editAccountImage() {
         Log.d(TAG, "Image view to change account image has been clicked")
         Intent(context, ImagePickerActivity::class.java).also {
@@ -187,6 +190,9 @@ class AccountFragment : Fragment() {
         }
     }
 
+    /**
+     * method to delete the account of the user (will delete all documents associated with the user + his auth acc)
+     */
     private fun deleteAccount() {
         val user = FirebaseAuth.getInstance().currentUser!!
         val uid = user.uid
@@ -235,14 +241,18 @@ class AccountFragment : Fragment() {
         }
     }
 
+    /**
+     * method to delete all items in a list
+     * @param listId the id of the list all items should be deleted from
+     */
     private fun deleteItemsCollection(listId: String) {
         FirebaseFirestore.getInstance().collection("lists/$listId/items")
             .get().addOnSuccessListener { qSnap ->
-                Log.d(TAG, "Succes 1")
+                Log.d(TAG, "Success 1")
                 qSnap.forEach { qdSnap ->
                     qdSnap.reference.delete()
                 }
-                Log.d(TAG, "Succes 2")
+                Log.d(TAG, "Success 2")
             }
     }
 

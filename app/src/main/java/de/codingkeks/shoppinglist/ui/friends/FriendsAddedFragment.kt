@@ -151,6 +151,9 @@ class FriendsAddedFragment : Fragment() {
         }
     }
 
+    /**
+     * method to sort the ArrayList with all the friends
+     */
     fun sortingFriendsList() {
         lifecycleScope.launch {
             val position = DataStoreUtility.readInt("friendSpinnerPos", requireContext())
