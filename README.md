@@ -15,6 +15,7 @@ Facts:
 - Layout dynamisch auf jedem Gerät benutzbar
 - Javadoc
 - DataStore
+- Getestet wird an einer Gruppe von 7 Leuten
 
 Entwickler:
 Coding Keks aka Damien Völker, Severin Hanke
