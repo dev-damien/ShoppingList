@@ -8,7 +8,6 @@
     <string name="nav_header_desc">Navigation Kopf Bild</string>
     <string name="login_failed">Sie müssen sich einloggen oder registrieren!</string>
     <string name="app_name">Einkaufsliste</string>
-    <string name="nav_header_name">Name</string>
     <string name="nav_header_email">E-Mail</string>
     <string name="account_name">Name</string>
     <string name="account_reset_password">Passwort zurücksetzen</string>
@@ -18,9 +17,94 @@
     <string name="account_email">E-Mail</string>
     <string name="account_id">ID</string>
     <string name="friends_image_description">Profilbild von deinem Freund.</string>
-    <string name="friends_image_fav_descrption">Stern!!!</string>
+    <string name="friends_image_fav_description">Stern!!!</string>
     <string name="friends_search_hint">Freund suchen</string>
     <string name="lists_search_hint">Liste suchen</string>
-    <string name="lists_image_fav_descrption">Stern!!!</string>
+    <string name="lists_image_fav_description">Stern</string>
     <string name="lists_image_description">Bild von der Einkaufsliste.</string>
+    <string name="fabAddNewListDescription">Knopf um neue Liste zu erstellen</string>
+    <string-array name="sorting">
+        <item>Favoriten</item>
+        <item>A-Z</item>
+        <item>Z-A</item>
+    </string-array>
+    <string-array name="sortingFriend">
+        <item>A-Z</item>
+        <item>Z-A</item>
+    </string-array>
+    <string-array name="sortingItem">
+        <item>Neuste</item>
+        <item>Älteste</item>
+        <item>A-Z</item>
+        <item>Z-A</item>
+    </string-array>
+    <string name="etAddNewListEnterNameHintString">Listenname eingeben ...</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="deleteAccount">Wollen Sie wirklich Ihren Account löschen?</string>
+    <string name="deleteTitle">Account löschen!</string>
+    <string name="passwordInfo">Sie müssen Ihr Passwort eingeben um Ihren Account zu löschen.</string>
+    <string name="wordPassword">Passwort</string>
+    <string name="wrongPassword">Falsches Passwort!</string>
+    <string name="emailVerificationTitle">E-Mail verifizieren!</string>
+    <string name="emailVerificationBody">Sie müssen Ihre E-Mail Adresse verifizieren.</string>
+    <string name="emailVerificationDelete">Löschen</string>
+    <string name="emailVerificationSendNew">Neu senden</string>
+    <string name="emailVerificationReload">Neu laden</string>
+    <string name="items_search_hint">Artikel suchen</string>
+    <string name="fabAddNewItemDescription">Knopf um neuen Artikel zu erstellen</string>
+    <string name="addItem">Artikel hinzufügen</string>
+    <string name="friends_added_tab_title">Freunde</string>
+    <string name="friends_requests_tab_title">Anfragen</string>
+    <string name="itemName">Artikelname</string>
+    <string name="itemNameRequired">Artikelname wird benötigt.</string>
+    <string name="submit">Hinzufügen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="quantity">Anzahl</string>
+    <string name="items_bought_tab_title">Gekaufte Artikel</string>
+    <string name="items_tab_title">Artikel</string>
+    <string name="friends_fab_add_description">Knopf um Freund hinzuzufügen</string>
+    <string name="addFriendDialogTitle">Freund hinzufügen</string>
+    <string name="popup_bought">Als gekauft markieren</string>
+    <string name="popup_edit">Editieren</string>
+    <string name="addFriendDialogNameInputHint">Name des Freundes</string>
+    <string name="addFriendDialogPositiveButton">Anfrage senden</string>
+    <string name="addFriendDialogInputInvalidToast">Eingabeformat ist ungültig. Geben Sie den Namen so ein: Vor Nach#42</string>
+    <string name="addFriendDialogFriendNotFound">Es wurde kein Nutzer mit diesem Namen gefunden. Überprüfen Sie nochmal die Schreibweise.</string>
+    <string name="addFriendDialogFriendAlreadyAdded">Nutzer ist bereits in der Freundesliste.</string>
+    <string name="addFriendDialogSelfRequest">Sie können sich nicht selbst als Freund hinzufügen.</string>
+    <string name="addFriendDialogFriendAlreadyRequested">Nutzer wurde bereits angefragt.</string>
+    <string name="addFriendDialogFriendRequestedEachOther">Dieser Nutzer hat Sie bereits angefragt. Ihr seid jetzt Freunde.</string>
+    <string name="delete_item">Artikel löschen</string>
+    <string name="delete_item_sure">Sind Sie sicher, dass Sie den Artikel löschen wollen?</string>
+    <string name="popup_bought_not">Als nicht gekauft markieren</string>
+    <string name="change">Ändern</string>
+    <string name="addFriendDialogFriendRequestedSucess">Nutzer wurde angefragt.</string>
+    <string name="friend_requests_no_requests">Keine Freundschaftsanfragen gefunden</string>
+    <string name="friend_requests_no_friends">Keine Freunde gefunden</string>
+    <string name="popup_leave">Verlassen</string>
+    <string name="leave_group">Gruppe verlassen</string>
+    <string name="delete_group">Gruppe löschen</string>
+    <string name="delete_list">Sind Sie sicher, dass Sie die Liste löschen wollen?\n\nWENN SIE DIE LISTE LÖSCHEN WERDEN ALLE MITGLIEDER ENTFERNT!!!</string>
+    <string name="friend_remove">Freund entfernen</string>
+    <string name="friend_dialog_remove_message">Möchtest Sie wirklich den folgenden Freund entfernen?</string>
+    <string name="dialog_remove">Entfernen</string>
+    <string name="create">Erstellen</string>
+    <string name="select">Wählen</string>
+    <string name="leave_list">Sind Sie sicher, dass Sie die Liste verlassen möchten?</string>
+    <string name="already_deleted">Entschuldigung, aber die Liste wurde gelöscht.</string>
+    <string name="image_picker_title">Bild wählen</string>
+    <string name="popup_member">Teilnehmer verwalten</string>
+    <string name="add_member">Teilnehmer hinzufügen</string>
+    <string name="enter_name">Sie müssen einen Namen eingeben.</string>
+    <string name="create_list">Einkaufszettel erstellen</string>
+    <string name="load_username">Lädt Namen...</string>
+    <string name="google_password_reset">Sie benutzen einen Google Account. Sie können Ihr Passwort nicht zurücksetzen.</string>
+    <string name="theme">Theme:</string>
+    <string-array name="themes">
+        <item>Hell</item>
+        <item>Dunkel</item>
+    </string-array>
+    <string name="icon">Symbol</string>
+    <string name="edit_name">Namen ändern</string>
 </resources>

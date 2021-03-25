@@ -10,4 +10,5 @@ class ShoppingListsViewModel : ViewModel() {
         value = "This is gallery Fragment"
     }
     val text: LiveData<String> = _text
+
 }

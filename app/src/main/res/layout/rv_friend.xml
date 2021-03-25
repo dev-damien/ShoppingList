@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    style="@style/rvItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="66dp"
     android:padding="5dp">
 
     <ImageView
-        android:id="@+id/ivFriendFav"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:contentDescription="@string/friends_image_fav_descrption"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_friends_star_border" />
-
-    <ImageView
         android:id="@+id/ivFriendImage"
-        android:layout_width="76dp"
-        android:layout_height="76dp"
+        style="@style/rvItemImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:contentDescription="@string/friends_image_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,15 +20,39 @@
 
     <TextView
         android:id="@+id/tvFriendName"
+        style="@style/rvItemText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Name"
-        android:textColor="@android:color/black"
+        android:lines="1"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:textSize="20sp"
+        app:autoSizeMaxTextSize="20sp"
+        app:autoSizeMinTextSize="14sp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/ivFriendFav"
+        app:layout_constraintEnd_toStartOf="@+id/buFriendOptions"
         app:layout_constraintStart_toEndOf="@+id/ivFriendImage"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/buFriendOptions"
+        style="@style/rvItemOptions"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_items_options_horiz" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.80"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

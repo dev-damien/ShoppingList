@@ -11,20 +11,113 @@
 
     <string name="login_failed">You have to login or sign up!</string>
 
-    <string name="nav_header_name">Name</string>
     <string name="nav_header_email">E-Mail</string>
     <string name="account_name">Name</string>
-    <string name="account_reset_password">Reset Password</string>
+    <string name="account_reset_password">Reset password</string>
     <string name="account_logout">Logout</string>
-    <string name="account_delete_account">Delete Account</string>
+    <string name="account_delete_account">Delete account</string>
     <string name="account_image_description">Image of the user</string>
     <string name="account_email">E-Mail</string>
     <string name="account_id">ID</string>
     <string name="friends_image_description">The profile image of your friend.</string>
-    <string name="friends_image_fav_descrption">Star!!!</string>
+    <string name="friends_image_fav_description">Star!!!</string>
     <string name="friends_search_hint">Search friend</string>
     <string name="lists_search_hint">Search list</string>
-    <string name="lists_image_fav_descrption">Star!!!</string>
+    <string name="lists_image_fav_description">Star</string>
     <string name="lists_image_description">The image of the shopping list.</string>
+    <string name="fabAddNewListDescription">Button to add a new List</string>
+    <string name="fabAddNewItemDescription">Button to add a new item</string>
+    <string name="etAddNewListEnterNameHintString">Enter listname ...</string>
+    <string name="passwordInfo">You have to enter your password to delete your account.</string>
+    <string name="wordPassword">Password</string>
+    <string name="wrongPassword">Wrong password!</string>
+    <string name="emailVerificationTitle">E-Mail verification!</string>
+    <string name="emailVerificationBody">You have to verify your e-mail address.</string>
+    <string name="emailVerificationDelete">Delete</string>
+    <string name="emailVerificationSendNew">Send new</string>
+    <string name="emailVerificationReload">Reload</string>
+    <string name="addItem">Add item</string>
+    <string name="itemName">Item name</string>
+    <string name="itemNameRequired">Item name is required.</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="quantity">Quantity</string>
+    <string name="change">Change</string>
+
+    <string name="deleteAccount">Do you really want to delete your account?</string>
+    <string name="deleteTitle">Delete account!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="items_search_hint">Search item</string>
+
+    <string-array name="sorting">
+        <item>Favorites</item>
+        <item>A-Z</item>
+        <item>Z-A</item>
+    </string-array>
+
+    <string-array name="sortingFriend">
+        <item>A-Z</item>
+        <item>Z-A</item>
+    </string-array>
+
+    <string name="friends_added_tab_title">Friends</string>
+    <string name="friends_requests_tab_title">Requests</string>
+    <string name="items_bought_tab_title">Items bought</string>
+    <string name="items_tab_title">Items</string>
+    <string name="friends_fab_add_description">Button to add a new friend</string>
+    <string name="addFriendDialogTitle">Add friend</string>
+    <string name="popup_bought">Mark as bought</string>
+    <string name="popup_edit">Edit</string>
+
+    <string name="addFriendDialogNameInputHint">Name of friend</string>
+    <string name="addFriendDialogPositiveButton">Send request</string>
+    <string name="addFriendDialogInputInvalidToast">Input is not a valid format. Enter name like this: First Last#42</string>
+    <string name="addFriendDialogFriendNotFound">No user with this name was found. Make sure the name is written correctly.</string>
+    <string name="addFriendDialogFriendAlreadyAdded">User is already in your friends list.</string>
+    <string name="addFriendDialogSelfRequest">You can not add yourself as a friend.</string>
+    <string name="addFriendDialogFriendAlreadyRequested">User has already been requested.</string>
+    <string name="addFriendDialogFriendRequestedEachOther">You were requested by this user. You are friends now.</string>
+    <string name="delete_item">Delete Item</string>
+    <string name="delete_item_sure">Do you really want to delete this item?</string>
+    <string name="popup_bought_not">Mark as not bought</string>
+    <string name="addFriendDialogFriendRequestedSucess">User requested.</string>
+    <string name="friend_requests_no_requests">No friend requests found</string>
+    <string name="friend_requests_no_friends">No friends found</string>
+    <string name="popup_leave">Leave</string>
+    <string name="leave_group">Leave group</string>
+    <string name="delete_group">Delete group</string>
+    <string name="delete_list">Are you sure you want to delete the group?\n\nBE AWARE THAT EVERYONE ELSE GETS KICKED OUT OF THE GROUP!!!</string>
+    <string name="friend_remove">Remove friend</string>
+    <string name="friend_dialog_remove_message">Do you really want to remove the following friend?</string>
+    <string name="dialog_remove">Remove</string>
+    <string name="account_image_edit_description" translatable="false">Edit image</string>
+    <string name="add_new_list_icon_description" translatable="false">Icon of the list</string>
+    <string name="add_new_list_edit_icon_description" translatable="false">Click to edit the icon of the list</string>
+    <string name="create">Create</string>
+    <string name="select">Select</string>
+    <string name="leave_list">Are you sure you want to leave the group?</string>
+    <string name="already_deleted">Sorry, but the list has been deleted.</string>
+    <string name="image_picker_title">Select image</string>
+    <string name="popup_member">Member Management</string>
+    <string name="add_member">Add member</string>
+    <string name="enter_name">You have to enter a name.</string>
+    <string name="create_list">Create Shopping List</string>
+    <string name="load_username">Loading username...</string>
+    <string name="manage_member_fab_description" translatable="false">Button to confirm the member changes</string>
+    <string name="google_password_reset">You are using a Google Account. You can\'t reset your password.</string>
+    <string name="theme">Theme:</string>
+    <string name="icon">Icon</string>
+    <string name="edit_name">Edit name</string>
+    <string-array name="sortingItem">
+        <item>Latest</item>
+        <item>Oldest</item>
+        <item>A-Z</item>
+        <item>Z-A</item>
+    </string-array>
+    <string-array name="themes">
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
 
 </resources>

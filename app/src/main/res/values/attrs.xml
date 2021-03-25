@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorPrimary" format="color" />
+    <attr name="colorPrimaryDark" format="color" />
+    <attr name="colorAccent" format="color" />
+    <attr name="colorText" format="color" />
+    <attr name="colorButton" format="color" />
+    <attr name="colorButtonText" format="color" />
+    <attr name="colorFab" format="color" />
+    <attr name="colorFabImage" format="color" />
+    <attr name="colorBackground" format="color" />
+    <attr name="colorNavBarLeft" format="color" />
+    <attr name="colorNavBarMid" format="color" />
+    <attr name="colorNavBarRight" format="color" />
+    <attr name="colorImageView" format="color" />
+    <attr name="colorAlertDialog" format="color" />
+    <attr name="colorAlertDialogText" format="color" />
+    <attr name="colorToast" format="color" />
+    <attr name="colorToastText" format="color" />
+    <attr name="colorRVItemBackground" format="color" />
+    <attr name="colorRVBackground" format="color" />
+    <attr name="colorRVItemText" format="color" />
+    <attr name="colorBackgroundLogin" format="color" />
+    <attr name="colorBackgroundNavBar" format="color" />
+    <attr name="colorNavHeaderText" format="color" />
+    <attr name="colorRVItemImage" format="color" />
+    <attr name="colorRVItemOptions" format="color" />
+    <attr name="colorNavBarHeaderImage" format="color" />
+    <attr name="colorNavBarHeaderText" format="color" />
+    <attr name="colorNavBarText" format="color" />
+    <attr name="colorNavBarIcon" format="color"/>
+    <attr name="colorTabBackground" format="color"/>
+</resources>

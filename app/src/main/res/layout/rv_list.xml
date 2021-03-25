@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:background="?attr/colorRVItemBackground"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="66dp"
     android:padding="5dp">
 
     <ImageView
         android:id="@+id/ivListFav"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:contentDescription="@string/lists_image_fav_descrption"
+        style="@style/rvItemImage"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/lists_image_fav_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,8 +20,9 @@
 
     <ImageView
         android:id="@+id/ivListImage"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        style="@style/rvItemImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:contentDescription="@string/lists_image_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,12 +31,17 @@
 
     <TextView
         android:id="@+id/tvListName"
+        style="@style/rvItemText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Name"
-        android:textColor="@android:color/black"
+        android:maxLines="2"
+        android:minLines="1"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:textSize="20sp"
+        app:autoSizeMaxTextSize="20sp"
+        app:autoSizeMinTextSize="14sp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ivListFav"
         app:layout_constraintStart_toEndOf="@+id/ivListImage"

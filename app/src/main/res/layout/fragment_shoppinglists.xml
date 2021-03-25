@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:background="?attr/colorBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,8 +10,10 @@
 
     <Spinner
         android:id="@+id/spLists"
+        style="@style/spinner"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:entries="@array/sorting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.524"
         app:layout_constraintStart_toEndOf="@+id/svLists"
@@ -19,6 +23,8 @@
         android:id="@+id/svLists"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:focusable="false"
+        android:focusableInTouchMode="true"
         android:iconifiedByDefault="false"
         android:queryHint="@string/lists_search_hint"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,4 +41,18 @@
         app:layout_constraintTop_toBottomOf="@+id/spLists">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddNewList"
+        style="@style/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:contentDescription="@string/fabAddNewListDescription"
+        android:focusable="true"
+        android:src="@android:drawable/ic_input_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
